@@ -1,4 +1,11 @@
 <resources>
+    <string name="five_crowns">Five Crowns</string>
+    <string name="num_players">Number of Players</string>
+
+
+
+
+
     <string name="app_name">ScoreTracker</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
