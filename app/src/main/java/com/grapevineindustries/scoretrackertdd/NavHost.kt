@@ -20,13 +20,17 @@ fun NavHost(
     ) {
         composable("landingScreen") {
             LandingScreen(
-                onAddPlayersClick = {
-                    navController.navigate("addPlayersScreen")
+                onAddPlayersClick = { numPlayers ->
+                    navController.navigate("addPlayersScreen/${numPlayers}")
                 }
             )
         }
-        composable("addPlayersScreen") {
-            AddPlayersScreen()
+        composable("addPlayersScreen/{numPlayers}") { navBackStackEntry ->
+            val numPlayers = navBackStackEntry.arguments?.getString("numPlayers")
+            numPlayers?.let {
+                AddPlayersScreen(numPlayers = it.toInt())
+            }
+
         }
     }
 }

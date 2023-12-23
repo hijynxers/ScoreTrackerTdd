@@ -9,12 +9,14 @@ import androidx.compose.ui.platform.testTag
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun AddPlayersScreen() {
+fun AddPlayersScreen(
+    numPlayers: Int
+) {
     Scaffold(
         content = {
             Text(
                 modifier = Modifier.testTag(AddPlayersScreenTestTags.TestTag),
-                text = "This is some content")
+                text = "$numPlayers")
         }
     )
 }

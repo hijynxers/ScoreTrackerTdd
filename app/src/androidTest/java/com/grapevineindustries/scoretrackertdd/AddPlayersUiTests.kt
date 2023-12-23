@@ -1,6 +1,7 @@
 package com.grapevineindustries.scoretrackertdd
 
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import org.junit.Before
@@ -16,7 +17,7 @@ class AddPlayersUiTests {
     fun setup() {
         AddPlayersTestUtils.setup(composeTestRule)
         composeTestRule.setContent {
-            AddPlayersScreen()
+            AddPlayersScreen(numPlayers = FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
         }
     }
 
@@ -24,6 +25,6 @@ class AddPlayersUiTests {
     fun screenDisplays() {
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.TestTag)
             .assertIsDisplayed()
+            .assertTextEquals(FiveCrownsConstants.DEFAULT_NUM_PLAYERS.toString())
     }
-
 }

@@ -25,7 +25,7 @@ import com.grapevineindustries.scoretrackertdd.theme.padding_standard
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LandingScreen(
-    onAddPlayersClick: () -> Unit
+    onAddPlayersClick: (Int) -> Unit
 ) {
     ScoreTrackerTheme {
         Scaffold(
@@ -97,7 +97,7 @@ fun LandingScreen(
                     Button(
                         modifier = Modifier.testTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
                             .fillMaxWidth(),
-                        onClick = onAddPlayersClick,
+                        onClick = { onAddPlayersClick(numPlayers.intValue) },
                         content = {
                             Text(
                                 text = "Start Game",
