@@ -15,6 +15,4 @@
 local.properties
 
 #.idea
-.idea/androidTestResultsUserPreferences.xml
-.idea/deploymentTargetDropDown.xml
-.idea/migrations.xml
+.idea/*
