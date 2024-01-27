@@ -63,8 +63,11 @@ fun GameScreen(
                         .testTag(GameScreenTestTags.PLAYER_COLUMN)
                         .weight(1f),
                     content = {
-                        itemsIndexed(players) { index, player ->
-                            Text(text = "nathan")
+                        itemsIndexed(players) { _, player ->
+                            Text(
+                                modifier = Modifier.testTag(GameScreenTestTags.PLAYER_NAME),
+                                text = player.name
+                            )
 
 
                         }
@@ -89,4 +92,5 @@ object GameScreenTestTags {
     const val PLAYER_COLUMN = "GAME_PLAYER_COLUMN"
     const val WILD_CARD = "WILD_CARD"
     const val TALLY_BUTTON = "TALLY_BUTTON"
+    const val PLAYER_NAME = "PLAYER_CARD_PLAYER_NAME"
 }

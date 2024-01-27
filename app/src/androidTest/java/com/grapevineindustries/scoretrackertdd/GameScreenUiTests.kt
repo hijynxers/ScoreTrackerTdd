@@ -18,13 +18,19 @@ class GameScreenUiTests {
     val composeTestRule = createComposeRule()
     private var backNavigation = false
 
+    private val playerNames = listOf("player1", "player2", "player3")
+
     @Before
     fun setup() {
         GameScreenTestUtils.setup(composeTestRule)
         AlertDialogTestUtils.setup(composeTestRule)
 
         val playersViewModel = PlayersViewModel()
-        playersViewModel.createPlayersList(3)
+
+        GameScreenTestUtils.initPlayerList(
+            viewModel = playersViewModel,
+            playerNames = playerNames
+        )
 
         val gameViewModel = GameViewModel()
         backNavigation = false
@@ -70,5 +76,12 @@ class GameScreenUiTests {
         AlertDialogTestUtils.clickDismissButton()
         AlertDialogTestUtils.assertNotShowing()
         assertTrue(backNavigation)
+    }
+
+    @Test
+    fun player_list_shows_correct_names() {
+        GameScreenTestUtils.assertScreenShowing()
+
+        GameScreenTestUtils.assertPlayerNames(playerNames)
     }
 }

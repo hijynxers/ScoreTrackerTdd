@@ -4,11 +4,14 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
+import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 
 object GameScreenTestUtils {
     private lateinit var composeTestRule: ComposeTestRule
@@ -38,7 +41,26 @@ object GameScreenTestUtils {
             .assertTextEquals("Tally")
     }
 
+    fun assertPlayerNames(playerNames: List<String>) {
+        val playerNameNodes = composeTestRule.onNodeWithTag(GameScreenTestTags.PLAYER_COLUMN, useUnmergedTree = true)
+            .assertIsDisplayed()
+            .onChildren()
+            .filter(hasTestTag(GameScreenTestTags.PLAYER_NAME))
+
+        playerNames.forEachIndexed { index, name ->
+            playerNameNodes[index].assertTextEquals(name)
+        }
+
+    }
+
     fun clickBack() {
         Espresso.pressBack()
+    }
+
+    fun initPlayerList(viewModel: PlayersViewModel, playerNames: List<String>) {
+        viewModel.createPlayersList(playerNames.size)
+        playerNames.forEachIndexed { index, name ->
+            viewModel.setName(index, name)
+        }
     }
 }
