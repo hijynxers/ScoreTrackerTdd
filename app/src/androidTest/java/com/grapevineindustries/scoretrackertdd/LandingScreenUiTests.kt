@@ -13,12 +13,16 @@ class LandingScreenUiTests {
     @Rule
     val composeTestRule = createComposeRule()
 
+    val viewModel = PlayersViewModel()
+
     @Before
     fun setup() {
         LandingScreenTestUtils.setup(composeTestRule)
         composeTestRule.setContent {
             LandingScreen(
-                onAddPlayersClick = {}
+                onAddPlayersClick = {
+                    viewModel.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
+                }
             )
         }
     }
@@ -65,5 +69,13 @@ class LandingScreenUiTests {
 
         composeTestRule.onNodeWithTag(LandingScreenTestTags.NUM_PLAYERS)
             .assertTextEquals("15")
+    }
+
+    @Test
+    fun player_list_created_on_add_players_click() {
+        LandingScreenTestUtils.assertInitialContentDisplayed()
+        LandingScreenTestUtils.clickAddPlayers()
+
+        assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == viewModel.playerList.size)
     }
 }

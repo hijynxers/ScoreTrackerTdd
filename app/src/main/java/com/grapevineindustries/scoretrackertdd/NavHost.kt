@@ -11,7 +11,8 @@ import androidx.navigation.compose.rememberNavController
 fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "landingScreen"
+    startDestination: String = "landingScreen",
+    viewModel: PlayersViewModel = PlayersViewModel()
 ) {
     NavHost(
         modifier = modifier,
@@ -21,16 +22,16 @@ fun NavHost(
         composable("landingScreen") {
             LandingScreen(
                 onAddPlayersClick = { numPlayers ->
-                    navController.navigate("addPlayersScreen/${numPlayers}")
+                    viewModel.createPlayersList(numPlayers)
+                    navController.navigate("addPlayersScreen")
                 }
             )
         }
-        composable("addPlayersScreen/{numPlayers}") { navBackStackEntry ->
-            val numPlayers = navBackStackEntry.arguments?.getString("numPlayers")
-            numPlayers?.let {
-                AddPlayersScreen(numPlayers = it.toInt())
-            }
-
+        composable("addPlayersScreen") {
+            AddPlayersScreen(
+                players = viewModel.playerList,
+                updatePlayerName = viewModel::setName
+            ) { /*TODO: implement*/ }
         }
     }
 }

@@ -15,7 +15,7 @@ object LandingScreenTestUtils {
     }
 
     fun assertInitialContentDisplayed() {
-        composeTestRule.onNodeWithTag(LandingScreenTestTags.TITLE)
+        composeTestRule.onNodeWithTag(LandingScreenTestTags.GAME_TITLE)
             .assertIsDisplayed()
             .assertTextEquals("Five Crowns")
 

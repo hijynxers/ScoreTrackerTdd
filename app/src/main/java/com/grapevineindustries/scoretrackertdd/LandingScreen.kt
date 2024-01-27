@@ -19,8 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.theme.padding_standard
+
+@Preview
+@Composable
+fun LandingPreview() {
+    LandingScreen(onAddPlayersClick = {})
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -37,13 +44,13 @@ fun LandingScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
-                        .padding(all = padding_standard),
+                        .padding(all = Dimen.padding_standard),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Spacer(modifier = Modifier.weight(2f))
 
                     Text(
-                        modifier = Modifier.testTag(LandingScreenTestTags.TITLE),
+                        modifier = Modifier.testTag(LandingScreenTestTags.GAME_TITLE),
                         text = stringResource(id = R.string.five_crowns),
                         style = MaterialTheme.typography.displayMedium
                     )
@@ -95,7 +102,8 @@ fun LandingScreen(
                     Spacer(modifier = Modifier.weight(2f))
 
                     Button(
-                        modifier = Modifier.testTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
+                        modifier = Modifier
+                            .testTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
                             .fillMaxWidth(),
                         onClick = { onAddPlayersClick(numPlayers.intValue) },
                         content = {
@@ -112,7 +120,7 @@ fun LandingScreen(
 }
 
 object LandingScreenTestTags {
-    const val TITLE = "TITLE"
+    const val GAME_TITLE = "GAME_TITLE"
     const val NUM_PLAYERS = "NUM_PLAYERS"
     const val NUM_PLAYERS_ADD = "NUM_PLAYERS_ADD"
     const val NUM_PLAYERS_MINUS = "NUM_PLAYERS_MINUS"
