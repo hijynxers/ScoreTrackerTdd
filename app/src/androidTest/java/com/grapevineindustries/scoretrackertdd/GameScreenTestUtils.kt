@@ -7,6 +7,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
 
 object GameScreenTestUtils {
@@ -38,9 +39,6 @@ object GameScreenTestUtils {
     }
 
     fun clickBack() {
-//        composeTestRule.activityRule.scenario.onActivity { activity ->
-//            activity.onBackPressedDispatcher.onBackPressed()
-//        }
-
+        Espresso.pressBack()
     }
 }

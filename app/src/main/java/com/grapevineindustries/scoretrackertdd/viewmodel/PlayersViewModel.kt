@@ -18,6 +18,10 @@ class PlayersViewModel {
     fun setScore(index: Int, value: Int) {
         playerList[index] = playerList[index].copy(score = value)
     }
+
+    fun reset() {
+        playerList = mutableStateListOf()
+    }
 }
 
 data class Player(var name: String, var score: Int = 0)

@@ -47,8 +47,10 @@ fun NavHost(
             val gameModel = remember { GameViewModel() }
 
             GameScreen(
-                onBackPressed = {
-                    navController.popBackStack(route = "addPlayersScreen", inclusive = false)
+                onCloseGame = {
+                    viewModel.reset()
+                    gameModel.reset()
+                    navController.popBackStack(route = "landingScreen", inclusive = false)
                 },
                 players = viewModel.playerList,
                 backDialogState = gameModel.backDialogState.collectAsState().value,

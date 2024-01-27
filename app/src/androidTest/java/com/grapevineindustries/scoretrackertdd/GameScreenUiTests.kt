@@ -6,6 +6,8 @@ import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.GameScreen
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -14,19 +16,23 @@ class GameScreenUiTests {
     @JvmField
     @Rule
     val composeTestRule = createComposeRule()
+    private var backNavigation = false
 
     @Before
     fun setup() {
         GameScreenTestUtils.setup(composeTestRule)
+        AlertDialogTestUtils.setup(composeTestRule)
 
         val playersViewModel = PlayersViewModel()
         playersViewModel.createPlayersList(3)
 
         val gameViewModel = GameViewModel()
+        backNavigation = false
+
         composeTestRule.setContent {
             ScoreTrackerTheme {
                 GameScreen(
-                    onBackPressed = {  },
+                    onCloseGame = { backNavigation = true },
                     players = playersViewModel.playerList,
                     backDialogState = gameViewModel.backDialogState.collectAsState().value,
                     updateDialogState = gameViewModel::updateDialogState
@@ -38,10 +44,31 @@ class GameScreenUiTests {
     @Test
     fun back_press_chicken_test() {
         GameScreenTestUtils.assertScreenShowing()
+        assertFalse(backNavigation)
 
+        // verify confirm button doesn't navigate
         GameScreenTestUtils.clickBack()
         AlertDialogTestUtils.assertShowing(
-
+            title = "Are you sure you want to quit?",
+            text = "If you leave you will lose game progress.",
+            confirmButtonText = "Stay",
+            dismissButtonText = "Exit",
         )
+        AlertDialogTestUtils.clickConfirmButton()
+        AlertDialogTestUtils.assertNotShowing()
+        assertFalse(backNavigation)
+
+        // verify dismiss button does navigate
+        GameScreenTestUtils.assertScreenShowing()
+        GameScreenTestUtils.clickBack()
+        AlertDialogTestUtils.assertShowing(
+            title = "Are you sure you want to quit?",
+            text = "If you leave you will lose game progress.",
+            confirmButtonText = "Stay",
+            dismissButtonText = "Exit",
+        )
+        AlertDialogTestUtils.clickDismissButton()
+        AlertDialogTestUtils.assertNotShowing()
+        assertTrue(backNavigation)
     }
 }

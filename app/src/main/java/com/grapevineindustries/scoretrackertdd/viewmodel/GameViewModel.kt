@@ -11,4 +11,8 @@ class GameViewModel {
     fun updateDialogState(state: Boolean) {
         _backDialogState.update { state }
     }
+
+    fun reset() {
+        _backDialogState.update { false }
+    }
 }

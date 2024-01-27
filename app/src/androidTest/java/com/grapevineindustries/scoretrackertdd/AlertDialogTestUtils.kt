@@ -44,6 +44,11 @@ object AlertDialogTestUtils {
         }
     }
 
+    fun assertNotShowing() {
+        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+            .assertDoesNotExist()
+    }
+
     fun clickConfirmButton() {
         composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
             .performClick()

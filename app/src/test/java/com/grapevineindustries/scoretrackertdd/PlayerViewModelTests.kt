@@ -34,4 +34,14 @@ class PlayerViewModelTests {
         vm.setScore(playerIndex, expectedScore)
         assert(expectedScore == vm.playerList[playerIndex].score)
     }
+
+    @Test
+    fun reset_view_model() {
+        val vm = PlayersViewModel()
+        vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
+        assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == vm.playerList.size)
+
+        vm.reset()
+        assert(0 == vm.playerList.size)
+    }
 }

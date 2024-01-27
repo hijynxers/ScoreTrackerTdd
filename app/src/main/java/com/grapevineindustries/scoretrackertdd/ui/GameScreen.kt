@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -16,29 +15,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
+import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun GameScreen(
-    onBackPressed: () -> Unit,
+    onCloseGame: () -> Unit,
     players: SnapshotStateList<Player>,
     backDialogState: Boolean,
     updateDialogState: (Boolean) -> Unit
 ) {
     if (backDialogState) {
-        AlertDialog(
-            modifier = Modifier.testTag(""),
-            title = {  },
-            text = {  },
-            confirmButton = {
-                Button(onClick = {
-                    updateDialogState(false)
-                }) {
-                    Text(text = "ok")
-                }
+        ScoreTrackerAlertDialog(
+            onConfirmClick = { updateDialogState(false) },
+            onDismissClick = {
+                updateDialogState(false)
+
+                onCloseGame()
             },
-            onDismissRequest = { /*TODO*/ }
+            title = "Are you sure you want to quit?",
+            text = "If you leave you will lose game progress.",
+            confirmButtonText = "Stay",
+            dismissButtonText = "Exit"
         )
     }
 
