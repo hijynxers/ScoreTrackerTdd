@@ -2,16 +2,16 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddPlayersUiTests">
+      <entry key="AlertDialogUiTests">
+        <State />
+      </entry>
+      <entry key="GameScreenUiTests">
         <State />
       </entry>
       <entry key="Tests in 'com.grapevineindustries.scoretrackertdd'">
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="input_is_recorded_in_text_field()">
         <State />
       </entry>
       <entry key="navigates_to_add_players_screen()">
