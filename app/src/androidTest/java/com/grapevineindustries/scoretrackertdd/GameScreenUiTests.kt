@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.GameScreen
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -18,7 +19,11 @@ class GameScreenUiTests {
     val composeTestRule = createComposeRule()
     private var backNavigation = false
 
-    private val playerNames = listOf("player1", "player2", "player3")
+    private val playerData = listOf(
+        Player("player1", 3),
+        Player("player2", 15),
+        Player("player3", 183),
+    )
 
     @Before
     fun setup() {
@@ -29,7 +34,7 @@ class GameScreenUiTests {
 
         GameScreenTestUtils.initPlayerList(
             viewModel = playersViewModel,
-            playerNames = playerNames
+            playerNames = playerData
         )
 
         val gameViewModel = GameViewModel()
@@ -79,9 +84,9 @@ class GameScreenUiTests {
     }
 
     @Test
-    fun player_list_shows_correct_names() {
+    fun player_list_shows_correct_data() {
         GameScreenTestUtils.assertScreenShowing()
 
-        GameScreenTestUtils.assertPlayerNames(playerNames)
+        GameScreenTestUtils.assertPlayerData(playerData)
     }
 }

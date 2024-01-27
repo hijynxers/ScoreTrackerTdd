@@ -4,13 +4,13 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.filter
-import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.ComposeTestRule
+import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
+import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 
 object GameScreenTestUtils {
@@ -41,14 +41,13 @@ object GameScreenTestUtils {
             .assertTextEquals("Tally")
     }
 
-    fun assertPlayerNames(playerNames: List<String>) {
-        val playerNameNodes = composeTestRule.onNodeWithTag(GameScreenTestTags.PLAYER_COLUMN, useUnmergedTree = true)
-            .assertIsDisplayed()
-            .onChildren()
-            .filter(hasTestTag(GameScreenTestTags.PLAYER_NAME))
+    fun assertPlayerData(playerData: List<Player>) {
+        val playerNameNodes = composeTestRule.onAllNodesWithTag(GameScreenTestTags.PLAYER_NAME)
+        val playerScoreNodes = composeTestRule.onAllNodesWithTag(GameScreenTestTags.PLAYER_SCORE)
 
-        playerNames.forEachIndexed { index, name ->
-            playerNameNodes[index].assertTextEquals(name)
+        playerData.forEachIndexed { index, player ->
+            playerNameNodes[index].assertTextEquals(player.name)
+            playerScoreNodes[index].assertTextEquals(player.score.toString())
         }
 
     }
@@ -57,10 +56,11 @@ object GameScreenTestUtils {
         Espresso.pressBack()
     }
 
-    fun initPlayerList(viewModel: PlayersViewModel, playerNames: List<String>) {
+    fun initPlayerList(viewModel: PlayersViewModel, playerNames: List<Player>) {
         viewModel.createPlayersList(playerNames.size)
-        playerNames.forEachIndexed { index, name ->
-            viewModel.setName(index, name)
+        playerNames.forEachIndexed { index, player ->
+            viewModel.setName(index, player.name)
+            viewModel.setScore(index, player.score)
         }
     }
 }
