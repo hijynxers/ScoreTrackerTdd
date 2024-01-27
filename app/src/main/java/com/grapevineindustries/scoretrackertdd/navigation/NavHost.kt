@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,6 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
+import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
 
 @Composable
 fun NavHost(
@@ -29,9 +32,10 @@ fun NavHost(
         }
         composable("addPlayersScreen") {
             AddPlayersScreen(
+                updatePlayerName = viewModel::setName,
+                onStatGameClicked = { /*TODO: implement*/ },
                 players = viewModel.playerList,
-                updatePlayerName = viewModel::setName
-            ) { /*TODO: implement*/ }
+            )
         }
     }
 }

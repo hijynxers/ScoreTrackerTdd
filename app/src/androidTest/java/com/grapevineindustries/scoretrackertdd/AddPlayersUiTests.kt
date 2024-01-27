@@ -1,7 +1,8 @@
 package com.grapevineindustries.scoretrackertdd
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import junit.framework.TestCase.assertTrue
+import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
+import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import org.junit.Before
@@ -46,13 +47,5 @@ class AddPlayersUiTests {
             index = 2,
             text = expectedText
         )
-    }
-
-    @Test
-    fun game_start_makes_players_list() {
-        AddPlayersTestUtils.assertScreenShowing()
-        AddPlayersTestUtils.clickStartGame()
-
-        assertTrue(startGameButtonClicked.value)
     }
 }

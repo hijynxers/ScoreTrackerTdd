@@ -6,6 +6,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
 
 object LandingScreenTestUtils {
     private lateinit var composeTestRule: ComposeTestRule

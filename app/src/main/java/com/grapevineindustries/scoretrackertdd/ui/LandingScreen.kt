@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
+import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 

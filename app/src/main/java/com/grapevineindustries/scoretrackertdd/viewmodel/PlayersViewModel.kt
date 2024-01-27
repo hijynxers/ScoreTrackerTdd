@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 

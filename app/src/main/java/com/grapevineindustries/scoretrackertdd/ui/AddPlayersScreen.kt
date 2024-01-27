@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 
 @Preview
@@ -40,9 +41,9 @@ fun AddPlayerPreview() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddPlayersScreen(
-    players: SnapshotStateList<Player>,
     updatePlayerName: (Int, String) -> Unit,
-    onStatGameClicked: () -> Unit
+    onStatGameClicked: () -> Unit,
+    players: SnapshotStateList<Player>
 ) {
     Scaffold(
         modifier = Modifier.testTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN),

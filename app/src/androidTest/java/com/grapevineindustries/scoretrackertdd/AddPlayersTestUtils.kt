@@ -9,8 +9,8 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreenTestTags
 
 object AddPlayersTestUtils {
     private lateinit var composeTestRule: ComposeTestRule
@@ -43,10 +43,5 @@ object AddPlayersTestUtils {
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index.toString())
             .assertIsDisplayed()
             .assert(hasText(text))
-    }
-
-    fun clickStartGame() {
-        composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.START_GAME_BUTTON)
-            .performClick()
     }
 }

@@ -1,5 +1,6 @@
 package com.grapevineindustries.scoretrackertdd
 
+import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import org.junit.Test
 
 class PlayerViewModelTests {
