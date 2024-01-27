@@ -1,6 +1,8 @@
 package com.grapevineindustries.scoretrackertdd.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -8,7 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
+import com.grapevineindustries.scoretrackertdd.ui.GameScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
+import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 
 @Composable
 fun NavHost(
@@ -33,8 +37,22 @@ fun NavHost(
         composable("addPlayersScreen") {
             AddPlayersScreen(
                 updatePlayerName = viewModel::setName,
-                onStatGameClicked = { /*TODO: implement*/ },
+                onStatGameClicked = {
+                    navController.navigate("gameScreen")
+                },
                 players = viewModel.playerList,
+            )
+        }
+        composable("gameScreen") {
+            val gameModel = remember { GameViewModel() }
+
+            GameScreen(
+                onBackPressed = {
+                    navController.popBackStack(route = "addPlayersScreen", inclusive = false)
+                },
+                players = viewModel.playerList,
+                backDialogState = gameModel.backDialogState.collectAsState().value,
+                updateDialogState = gameModel::updateDialogState
             )
         }
     }
