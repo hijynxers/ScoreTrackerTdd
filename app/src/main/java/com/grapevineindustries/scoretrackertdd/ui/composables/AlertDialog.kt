@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.testTag
 fun ScoreTrackerAlertDialog(
     onConfirmClick: () -> Unit,
     onDismissClick: () -> Unit = {},
+    onDismissRequest: () -> Unit = {},
     testTag: String = AlertDialogTestTags.ALERT_DIALOG,
     title: String,
     text: String,
@@ -55,7 +56,7 @@ fun ScoreTrackerAlertDialog(
                 )
             }
         },
-        onDismissRequest = { /*TODO*/ }
+        onDismissRequest = onDismissRequest
     )
 }
 
