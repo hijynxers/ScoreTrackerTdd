@@ -76,8 +76,8 @@ object GameScreenTestUtils {
             .performClick()
     }
 
-    fun clickCalcDialogConfirmButton() {
-        composeTestRule.onNodeWithTag(CalcDialogTestTags.OK)
+    fun clickTallyButton() {
+        composeTestRule.onNodeWithTag(GameScreenTestTags.TALLY_BUTTON)
             .performClick()
     }
 

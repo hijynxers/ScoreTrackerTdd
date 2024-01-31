@@ -17,6 +17,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -26,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialog
@@ -36,6 +37,7 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 @Preview
 @Composable
 fun GameScreenPreview() {
+    val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
     ScoreTrackerTheme {
         GameScreenContent(
@@ -44,7 +46,9 @@ fun GameScreenPreview() {
                 Player("player 2", 12),
                 Player("player 3", 145),
             ),
-            showCalcDialog = {}
+            showCalcDialog = {},
+            tallyPoints = {},
+            lastClickedIndex = lastClickedIndex
         )
     }
 }
@@ -53,11 +57,14 @@ fun GameScreenPreview() {
 @Composable
 fun GameScreen(
     onCloseGame: () -> Unit,
+    updateExitGameDialogState: (Boolean) -> Unit,
+    updatePotentialPoints: (Int, Int) -> Unit,
+    tallyPoints: () -> Unit,
     players: SnapshotStateList<Player>,
-    exitGameDialogState: Boolean,
-    updateExitGameDialogState: (Boolean) -> Unit
+    exitGameDialogState: Boolean
 ) {
     val calcDialogState = remember { mutableStateOf(false) }
+    val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
     if (exitGameDialogState) {
         ScoreTrackerAlertDialog(
@@ -79,18 +86,20 @@ fun GameScreen(
             updateExitGameDialogState(true)
         }
     )
+
     GameScreenContent(
         players = players,
-        showCalcDialog = {
-            calcDialogState.value = true
-        }
+        showCalcDialog = { calcDialogState.value = true },
+        tallyPoints = tallyPoints,
+        lastClickedIndex = lastClickedIndex
     )
 
     if (calcDialogState.value) {
         CalcDialog(
-            closeCalcDialog = {
+            closeCalcDialog = { points ->
+                updatePotentialPoints(lastClickedIndex.intValue, points)
                 calcDialogState.value = false
-            }
+            },
         )
     }
 }
@@ -98,9 +107,13 @@ fun GameScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun GameScreenContent(
+    showCalcDialog: () -> Unit,
+    tallyPoints: () -> Unit,
     players: List<Player>,
-    showCalcDialog: () -> Unit
+    lastClickedIndex: MutableIntState
 ) {
+    val wildCard = remember { mutableIntStateOf(3) }
+
     Scaffold(
         modifier = Modifier.testTag(GameScreenTestTags.GAME_SCREEN),
         content = {
@@ -109,7 +122,7 @@ fun GameScreenContent(
             ) {
                 Text(
                     modifier = Modifier.testTag(GameScreenTestTags.WILD_CARD),
-                    text = FiveCrownsConstants.INITIAL_WILD_CARD.toString()
+                    text = wildCard.intValue.toString()
                 )
 
                 LazyColumn(
@@ -118,7 +131,7 @@ fun GameScreenContent(
                         .fillMaxWidth()
                         .weight(1f),
                     content = {
-                        itemsIndexed(players) { _, player ->
+                        itemsIndexed(players) { index, player ->
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -145,9 +158,12 @@ fun GameScreenContent(
 
                                         Button(
                                             modifier = Modifier.testTag(GameScreenTestTags.CALC_BUTTON),
-                                            onClick = showCalcDialog
+                                            onClick = {
+                                                lastClickedIndex.intValue = index
+                                                showCalcDialog()
+                                            }
                                         ) {
-                                            Text(text = 0.toString())
+                                            Text(text = player.pendingPoints.toString())
                                         }
                                     }
                                 }
@@ -160,7 +176,10 @@ fun GameScreenContent(
                     modifier = Modifier
                         .testTag(GameScreenTestTags.TALLY_BUTTON)
                         .fillMaxWidth(),
-                    onClick = showCalcDialog
+                    onClick = {
+                        wildCard.intValue += 1
+                        tallyPoints()
+                    }
                 ) {
                     Text(
                         text = "Tally"

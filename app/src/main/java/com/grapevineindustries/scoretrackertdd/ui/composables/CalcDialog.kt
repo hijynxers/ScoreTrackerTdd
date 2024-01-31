@@ -40,7 +40,7 @@ private val numbers = listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50)
 
 @Composable
 fun CalcDialog(
-    closeCalcDialog: () -> Unit
+    closeCalcDialog: (Int) -> Unit
 ) {
     val sum = remember { mutableIntStateOf(0) }
     val factors = remember { mutableStateOf("") }
@@ -102,7 +102,7 @@ fun CalcDialog(
                                 top = 12.dp
                             )
                             .fillMaxWidth(),
-                        onClick = closeCalcDialog
+                        onClick = { closeCalcDialog(sum.intValue) }
                     ) {
                         Text(
                             text = "OK"

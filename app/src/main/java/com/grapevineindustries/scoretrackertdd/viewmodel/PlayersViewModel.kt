@@ -19,9 +19,28 @@ class PlayersViewModel {
         playerList[index] = playerList[index].copy(score = value)
     }
 
+    fun setPotentialPoints(index: Int, value: Int) {
+        playerList[index] = playerList[index].copy(pendingPoints = value)
+    }
+
     fun reset() {
         playerList = mutableStateListOf()
     }
+
+    fun tallyPoints() {
+        val tempList = playerList.toList()
+        tempList.forEachIndexed { index, _ ->
+            val score = playerList[index].pendingPoints + playerList[index].score
+            playerList[index] = playerList[index].copy(
+                score = score,
+                pendingPoints = 0
+            )
+        }
+    }
 }
 
-data class Player(var name: String, var score: Int = 0)
+data class Player(
+    var name: String,
+    var score: Int = 0,
+    var pendingPoints: Int = 0
+)

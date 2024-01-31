@@ -1,5 +1,6 @@
 package com.grapevineindustries.scoretrackertdd
 
+import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import org.junit.Test
 
@@ -33,6 +34,35 @@ class PlayerViewModelTests {
 
         vm.setScore(playerIndex, expectedScore)
         assert(expectedScore == vm.playerList[playerIndex].score)
+    }
+
+    @Test
+    fun update_points_in_players_list() {
+        val vm = PlayersViewModel()
+        vm.createPlayersList(3)
+        val playerIndex = 1
+        val expectedPoints = 45
+
+        vm.setPotentialPoints(playerIndex, expectedPoints)
+        assert(expectedPoints == vm.playerList[playerIndex].pendingPoints)
+    }
+
+    @Test
+    fun tally_scores() {
+        val vm = PlayersViewModel()
+        vm.createPlayersList(3)
+        val playerIndex = 1
+        val expectedPoints = 45
+        vm.setPotentialPoints(playerIndex, expectedPoints)
+        val expectedPlayers = listOf(
+            Player("", 0),
+            Player("", expectedPoints),
+            Player("", 0),
+        )
+
+        vm.tallyPoints()
+
+        assert(expectedPlayers == vm.playerList)
     }
 
     @Test

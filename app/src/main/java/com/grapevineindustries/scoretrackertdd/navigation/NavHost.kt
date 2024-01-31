@@ -54,7 +54,9 @@ fun NavHost(
                 },
                 players = viewModel.playerList,
                 exitGameDialogState = gameModel.exitGameDialogState.collectAsState().value,
-                updateExitGameDialogState = gameModel::updateExitGameDialogState
+                updateExitGameDialogState = gameModel::updateExitGameDialogState,
+                updatePotentialPoints = viewModel::setPotentialPoints,
+                tallyPoints = viewModel::tallyPoints
             )
         }
     }

@@ -1,9 +1,12 @@
 package com.grapevineindustries.scoretrackertdd
 
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.GameScreen
+import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
@@ -29,6 +32,7 @@ class GameScreenUiTests {
     fun setup() {
         GameScreenTestUtils.setup(composeTestRule)
         AlertDialogTestUtils.setup(composeTestRule)
+        CalcDialogTestUtils.setup(composeTestRule)
 
         val playersViewModel = PlayersViewModel()
 
@@ -46,7 +50,9 @@ class GameScreenUiTests {
                     onCloseGame = { backNavigation = true },
                     players = playersViewModel.playerList,
                     exitGameDialogState = gameViewModel.exitGameDialogState.collectAsState().value,
-                    updateExitGameDialogState = gameViewModel::updateExitGameDialogState
+                    updateExitGameDialogState = gameViewModel::updateExitGameDialogState,
+                    updatePotentialPoints = playersViewModel::setPotentialPoints,
+                    tallyPoints = {}
                 )
             }
         }
@@ -91,18 +97,31 @@ class GameScreenUiTests {
     }
 
     @Test
-    fun calculator_dialog_pops_up_and_closes() {
+    fun add_score() {
         GameScreenTestUtils.assertScreenShowing()
         GameScreenTestUtils.clickFirstCalculatorButton()
 
         GameScreenTestUtils.assertCalculatorShowing()
 
-        GameScreenTestUtils.clickCalcDialogConfirmButton()
-        GameScreenTestUtils.assertCalculatorNotShowing()
-    }
+        CalcDialogTestUtils.clickButton("K")
 
-    @Test
-    fun tally_button_increment_score_and_adds_points() {
-        GameScreenTestUtils.assertScreenShowing()
+        CalcDialogTestUtils.clickCalcDialogConfirmButton()
+        GameScreenTestUtils.assertCalculatorNotShowing()
+        var expectedPlayerData = listOf(
+            Player("player1", 3, 13),
+            Player("player2", 15),
+            Player("player3", 183),
+        )
+        GameScreenTestUtils.assertPlayerData(expectedPlayerData)
+
+        GameScreenTestUtils.clickTallyButton()
+        composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
+            .assertTextEquals("4")
+        expectedPlayerData = listOf(
+            Player("player1", 26),
+            Player("player2", 15),
+            Player("player3", 183),
+        )
+        GameScreenTestUtils.assertPlayerData(expectedPlayerData)
     }
 }
