@@ -17,6 +17,14 @@ class GameViewModelTests {
     }
 
     @Test
+    fun increment_wild_card() {
+        val vm = GameViewModel()
+        assert(3 == vm.wildCard.value)
+        vm.incrementWildCard()
+        assert(4 == vm.wildCard.value)
+    }
+
+    @Test
     fun reset() {
         val vm = GameViewModel()
         vm.updateExitGameDialogState(true)

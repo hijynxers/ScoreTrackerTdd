@@ -48,7 +48,8 @@ fun GameScreenPreview() {
             ),
             showCalcDialog = {},
             tallyPoints = {},
-            lastClickedIndex = lastClickedIndex
+            lastClickedIndex = lastClickedIndex,
+            wildCard = 5,
         )
     }
 }
@@ -61,7 +62,8 @@ fun GameScreen(
     updatePotentialPoints: (Int, Int) -> Unit,
     tallyPoints: () -> Unit,
     players: SnapshotStateList<Player>,
-    exitGameDialogState: Boolean
+    exitGameDialogState: Boolean,
+    wildCard: Int
 ) {
     val calcDialogState = remember { mutableStateOf(false) }
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
@@ -91,7 +93,8 @@ fun GameScreen(
         players = players,
         showCalcDialog = { calcDialogState.value = true },
         tallyPoints = tallyPoints,
-        lastClickedIndex = lastClickedIndex
+        lastClickedIndex = lastClickedIndex,
+        wildCard = wildCard
     )
 
     if (calcDialogState.value) {
@@ -110,10 +113,9 @@ fun GameScreenContent(
     showCalcDialog: () -> Unit,
     tallyPoints: () -> Unit,
     players: List<Player>,
-    lastClickedIndex: MutableIntState
+    lastClickedIndex: MutableIntState,
+    wildCard: Int
 ) {
-    val wildCard = remember { mutableIntStateOf(3) }
-
     Scaffold(
         modifier = Modifier.testTag(GameScreenTestTags.GAME_SCREEN),
         content = {
@@ -122,7 +124,7 @@ fun GameScreenContent(
             ) {
                 Text(
                     modifier = Modifier.testTag(GameScreenTestTags.WILD_CARD),
-                    text = wildCard.intValue.toString()
+                    text = wildCard.toString()
                 )
 
                 LazyColumn(
@@ -177,7 +179,6 @@ fun GameScreenContent(
                         .testTag(GameScreenTestTags.TALLY_BUTTON)
                         .fillMaxWidth(),
                     onClick = {
-                        wildCard.intValue += 1
                         tallyPoints()
                     }
                 ) {

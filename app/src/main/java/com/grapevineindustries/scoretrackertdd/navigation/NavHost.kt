@@ -56,8 +56,19 @@ fun NavHost(
                 exitGameDialogState = gameModel.exitGameDialogState.collectAsState().value,
                 updateExitGameDialogState = gameModel::updateExitGameDialogState,
                 updatePotentialPoints = viewModel::setPotentialPoints,
-                tallyPoints = viewModel::tallyPoints
+                tallyPoints = {
+                    viewModel.tallyPoints()
+                    if (gameModel.wildCard.value == 13) {
+                        navController.navigate("finalScoresScreen")
+                    } else {
+                        gameModel.incrementWildCard()
+                    }
+                },
+                wildCard = gameModel.wildCard.collectAsState().value
             )
+        }
+        composable("finalScoresScreen") {
+
         }
     }
 }

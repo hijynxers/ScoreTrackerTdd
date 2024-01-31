@@ -7,9 +7,15 @@ import kotlinx.coroutines.flow.update
 class GameViewModel {
     private val _exitGameDialogState = MutableStateFlow(false)
     val exitGameDialogState: StateFlow<Boolean> = _exitGameDialogState
+    private val _wildCard = MutableStateFlow(3)
+    val wildCard: StateFlow<Int> = _wildCard
 
     fun updateExitGameDialogState(state: Boolean) {
         _exitGameDialogState.update { state }
+    }
+
+    fun incrementWildCard() {
+        _wildCard.update { _wildCard.value + 1 }
     }
 
     fun reset() {
