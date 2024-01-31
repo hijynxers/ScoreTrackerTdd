@@ -74,4 +74,37 @@ class PlayerViewModelTests {
         vm.reset()
         assert(0 == vm.playerList.size)
     }
+
+    @Test
+    fun reset_scores() {
+        val vm = PlayersViewModel()
+        vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
+        vm.setScore(0, 22)
+        vm.setScore(1, 3)
+        vm.setScore(2, 12)
+        val expectedPlayers = listOf(
+            Player("", 0),
+            Player("", 0),
+            Player("", 0),
+        )
+        vm.resetScores()
+
+        assert(expectedPlayers == vm.playerList)
+    }
+
+    @Test
+    fun sort_by_score() {
+        val vm = PlayersViewModel()
+        vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
+        vm.setScore(0, 22)
+        vm.setScore(1, 3)
+        vm.setScore(2, 12)
+        val expectedPlayers = listOf(
+            Player("", 3),
+            Player("", 12),
+            Player("", 22),
+        )
+
+        assert(expectedPlayers == vm.sortedPlayers())
+    }
 }

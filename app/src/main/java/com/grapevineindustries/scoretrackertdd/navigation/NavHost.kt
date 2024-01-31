@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
+import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
 import com.grapevineindustries.scoretrackertdd.ui.GameScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
@@ -68,7 +69,17 @@ fun NavHost(
             )
         }
         composable("finalScoresScreen") {
-
+            FinalScoreScreen(
+                playerData = viewModel.sortedPlayers(),
+                onNewGameClick = {
+                    viewModel.reset()
+                    navController.popBackStack(route = "landingScreen", inclusive = false)
+                },
+                onReplayClick = {
+                    viewModel.resetScores()
+                    navController.popBackStack(route = "gameScreen", inclusive = false)
+                }
+            )
         }
     }
 }

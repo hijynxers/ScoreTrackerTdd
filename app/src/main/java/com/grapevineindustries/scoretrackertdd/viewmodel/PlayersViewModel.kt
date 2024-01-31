@@ -27,6 +27,16 @@ class PlayersViewModel {
         playerList = mutableStateListOf()
     }
 
+    fun resetScores() {
+        val tempList = playerList.toList()
+        tempList.forEachIndexed { index, _ ->
+            playerList[index] = playerList[index].copy(
+                score = 0,
+                pendingPoints = 0
+            )
+        }
+    }
+
     fun tallyPoints() {
         val tempList = playerList.toList()
         tempList.forEachIndexed { index, _ ->
@@ -36,6 +46,10 @@ class PlayersViewModel {
                 pendingPoints = 0
             )
         }
+    }
+
+    fun sortedPlayers(): List<Player> {
+        return playerList.sortedBy { it.score }
     }
 }
 
