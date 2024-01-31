@@ -46,8 +46,13 @@ object CalcDialogTestUtils {
             .assertTextEquals(factors)
     }
 
-    fun clickCalcDialogConfirmButton() {
+    fun clickConfirmButton() {
         composeTestRule.onNodeWithTag(CalcDialogTestTags.OK)
+            .performClick()
+    }
+
+    fun clickCancelButton() {
+        composeTestRule.onNodeWithTag(CalcDialogTestTags.CANCEL)
             .performClick()
     }
 

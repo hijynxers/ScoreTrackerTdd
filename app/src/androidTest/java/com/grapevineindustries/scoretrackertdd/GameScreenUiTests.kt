@@ -4,9 +4,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.grapevineindustries.scoretrackertdd.GameScreenTestUtils.assertWildCard
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.GameScreen
 import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
+import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
@@ -22,7 +24,7 @@ class GameScreenUiTests {
     val composeTestRule = createComposeRule()
     private var backNavigation = false
 
-    private val playerData = listOf(
+    private val initialPlayerData = listOf(
         Player("player1", 3),
         Player("player2", 15),
         Player("player3", 183),
@@ -38,7 +40,7 @@ class GameScreenUiTests {
 
         GameScreenTestUtils.initPlayerList(
             viewModel = playersViewModel,
-            playerNames = playerData
+            playerNames = initialPlayerData
         )
 
         val gameViewModel = GameViewModel()
@@ -52,7 +54,8 @@ class GameScreenUiTests {
                     exitGameDialogState = gameViewModel.exitGameDialogState.collectAsState().value,
                     updateExitGameDialogState = gameViewModel::updateExitGameDialogState,
                     updatePotentialPoints = playersViewModel::setPotentialPoints,
-                    tallyPoints = {}
+                    tallyPoints = {gameViewModel.incrementWildCard()},
+                    wildCard = gameViewModel.wildCard.collectAsState().value
                 )
             }
         }
@@ -93,7 +96,7 @@ class GameScreenUiTests {
     fun player_list_shows_correct_data() {
         GameScreenTestUtils.assertScreenShowing()
 
-        GameScreenTestUtils.assertPlayerData(playerData)
+        GameScreenTestUtils.assertPlayerData(initialPlayerData)
     }
 
     @Test
@@ -105,7 +108,7 @@ class GameScreenUiTests {
 
         CalcDialogTestUtils.clickButton("K")
 
-        CalcDialogTestUtils.clickCalcDialogConfirmButton()
+        CalcDialogTestUtils.clickConfirmButton()
         GameScreenTestUtils.assertCalculatorNotShowing()
         var expectedPlayerData = listOf(
             Player("player1", 3, 13),
@@ -123,5 +126,28 @@ class GameScreenUiTests {
             Player("player3", 183),
         )
         GameScreenTestUtils.assertPlayerData(expectedPlayerData)
+    }
+
+    @Test
+    fun calc_dialog_cancel_does_not_add_points() {
+        GameScreenTestUtils.assertScreenShowing()
+        GameScreenTestUtils.clickFirstCalculatorButton()
+        GameScreenTestUtils.assertCalculatorShowing()
+        CalcDialogTestUtils.clickButton("K")
+
+        CalcDialogTestUtils.clickCancelButton()
+
+        GameScreenTestUtils.assertCalculatorNotShowing()
+        GameScreenTestUtils.assertPlayerData(initialPlayerData)
+    }
+
+    @Test
+    fun wildcard_displays_correctly() {
+        GameScreenTestUtils.assertScreenShowing()
+
+        for (i in 4..13) {
+            GameScreenTestUtils.clickTallyButton()
+            assertWildCard("WILD CARD: ${convertWildCard(i)}")
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.grapevineindustries.scoretrackertdd.ui
 
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +30,7 @@ import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
+import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview
@@ -99,10 +98,11 @@ fun GameScreen(
 
     if (calcDialogState.value) {
         CalcDialog(
-            closeCalcDialog = { points ->
+            closeWithPoints = { points ->
                 updatePotentialPoints(lastClickedIndex.intValue, points)
                 calcDialogState.value = false
             },
+            cancelDialog = { calcDialogState.value = false }
         )
     }
 }
@@ -124,7 +124,7 @@ fun GameScreenContent(
             ) {
                 Text(
                     modifier = Modifier.testTag(GameScreenTestTags.WILD_CARD),
-                    text = wildCard.toString()
+                    text = "WILD CARD: ${convertWildCard(wildCard)}"
                 )
 
                 LazyColumn(
@@ -142,8 +142,7 @@ fun GameScreenContent(
                                     Row(
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .padding(vertical = 8.dp, horizontal = 8.dp)
-                                            .background(Color.Blue),
+                                            .padding(vertical = 8.dp, horizontal = 8.dp),
                                         horizontalArrangement = Arrangement.SpaceBetween,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {

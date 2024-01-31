@@ -31,7 +31,7 @@ object GameScreenTestUtils {
 
         composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
             .assertIsDisplayed()
-            .assertTextEquals(FiveCrownsConstants.INITIAL_WILD_CARD.toString())
+            .assertTextEquals("WILD CARD: ${FiveCrownsConstants.INITIAL_WILD_CARD}")
 
         composeTestRule.onNodeWithTag(GameScreenTestTags.PLAYER_COLUMN)
             .assertIsDisplayed()
@@ -64,6 +64,12 @@ object GameScreenTestUtils {
     fun assertCalculatorNotShowing() {
         composeTestRule.onNodeWithTag(CalcDialogTestTags.CALC_DIALOG)
             .assertDoesNotExist()
+    }
+
+    fun assertWildCard(expected: String) {
+        composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
+            .assertIsDisplayed()
+            .assertTextEquals(expected)
     }
 
     fun clickBack() {

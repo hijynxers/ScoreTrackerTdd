@@ -17,7 +17,8 @@ class CalcDialogUiTests {
         composeTestRule.setContent {
             ScoreTrackerTheme {
                 CalcDialog(
-                    closeCalcDialog = {}
+                    closeWithPoints = {},
+                    cancelDialog = {}
                 )
             }
         }
@@ -76,5 +77,4 @@ class CalcDialogUiTests {
         CalcDialogTestUtils.assertSum("138")
         CalcDialogTestUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q  K  JOKE")
     }
-
 }
