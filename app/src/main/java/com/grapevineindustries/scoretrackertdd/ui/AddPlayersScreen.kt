@@ -12,38 +12,20 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
-
-@Preview
-@Composable
-fun AddPlayerPreview() {
-//    ScoreTrackerTheme {
-//        AddPlayersScreen(
-//            players = arrayListOf(
-//                Player("name1"),
-//                Player("name2"),
-//                Player("name3")
-//            ),
-//            updatePlayerName = ,
-//            onStatGameClicked = {}
-//        )
-//    }
-}
+import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddPlayersScreen(
     updatePlayerName: (Int, String) -> Unit,
     onStatGameClicked: () -> Unit,
-    players: SnapshotStateList<Player>
+    players: List<Player>
 ) {
     Scaffold(
         modifier = Modifier.testTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN),
@@ -81,10 +63,7 @@ fun AddPlayersScreen(
                     modifier = Modifier
                         .testTag(AddPlayersScreenTestTags.START_GAME_BUTTON)
                         .fillMaxWidth(),
-                    onClick = {
-
-                        onStatGameClicked()
-                    }
+                    onClick = onStatGameClicked
                 ) {
                     Text(
                         text = "Start Game"

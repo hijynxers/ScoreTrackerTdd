@@ -1,8 +1,12 @@
 package com.grapevineindustries.scoretrackertdd.ui.composables
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -31,7 +35,8 @@ import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 fun CalcDialogPreview() {
     ScoreTrackerTheme {
         CalcDialog(
-            closeCalcDialog = {}
+            closeWithPoints = {},
+            cancelDialog = {}
         )
     }
 }
@@ -40,12 +45,15 @@ private val numbers = listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50)
 
 @Composable
 fun CalcDialog(
-    closeCalcDialog: (Int) -> Unit
+    closeWithPoints: (Int) -> Unit,
+    cancelDialog: () -> Unit
 ) {
     val sum = remember { mutableIntStateOf(0) }
     val factors = remember { mutableStateOf("") }
 
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+    Dialog(
+        onDismissRequest = cancelDialog
+    ) {
         Card(
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 10.dp),
@@ -93,28 +101,46 @@ fun CalcDialog(
                         }
                     }
 
-                    Button(
+                    Row(
                         modifier = Modifier
-                            .testTag(CalcDialogTestTags.OK)
+                            .fillMaxWidth()
                             .padding(
                                 start = 4.dp,
                                 end = 4.dp,
                                 top = 12.dp
-                            )
-                            .fillMaxWidth(),
-                        onClick = { closeCalcDialog(sum.intValue) }
+                            ),
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        Text(
-                            text = "OK"
-                        )
+                        Button(
+                            modifier = Modifier
+                                .testTag(CalcDialogTestTags.CANCEL),
+                            onClick = cancelDialog
+                        ) {
+                            Text(
+                                text = "CANCEL"
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Button(
+                            modifier = Modifier
+                                .testTag(CalcDialogTestTags.OK)
+                                .weight(1f),
+                            onClick = { closeWithPoints(sum.intValue) }
+                        ) {
+                            Text(
+                                text = "OK"
+                            )
+                        }
                     }
+
                 }
             }
         )
     }
 }
 
-@Composable
 fun convertWildCard(card: Int): String {
     var ret = card.toString()
     when (card) {
@@ -129,6 +155,7 @@ fun convertWildCard(card: Int): String {
 object CalcDialogTestTags {
     const val CALC_DIALOG = "CALC_DIALOG"
     const val OK = "CALC_DIALOG_OK"
+    const val CANCEL = "CALC_DIALOG_CANCEL"
     const val BUTTON = "CALC_DIALOG_BUTTON_"
     const val SUM = "CALC_DIALOG_SUM"
     const val FACTORS = "CALC_DIALOG_FACTORS"
