@@ -1,9 +1,11 @@
 package com.grapevineindustries.scoretrackertdd
 
+import android.content.Context
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.test.core.app.ApplicationProvider
 import com.grapevineindustries.scoretrackertdd.GameScreenTestUtils.assertWildCard
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.GameScreen
@@ -23,6 +25,8 @@ class GameScreenUiTests {
     @Rule
     val composeTestRule = createComposeRule()
     private var backNavigation = false
+
+    private val context: Context = ApplicationProvider.getApplicationContext()
 
     private val initialPlayerData = listOf(
         Player("player1", 3),
@@ -54,7 +58,10 @@ class GameScreenUiTests {
                     exitGameDialogState = gameViewModel.exitGameDialogState.collectAsState().value,
                     updateExitGameDialogState = gameViewModel::updateExitGameDialogState,
                     updatePotentialPoints = playersViewModel::setPotentialPoints,
-                    tallyPoints = {gameViewModel.incrementWildCard()},
+                    tallyPoints = {
+                        playersViewModel.tallyPoints()
+                        gameViewModel.incrementWildCard()
+                    },
                     wildCard = gameViewModel.wildCard.collectAsState().value
                 )
             }
@@ -69,10 +76,10 @@ class GameScreenUiTests {
         // verify confirm button doesn't navigate
         GameScreenTestUtils.clickBack()
         AlertDialogTestUtils.assertShowing(
-            title = "Are you sure you want to quit?",
-            text = "If you leave you will lose game progress.",
-            confirmButtonText = "Stay",
-            dismissButtonText = "Exit",
+            title = context.getString(R.string.leave_game),
+            text = context.getString(R.string.lose_game_progress),
+            confirmButtonText = context.getString(R.string.stay),
+            dismissButtonText = context.getString(R.string.exit)
         )
         AlertDialogTestUtils.clickConfirmButton()
         AlertDialogTestUtils.assertNotShowing()
@@ -82,10 +89,10 @@ class GameScreenUiTests {
         GameScreenTestUtils.assertScreenShowing()
         GameScreenTestUtils.clickBack()
         AlertDialogTestUtils.assertShowing(
-            title = "Are you sure you want to quit?",
-            text = "If you leave you will lose game progress.",
-            confirmButtonText = "Stay",
-            dismissButtonText = "Exit",
+            title = context.getString(R.string.leave_game),
+            text = context.getString(R.string.lose_game_progress),
+            confirmButtonText = context.getString(R.string.stay),
+            dismissButtonText = context.getString(R.string.exit)
         )
         AlertDialogTestUtils.clickDismissButton()
         AlertDialogTestUtils.assertNotShowing()
@@ -119,9 +126,9 @@ class GameScreenUiTests {
 
         GameScreenTestUtils.clickTallyButton()
         composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
-            .assertTextEquals("4")
+            .assertTextEquals(context.getString(R.string.wildcard, "4"))
         expectedPlayerData = listOf(
-            Player("player1", 26),
+            Player("player1", 16),
             Player("player2", 15),
             Player("player3", 183),
         )
@@ -147,7 +154,7 @@ class GameScreenUiTests {
 
         for (i in 4..13) {
             GameScreenTestUtils.clickTallyButton()
-            assertWildCard("WILD CARD: ${convertWildCard(i)}")
+            assertWildCard(context.getString(R.string.wildcard, convertWildCard(i)))
         }
     }
 }

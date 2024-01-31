@@ -24,8 +24,10 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialog
@@ -72,13 +74,12 @@ fun GameScreen(
             onConfirmClick = { updateExitGameDialogState(false) },
             onDismissClick = {
                 updateExitGameDialogState(false)
-
                 onCloseGame()
             },
-            title = "Are you sure you want to quit?",
-            text = "If you leave you will lose game progress.",
-            confirmButtonText = "Stay",
-            dismissButtonText = "Exit"
+            title = stringResource(R.string.leave_game),
+            text = stringResource(R.string.lose_game_progress),
+            confirmButtonText = stringResource(R.string.stay),
+            dismissButtonText = stringResource(R.string.exit)
         )
     }
 
@@ -124,7 +125,7 @@ fun GameScreenContent(
             ) {
                 Text(
                     modifier = Modifier.testTag(GameScreenTestTags.WILD_CARD),
-                    text = "WILD CARD: ${convertWildCard(wildCard)}"
+                    text = stringResource(id = R.string.wildcard, convertWildCard(wildCard))
                 )
 
                 LazyColumn(
@@ -182,7 +183,7 @@ fun GameScreenContent(
                     }
                 ) {
                     Text(
-                        text = "Tally"
+                        text = stringResource(id = R.string.tally)
                     )
                 }
             }

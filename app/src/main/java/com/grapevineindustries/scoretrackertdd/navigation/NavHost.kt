@@ -41,6 +41,10 @@ fun NavHost(
                 onStatGameClicked = {
                     navController.navigate("gameScreen")
                 },
+                onBackPress = {
+                    viewModel.reset()
+                    navController.navigateUp()
+                },
                 players = viewModel.playerList,
             )
         }

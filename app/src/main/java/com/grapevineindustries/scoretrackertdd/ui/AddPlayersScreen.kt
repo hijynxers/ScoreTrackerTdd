@@ -1,6 +1,7 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,9 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
@@ -25,8 +28,15 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 fun AddPlayersScreen(
     updatePlayerName: (Int, String) -> Unit,
     onStatGameClicked: () -> Unit,
+    onBackPress: () -> Unit,
     players: List<Player>
 ) {
+    BackHandler(
+        onBack = {
+            onBackPress()
+        }
+    )
+
     Scaffold(
         modifier = Modifier.testTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN),
         content = {
@@ -38,7 +48,7 @@ fun AddPlayersScreen(
                         .testTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
                         .weight(1f)
                 ) {
-                    itemsIndexed(players) { index, player ->
+                    itemsIndexed(players) { index, _ ->
                         OutlinedTextField(
                             modifier = Modifier.testTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index),
                             value = players[index].name,
@@ -66,7 +76,7 @@ fun AddPlayersScreen(
                     onClick = onStatGameClicked
                 ) {
                     Text(
-                        text = "Start Game"
+                        text = stringResource(id = R.string.start_game)
                     )
                 }
             }

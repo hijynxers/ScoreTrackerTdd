@@ -27,6 +27,7 @@ class AddPlayersUiTests {
             AddPlayersScreen(
                 players = viewModel.playerList,
                 updatePlayerName = viewModel::setName,
+                onBackPress = {},
                 onStatGameClicked = {
                     startGameButtonClicked.update { true }
                 }

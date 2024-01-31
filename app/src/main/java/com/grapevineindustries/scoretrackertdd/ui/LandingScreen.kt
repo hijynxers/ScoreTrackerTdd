@@ -110,7 +110,7 @@ fun LandingScreen(
                         onClick = { onAddPlayersClick(numPlayers.intValue) },
                         content = {
                             Text(
-                                text = "Start Game",
+                                text = stringResource(id = R.string.start_game),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
