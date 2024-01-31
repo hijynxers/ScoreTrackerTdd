@@ -31,7 +31,6 @@ import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
-import com.grapevineindustries.scoretrackertdd.ui.composables.ShowDialog
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview
