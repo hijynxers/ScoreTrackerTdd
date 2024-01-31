@@ -45,8 +45,8 @@ class GameScreenUiTests {
                 GameScreen(
                     onCloseGame = { backNavigation = true },
                     players = playersViewModel.playerList,
-                    backDialogState = gameViewModel.backDialogState.collectAsState().value,
-                    updateDialogState = gameViewModel::updateDialogState
+                    exitGameDialogState = gameViewModel.exitGameDialogState.collectAsState().value,
+                    updateExitGameDialogState = gameViewModel::updateExitGameDialogState
                 )
             }
         }
@@ -88,5 +88,21 @@ class GameScreenUiTests {
         GameScreenTestUtils.assertScreenShowing()
 
         GameScreenTestUtils.assertPlayerData(playerData)
+    }
+
+    @Test
+    fun calculator_dialog_pops_up_and_closes() {
+        GameScreenTestUtils.assertScreenShowing()
+        GameScreenTestUtils.clickFirstCalculatorButton()
+
+        GameScreenTestUtils.assertCalculatorShowing()
+
+        GameScreenTestUtils.clickCalcDialogConfirmButton()
+        GameScreenTestUtils.assertCalculatorNotShowing()
+    }
+
+    @Test
+    fun tally_button_increment_score_and_adds_points() {
+        GameScreenTestUtils.assertScreenShowing()
     }
 }

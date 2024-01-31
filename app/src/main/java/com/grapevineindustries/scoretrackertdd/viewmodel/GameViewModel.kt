@@ -5,14 +5,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 class GameViewModel {
-    private val _backDialogState = MutableStateFlow(false)
-    val backDialogState: StateFlow<Boolean> = _backDialogState
+    private val _exitGameDialogState = MutableStateFlow(false)
+    val exitGameDialogState: StateFlow<Boolean> = _exitGameDialogState
 
-    fun updateDialogState(state: Boolean) {
-        _backDialogState.update { state }
+    fun updateExitGameDialogState(state: Boolean) {
+        _exitGameDialogState.update { state }
     }
 
     fun reset() {
-        _backDialogState.update { false }
+        _exitGameDialogState.update { false }
     }
 }

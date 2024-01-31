@@ -53,8 +53,8 @@ fun NavHost(
                     navController.popBackStack(route = "landingScreen", inclusive = false)
                 },
                 players = viewModel.playerList,
-                backDialogState = gameModel.backDialogState.collectAsState().value,
-                updateDialogState = gameModel::updateDialogState
+                exitGameDialogState = gameModel.exitGameDialogState.collectAsState().value,
+                updateExitGameDialogState = gameModel::updateExitGameDialogState
             )
         }
     }

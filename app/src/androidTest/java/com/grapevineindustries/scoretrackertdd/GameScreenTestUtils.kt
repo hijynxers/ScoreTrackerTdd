@@ -7,9 +7,12 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
+import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialogTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 
@@ -49,11 +52,33 @@ object GameScreenTestUtils {
             playerNameNodes[index].assertTextEquals(player.name)
             playerScoreNodes[index].assertTextEquals(player.score.toString())
         }
+    }
 
+    fun assertCalculatorShowing() {
+        composeTestRule.onNodeWithTag(CalcDialogTestTags.CALC_DIALOG)
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithTag(CalcDialogTestTags.OK)
+            .assertIsDisplayed()
+    }
+
+    fun assertCalculatorNotShowing() {
+        composeTestRule.onNodeWithTag(CalcDialogTestTags.CALC_DIALOG)
+            .assertDoesNotExist()
     }
 
     fun clickBack() {
         Espresso.pressBack()
+    }
+
+    fun clickFirstCalculatorButton() {
+        composeTestRule.onAllNodesWithTag(GameScreenTestTags.CALC_BUTTON)
+            .onFirst()
+            .performClick()
+    }
+
+    fun clickCalcDialogConfirmButton() {
+        composeTestRule.onNodeWithTag(CalcDialogTestTags.OK)
+            .performClick()
     }
 
     fun initPlayerList(viewModel: PlayersViewModel, playerNames: List<Player>) {

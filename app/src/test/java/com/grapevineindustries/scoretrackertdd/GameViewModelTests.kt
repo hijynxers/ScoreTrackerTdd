@@ -9,20 +9,20 @@ class GameViewModelTests {
     @Test
     fun alert_dialog_state_updates() {
         val vm = GameViewModel()
-        assertFalse(vm.backDialogState.value)
-        vm.updateDialogState(true)
-        assertTrue(vm.backDialogState.value)
-        vm.updateDialogState(false)
-        assertFalse(vm.backDialogState.value)
+        assertFalse(vm.exitGameDialogState.value)
+        vm.updateExitGameDialogState(true)
+        assertTrue(vm.exitGameDialogState.value)
+        vm.updateExitGameDialogState(false)
+        assertFalse(vm.exitGameDialogState.value)
     }
 
     @Test
     fun reset() {
         val vm = GameViewModel()
-        vm.updateDialogState(true)
-        assertTrue(vm.backDialogState.value)
+        vm.updateExitGameDialogState(true)
+        assertTrue(vm.exitGameDialogState.value)
 
         vm.reset()
-        assertFalse(vm.backDialogState.value)
+        assertFalse(vm.exitGameDialogState.value)
     }
 }
