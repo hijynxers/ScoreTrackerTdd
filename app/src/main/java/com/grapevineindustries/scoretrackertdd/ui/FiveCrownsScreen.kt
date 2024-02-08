@@ -40,7 +40,7 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun GameScreenPreview() {
+fun FiveCrownsScreenPreview() {
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
     ScoreTrackerTheme {
