@@ -2,14 +2,10 @@ package com.grapevineindustries.scoretrackertdd
 
 import android.content.Context
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.core.app.ApplicationProvider
-import com.grapevineindustries.scoretrackertdd.GameScreenTestUtils.assertWildCard
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.ui.GameScreen
-import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
+import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
@@ -20,7 +16,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class GameScreenUiTests {
+class FiveCrownsScreenUiTests {
     @JvmField
     @Rule
     val composeTestRule = createComposeRule()
@@ -36,13 +32,13 @@ class GameScreenUiTests {
 
     @Before
     fun setup() {
-        GameScreenTestUtils.setup(composeTestRule)
+        FiveCrownsScreenTestUtils.setup(composeTestRule)
         AlertDialogTestUtils.setup(composeTestRule)
         CalcDialogTestUtils.setup(composeTestRule)
 
         val playersViewModel = PlayersViewModel()
 
-        GameScreenTestUtils.initPlayerList(
+        FiveCrownsScreenTestUtils.initPlayerList(
             viewModel = playersViewModel,
             playerNames = initialPlayerData
         )
@@ -52,7 +48,7 @@ class GameScreenUiTests {
 
         composeTestRule.setContent {
             ScoreTrackerTheme {
-                GameScreen(
+                FiveCrownsScreen(
                     onCloseGame = { backNavigation = true },
                     players = playersViewModel.playerList,
                     exitGameDialogState = gameViewModel.exitGameDialogState.collectAsState().value,
@@ -70,11 +66,11 @@ class GameScreenUiTests {
 
     @Test
     fun back_press_chicken_test() {
-        GameScreenTestUtils.assertScreenShowing()
+        FiveCrownsScreenTestUtils.assertScreenShowing()
         assertFalse(backNavigation)
 
         // verify confirm button doesn't navigate
-        GameScreenTestUtils.clickBack()
+        FiveCrownsScreenTestUtils.clickBack()
         AlertDialogTestUtils.assertShowing(
             title = context.getString(R.string.leave_game),
             text = context.getString(R.string.lose_game_progress),
@@ -86,8 +82,8 @@ class GameScreenUiTests {
         assertFalse(backNavigation)
 
         // verify dismiss button does navigate
-        GameScreenTestUtils.assertScreenShowing()
-        GameScreenTestUtils.clickBack()
+        FiveCrownsScreenTestUtils.assertScreenShowing()
+        FiveCrownsScreenTestUtils.clickBack()
         AlertDialogTestUtils.assertShowing(
             title = context.getString(R.string.leave_game),
             text = context.getString(R.string.lose_game_progress),
@@ -101,60 +97,60 @@ class GameScreenUiTests {
 
     @Test
     fun player_list_shows_correct_data() {
-        GameScreenTestUtils.assertScreenShowing()
+        FiveCrownsScreenTestUtils.assertScreenShowing()
 
-        GameScreenTestUtils.assertPlayerData(initialPlayerData)
+        FiveCrownsScreenTestUtils.assertPlayerData(initialPlayerData)
     }
 
     @Test
     fun add_score() {
-        GameScreenTestUtils.assertScreenShowing()
-        GameScreenTestUtils.clickFirstCalculatorButton()
+        FiveCrownsScreenTestUtils.assertScreenShowing()
+        FiveCrownsScreenTestUtils.clickFirstCalculatorButton()
 
-        GameScreenTestUtils.assertCalculatorShowing()
+        FiveCrownsScreenTestUtils.assertCalculatorShowing()
 
         CalcDialogTestUtils.clickButton("K")
 
         CalcDialogTestUtils.clickConfirmButton()
-        GameScreenTestUtils.assertCalculatorNotShowing()
+        FiveCrownsScreenTestUtils.assertCalculatorNotShowing()
         var expectedPlayerData = listOf(
             Player("player1", 3, 13),
             Player("player2", 15),
             Player("player3", 183),
         )
-        GameScreenTestUtils.assertPlayerData(expectedPlayerData)
+        FiveCrownsScreenTestUtils.assertPlayerData(expectedPlayerData)
 
-        GameScreenTestUtils.clickTallyButton()
-        composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
-            .assertTextEquals(context.getString(R.string.wildcard, "4"))
+        FiveCrownsScreenTestUtils.clickTallyButton()
+        FiveCrownsScreenTestUtils.assertWildCard("4")
+
         expectedPlayerData = listOf(
             Player("player1", 16),
             Player("player2", 15),
             Player("player3", 183),
         )
-        GameScreenTestUtils.assertPlayerData(expectedPlayerData)
+        FiveCrownsScreenTestUtils.assertPlayerData(expectedPlayerData)
     }
 
     @Test
     fun calc_dialog_cancel_does_not_add_points() {
-        GameScreenTestUtils.assertScreenShowing()
-        GameScreenTestUtils.clickFirstCalculatorButton()
-        GameScreenTestUtils.assertCalculatorShowing()
+        FiveCrownsScreenTestUtils.assertScreenShowing()
+        FiveCrownsScreenTestUtils.clickFirstCalculatorButton()
+        FiveCrownsScreenTestUtils.assertCalculatorShowing()
         CalcDialogTestUtils.clickButton("K")
 
         CalcDialogTestUtils.clickCancelButton()
 
-        GameScreenTestUtils.assertCalculatorNotShowing()
-        GameScreenTestUtils.assertPlayerData(initialPlayerData)
+        FiveCrownsScreenTestUtils.assertCalculatorNotShowing()
+        FiveCrownsScreenTestUtils.assertPlayerData(initialPlayerData)
     }
 
     @Test
     fun wildcard_displays_correctly() {
-        GameScreenTestUtils.assertScreenShowing()
+        FiveCrownsScreenTestUtils.assertScreenShowing()
 
         for (i in 4..13) {
-            GameScreenTestUtils.clickTallyButton()
-            assertWildCard(context.getString(R.string.wildcard, convertWildCard(i)))
+            FiveCrownsScreenTestUtils.clickTallyButton()
+            FiveCrownsScreenTestUtils.assertWildCard(convertWildCard(i))
         }
     }
 }

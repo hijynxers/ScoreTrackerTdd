@@ -10,7 +10,7 @@
     <string name="lose_game_progress">If you leave you will lose game progress.</string>
     <string name="stay">Stay</string>
     <string name="exit">Exit</string>
-    <string name="wildcard">WILD CARD: %s</string>
+    <string name="wildcard">WILD CARD:</string>
     <string name="tally">Tally</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

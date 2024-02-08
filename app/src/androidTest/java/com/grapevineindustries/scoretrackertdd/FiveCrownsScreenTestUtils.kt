@@ -11,12 +11,12 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso
-import com.grapevineindustries.scoretrackertdd.ui.GameScreenTestTags
+import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialogTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 
-object GameScreenTestUtils {
+object FiveCrownsScreenTestUtils {
     private lateinit var composeTestRule: ComposeTestRule
 
     fun setup(rule: ComposeTestRule) {
@@ -26,27 +26,27 @@ object GameScreenTestUtils {
     fun assertScreenShowing(
         numPlayers: Int = FiveCrownsConstants.DEFAULT_NUM_PLAYERS
     ) {
-        composeTestRule.onNodeWithTag(GameScreenTestTags.GAME_SCREEN)
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.SCREEN)
             .assertIsDisplayed()
 
-        composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.WILD_CARD)
             .assertIsDisplayed()
-            .assertTextEquals("WILD CARD: ${FiveCrownsConstants.INITIAL_WILD_CARD}")
+            .assertTextEquals(FiveCrownsConstants.INITIAL_WILD_CARD.toString())
 
-        composeTestRule.onNodeWithTag(GameScreenTestTags.PLAYER_COLUMN)
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.PLAYER_COLUMN)
             .assertIsDisplayed()
             .onChildren()
             .assertCountEquals(numPlayers)
 
-        composeTestRule.onNodeWithTag(GameScreenTestTags.TALLY_BUTTON)
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
             .assertIsDisplayed()
             .assertHasClickAction()
             .assertTextEquals("Tally")
     }
 
     fun assertPlayerData(playerData: List<Player>) {
-        val playerNameNodes = composeTestRule.onAllNodesWithTag(GameScreenTestTags.PLAYER_NAME)
-        val playerScoreNodes = composeTestRule.onAllNodesWithTag(GameScreenTestTags.PLAYER_SCORE)
+        val playerNameNodes = composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.PLAYER_NAME)
+        val playerScoreNodes = composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.PLAYER_SCORE)
 
         playerData.forEachIndexed { index, player ->
             playerNameNodes[index].assertTextEquals(player.name)
@@ -67,7 +67,7 @@ object GameScreenTestUtils {
     }
 
     fun assertWildCard(expected: String) {
-        composeTestRule.onNodeWithTag(GameScreenTestTags.WILD_CARD)
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.WILD_CARD)
             .assertIsDisplayed()
             .assertTextEquals(expected)
     }
@@ -77,13 +77,13 @@ object GameScreenTestUtils {
     }
 
     fun clickFirstCalculatorButton() {
-        composeTestRule.onAllNodesWithTag(GameScreenTestTags.CALC_BUTTON)
+        composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.CALC_BUTTON)
             .onFirst()
             .performClick()
     }
 
     fun clickTallyButton() {
-        composeTestRule.onNodeWithTag(GameScreenTestTags.TALLY_BUTTON)
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
             .performClick()
     }
 

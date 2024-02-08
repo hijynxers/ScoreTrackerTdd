@@ -11,7 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
-import com.grapevineindustries.scoretrackertdd.ui.GameScreen
+import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 
@@ -51,7 +51,7 @@ fun NavHost(
         composable("gameScreen") {
             val gameModel = remember { GameViewModel() }
 
-            GameScreen(
+            FiveCrownsScreen(
                 onCloseGame = {
                     viewModel.reset()
                     gameModel.reset()

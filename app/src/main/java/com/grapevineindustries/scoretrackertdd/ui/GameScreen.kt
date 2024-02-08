@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.grapevineindustries.scoretrackertdd.R
@@ -41,7 +43,7 @@ fun GameScreenPreview() {
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
     ScoreTrackerTheme {
-        GameScreenContent(
+        FiveCrownsScreenContent(
             players = listOf(
                 Player("player 1", 0),
                 Player("player 2", 12),
@@ -50,14 +52,14 @@ fun GameScreenPreview() {
             showCalcDialog = {},
             tallyPoints = {},
             lastClickedIndex = lastClickedIndex,
-            wildCard = 5,
+            wildCard = 3,
         )
     }
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GameScreen(
+fun FiveCrownsScreen(
     onCloseGame: () -> Unit,
     updateExitGameDialogState: (Boolean) -> Unit,
     updatePotentialPoints: (Int, Int) -> Unit,
@@ -89,7 +91,7 @@ fun GameScreen(
         }
     )
 
-    GameScreenContent(
+    FiveCrownsScreenContent(
         players = players,
         showCalcDialog = { calcDialogState.value = true },
         tallyPoints = tallyPoints,
@@ -110,7 +112,7 @@ fun GameScreen(
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GameScreenContent(
+fun FiveCrownsScreenContent(
     showCalcDialog: () -> Unit,
     tallyPoints: () -> Unit,
     players: List<Player>,
@@ -118,19 +120,35 @@ fun GameScreenContent(
     wildCard: Int
 ) {
     Scaffold(
-        modifier = Modifier.testTag(GameScreenTestTags.GAME_SCREEN),
+        modifier = Modifier.testTag(FiveCrownsScreenTestTags.SCREEN),
         content = {
             Column(
                 modifier = Modifier.padding(all = Dimen.padding_standard)
             ) {
-                Text(
-                    modifier = Modifier.testTag(GameScreenTestTags.WILD_CARD),
-                    text = stringResource(id = R.string.wildcard, convertWildCard(wildCard))
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.wildcard),
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        modifier = Modifier.testTag(FiveCrownsScreenTestTags.WILD_CARD),
+                        text = convertWildCard(wildCard),
+                        style = MaterialTheme.typography.displayMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+
 
                 LazyColumn(
                     modifier = Modifier
-                        .testTag(GameScreenTestTags.PLAYER_COLUMN)
+                        .testTag(FiveCrownsScreenTestTags.PLAYER_COLUMN)
                         .fillMaxWidth()
                         .weight(1f),
                     content = {
@@ -148,18 +166,18 @@ fun GameScreenContent(
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Text(
-                                            modifier = Modifier.testTag(GameScreenTestTags.PLAYER_NAME),
+                                            modifier = Modifier.testTag(FiveCrownsScreenTestTags.PLAYER_NAME),
                                             text = player.name
                                         )
                                         Spacer(modifier = Modifier.weight(1f))
                                         Text(
-                                            modifier = Modifier.testTag(GameScreenTestTags.PLAYER_SCORE),
+                                            modifier = Modifier.testTag(FiveCrownsScreenTestTags.PLAYER_SCORE),
                                             text = player.score.toString(),
                                         )
                                         Spacer(modifier = Modifier.width(8.dp))
 
                                         Button(
-                                            modifier = Modifier.testTag(GameScreenTestTags.CALC_BUTTON),
+                                            modifier = Modifier.testTag(FiveCrownsScreenTestTags.CALC_BUTTON),
                                             onClick = {
                                                 lastClickedIndex.intValue = index
                                                 showCalcDialog()
@@ -176,7 +194,7 @@ fun GameScreenContent(
 
                 Button(
                     modifier = Modifier
-                        .testTag(GameScreenTestTags.TALLY_BUTTON)
+                        .testTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
                         .fillMaxWidth(),
                     onClick = {
                         tallyPoints()
@@ -191,12 +209,12 @@ fun GameScreenContent(
     )
 }
 
-object GameScreenTestTags {
-    const val GAME_SCREEN = "GAME_SCREEN"
-    const val PLAYER_COLUMN = "GAME_PLAYER_COLUMN"
-    const val WILD_CARD = "WILD_CARD"
-    const val TALLY_BUTTON = "TALLY_BUTTON"
-    const val PLAYER_NAME = "PLAYER_CARD_PLAYER_NAME"
-    const val PLAYER_SCORE = "PLAYER_CARD_PLAYER_SCORE"
-    const val CALC_BUTTON = "GAME_SCREEN_CALC_BUTTON"
+object FiveCrownsScreenTestTags {
+    const val SCREEN = "FIVE_CROWNS_SCREEN"
+    const val PLAYER_COLUMN = "FIVE_CROWNS_PLAYER_COLUMN"
+    const val WILD_CARD = "FIVE_CROWNS_WILD_CARD"
+    const val TALLY_BUTTON = "FIVE_CROWNS_TALLY_BUTTON"
+    const val PLAYER_NAME = "FIVE_CROWNS_PLAYER_CARD_PLAYER_NAME"
+    const val PLAYER_SCORE = "FIVE_CROWNS_PLAYER_CARD_PLAYER_SCORE"
+    const val CALC_BUTTON = "-FIVE_CROWNS_SCREEN_CALC_BUTTON"
 }
