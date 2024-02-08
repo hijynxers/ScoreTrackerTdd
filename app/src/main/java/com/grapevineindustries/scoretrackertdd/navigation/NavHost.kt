@@ -13,7 +13,7 @@ import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
-import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 
 @Composable
 fun NavHost(
@@ -49,27 +49,27 @@ fun NavHost(
             )
         }
         composable("gameScreen") {
-            val gameModel = remember { GameViewModel() }
+            val fiveCrownsViewModel = remember { FiveCrownsViewModel() }
 
             FiveCrownsScreen(
                 onCloseGame = {
                     viewModel.reset()
-                    gameModel.reset()
+                    fiveCrownsViewModel.reset()
                     navController.popBackStack(route = "landingScreen", inclusive = false)
                 },
                 players = viewModel.playerList,
-                exitGameDialogState = gameModel.exitGameDialogState.collectAsState().value,
-                updateExitGameDialogState = gameModel::updateExitGameDialogState,
+                exitGameDialogState = fiveCrownsViewModel.exitGameDialogState.collectAsState().value,
+                updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
                 updatePotentialPoints = viewModel::setPotentialPoints,
                 tallyPoints = {
                     viewModel.tallyPoints()
-                    if (gameModel.wildCard.value == 13) {
+                    if (fiveCrownsViewModel.wildCard.value == 13) {
                         navController.navigate("finalScoresScreen")
                     } else {
-                        gameModel.incrementWildCard()
+                        fiveCrownsViewModel.incrementWildCard()
                     }
                 },
-                wildCard = gameModel.wildCard.collectAsState().value
+                wildCard = fiveCrownsViewModel.wildCard.collectAsState().value
             )
         }
         composable("finalScoresScreen") {

@@ -7,7 +7,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
-import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
 import junit.framework.TestCase.assertFalse
@@ -43,7 +43,7 @@ class FiveCrownsScreenUiTests {
             playerNames = initialPlayerData
         )
 
-        val gameViewModel = GameViewModel()
+        val fiveCrownsViewModel = FiveCrownsViewModel()
         backNavigation = false
 
         composeTestRule.setContent {
@@ -51,14 +51,14 @@ class FiveCrownsScreenUiTests {
                 FiveCrownsScreen(
                     onCloseGame = { backNavigation = true },
                     players = playersViewModel.playerList,
-                    exitGameDialogState = gameViewModel.exitGameDialogState.collectAsState().value,
-                    updateExitGameDialogState = gameViewModel::updateExitGameDialogState,
+                    exitGameDialogState = fiveCrownsViewModel.exitGameDialogState.collectAsState().value,
+                    updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
                     updatePotentialPoints = playersViewModel::setPotentialPoints,
                     tallyPoints = {
                         playersViewModel.tallyPoints()
-                        gameViewModel.incrementWildCard()
+                        fiveCrownsViewModel.incrementWildCard()
                     },
-                    wildCard = gameViewModel.wildCard.collectAsState().value
+                    wildCard = fiveCrownsViewModel.wildCard.collectAsState().value
                 )
             }
         }

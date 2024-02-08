@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class GameViewModel {
+class FiveCrownsViewModel {
     private val _exitGameDialogState = MutableStateFlow(false)
     val exitGameDialogState: StateFlow<Boolean> = _exitGameDialogState
     private val _wildCard = MutableStateFlow(3)
@@ -20,5 +20,6 @@ class GameViewModel {
 
     fun reset() {
         _exitGameDialogState.update { false }
+        _wildCard.update { 3 }
     }
 }
