@@ -1,6 +1,7 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
 import android.annotation.SuppressLint
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,7 @@ import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertD
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun GameScreenPreview() {
     val lastClickedIndex = remember { mutableIntStateOf(-1) }

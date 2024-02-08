@@ -1,5 +1,6 @@
 package com.grapevineindustries.scoretrackertdd
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,7 +18,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun MainScreen() {
     ScoreTrackerTheme {
