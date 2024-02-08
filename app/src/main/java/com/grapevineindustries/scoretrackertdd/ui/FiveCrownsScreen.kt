@@ -3,17 +3,14 @@ package com.grapevineindustries.scoretrackertdd.ui
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,6 +31,7 @@ import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialog
+import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
@@ -127,7 +125,8 @@ fun FiveCrownsScreenContent(
                 modifier = Modifier.padding(all = Dimen.padding_standard)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(bottom = 8.dp),
                     verticalAlignment = Alignment.Bottom
                 ) {
@@ -154,39 +153,11 @@ fun FiveCrownsScreenContent(
                         .weight(1f),
                     content = {
                         itemsIndexed(players) { index, player ->
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 4.dp),
-                                content = {
-                                    Row(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(vertical = 8.dp, horizontal = 8.dp),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Text(
-                                            modifier = Modifier.testTag(FiveCrownsScreenTestTags.PLAYER_NAME),
-                                            text = player.name
-                                        )
-                                        Spacer(modifier = Modifier.weight(1f))
-                                        Text(
-                                            modifier = Modifier.testTag(FiveCrownsScreenTestTags.PLAYER_SCORE),
-                                            text = player.score.toString(),
-                                        )
-                                        Spacer(modifier = Modifier.width(8.dp))
-
-                                        Button(
-                                            modifier = Modifier.testTag(FiveCrownsScreenTestTags.CALC_BUTTON),
-                                            onClick = {
-                                                lastClickedIndex.intValue = index
-                                                showCalcDialog()
-                                            }
-                                        ) {
-                                            Text(text = player.pendingPoints.toString())
-                                        }
-                                    }
+                            PlayerDataCard(
+                                player = player,
+                                onClick = {
+                                    lastClickedIndex.intValue = index
+                                    showCalcDialog()
                                 }
                             )
                         }
