@@ -52,6 +52,7 @@ fun FiveCrownsScreenPreview() {
             tallyPoints = {},
             lastClickedIndex = lastClickedIndex,
             wildCard = 3,
+            dealerIndex = 0
         )
     }
 }
@@ -65,7 +66,8 @@ fun FiveCrownsScreen(
     tallyPoints: () -> Unit,
     players: SnapshotStateList<Player>,
     exitGameDialogState: Boolean,
-    wildCard: Int
+    wildCard: Int,
+    dealerIndex: Int
 ) {
     val calcDialogState = remember { mutableStateOf(false) }
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
@@ -95,7 +97,8 @@ fun FiveCrownsScreen(
         showCalcDialog = { calcDialogState.value = true },
         tallyPoints = tallyPoints,
         lastClickedIndex = lastClickedIndex,
-        wildCard = wildCard
+        wildCard = wildCard,
+        dealerIndex = dealerIndex
     )
 
     if (calcDialogState.value) {
@@ -116,7 +119,8 @@ fun FiveCrownsScreenContent(
     tallyPoints: () -> Unit,
     players: List<Player>,
     lastClickedIndex: MutableIntState,
-    wildCard: Int
+    wildCard: Int,
+    dealerIndex: Int
 ) {
     Scaffold(
         modifier = Modifier.testTag(FiveCrownsScreenTestTags.SCREEN),
@@ -158,7 +162,8 @@ fun FiveCrownsScreenContent(
                                 onClick = {
                                     lastClickedIndex.intValue = index
                                     showCalcDialog()
-                                }
+                                },
+                                isDealer =  (dealerIndex % players.size == index)
                             )
                         }
                     }

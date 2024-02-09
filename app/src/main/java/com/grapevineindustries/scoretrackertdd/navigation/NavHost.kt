@@ -63,13 +63,15 @@ fun NavHost(
                 updatePotentialPoints = viewModel::setPotentialPoints,
                 tallyPoints = {
                     viewModel.tallyPoints()
-                    if (fiveCrownsViewModel.wildCard.value == 13) {
+                    if (fiveCrownsViewModel.endgameCondition()) {
                         navController.navigate("finalScoresScreen")
                     } else {
                         fiveCrownsViewModel.incrementWildCard()
+                        fiveCrownsViewModel.incrementDealer()
                     }
                 },
-                wildCard = fiveCrownsViewModel.wildCard.collectAsState().value
+                wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
+                dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
             )
         }
         composable("finalScoresScreen") {
@@ -81,7 +83,7 @@ fun NavHost(
                 },
                 onReplayClick = {
                     viewModel.resetScores()
-                    navController.popBackStack(route = "gameScreen", inclusive = false)
+                    navController.navigateUp()
                 }
             )
         }

@@ -25,15 +25,36 @@ class FiveCrownsViewModelTests {
     }
 
     @Test
+    fun increment_dealer() {
+        val vm = FiveCrownsViewModel()
+        assert(0 == vm.dealer.value)
+        vm.incrementDealer()
+        assert(1 == vm.dealer.value)
+    }
+
+    @Test
+    fun endgame() {
+        val vm = FiveCrownsViewModel()
+        assertFalse(vm.endgameCondition())
+        while (vm.wildCard.value != 13) {
+            vm.incrementWildCard()
+        }
+        assertTrue(vm.endgameCondition())
+    }
+
+    @Test
     fun reset() {
         val vm = FiveCrownsViewModel()
         vm.updateExitGameDialogState(true)
         vm.incrementWildCard()
+        vm.incrementDealer()
         assertTrue(vm.exitGameDialogState.value)
         assert(vm.wildCard.value == 4)
+        assert(vm.dealer.value == 1)
 
         vm.reset()
         assertFalse(vm.exitGameDialogState.value)
         assert(vm.wildCard.value == 3)
+        assert(vm.dealer.value == 1)
     }
 }

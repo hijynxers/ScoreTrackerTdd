@@ -58,7 +58,8 @@ class FiveCrownsScreenUiTests {
                         playersViewModel.tallyPoints()
                         fiveCrownsViewModel.incrementWildCard()
                     },
-                    wildCard = fiveCrownsViewModel.wildCard.collectAsState().value
+                    wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
+                    dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
                 )
             }
         }
