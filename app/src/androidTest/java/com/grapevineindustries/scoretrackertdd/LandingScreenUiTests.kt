@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,7 +16,7 @@ class LandingScreenUiTests {
     @Rule
     val composeTestRule = createComposeRule()
 
-    val viewModel = PlayersViewModel()
+    private val viewModel = ScoreTrackerViewModel()
 
     @Before
     fun setup() {

@@ -2,7 +2,7 @@ package com.grapevineindustries.scoretrackertdd.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 
-class PlayersViewModel {
+class ScoreTrackerViewModel {
     var playerList = mutableStateListOf<Player>()
 
     fun createPlayersList(numPlayers: Int) {

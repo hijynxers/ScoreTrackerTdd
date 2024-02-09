@@ -2,7 +2,7 @@ package com.grapevineindustries.scoretrackertdd
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import org.junit.Before
@@ -14,7 +14,7 @@ class AddPlayersUiTests {
     @Rule
     val composeTestRule = createComposeRule()
 
-    private val viewModel = PlayersViewModel()
+    private val viewModel = ScoreTrackerViewModel()
     private val startGameButtonClicked = MutableStateFlow(false)
 
     @Before

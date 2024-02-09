@@ -9,7 +9,7 @@ import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
@@ -36,7 +36,7 @@ class FiveCrownsScreenUiTests {
         AlertDialogTestUtils.setup(composeTestRule)
         CalcDialogTestUtils.setup(composeTestRule)
 
-        val playersViewModel = PlayersViewModel()
+        val playersViewModel = ScoreTrackerViewModel()
 
         FiveCrownsScreenTestUtils.initPlayerList(
             viewModel = playersViewModel,

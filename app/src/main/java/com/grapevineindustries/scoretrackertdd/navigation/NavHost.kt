@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
@@ -19,27 +19,27 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "landingScreen",
-    viewModel: PlayersViewModel = PlayersViewModel()
+    startDestination: String = NavHostRoutesEnum.LandingScreen.name,
+    viewModel: ScoreTrackerViewModel = ScoreTrackerViewModel()
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable("landingScreen") {
+        composable(NavHostRoutesEnum.LandingScreen.name) {
             LandingScreen(
                 onAddPlayersClick = { numPlayers ->
                     viewModel.createPlayersList(numPlayers)
-                    navController.navigate("addPlayersScreen")
+                    navController.navigate(NavHostRoutesEnum.AddPlayersScreen.name)
                 }
             )
         }
-        composable("addPlayersScreen") {
+        composable(NavHostRoutesEnum.AddPlayersScreen.name) {
             AddPlayersScreen(
                 updatePlayerName = viewModel::setName,
                 onStatGameClicked = {
-                    navController.navigate("gameScreen")
+                    navController.navigate(NavHostRoutesEnum.GameScreen.name)
                 },
                 onBackPress = {
                     viewModel.reset()
@@ -48,14 +48,14 @@ fun NavHost(
                 players = viewModel.playerList,
             )
         }
-        composable("gameScreen") {
+        composable(NavHostRoutesEnum.GameScreen.name) {
             val fiveCrownsViewModel = remember { FiveCrownsViewModel() }
 
             FiveCrownsScreen(
                 onCloseGame = {
                     viewModel.reset()
                     fiveCrownsViewModel.reset()
-                    navController.popBackStack(route = "landingScreen", inclusive = false)
+                    navController.popBackStack(route = NavHostRoutesEnum.LandingScreen.name, inclusive = false)
                 },
                 players = viewModel.playerList,
                 exitGameDialogState = fiveCrownsViewModel.exitGameDialogState.collectAsState().value,
@@ -64,7 +64,7 @@ fun NavHost(
                 tallyPoints = {
                     viewModel.tallyPoints()
                     if (fiveCrownsViewModel.endgameCondition()) {
-                        navController.navigate("finalScoresScreen")
+                        navController.navigate(NavHostRoutesEnum.FinalScoresScreen.name)
                     } else {
                         fiveCrownsViewModel.incrementWildCard()
                         fiveCrownsViewModel.incrementDealer()
@@ -74,18 +74,28 @@ fun NavHost(
                 dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
             )
         }
-        composable("finalScoresScreen") {
+        composable(NavHostRoutesEnum.FinalScoresScreen.name) {
             FinalScoreScreen(
                 playerData = viewModel.sortedPlayers(),
                 onNewGameClick = {
                     viewModel.reset()
-                    navController.popBackStack(route = "landingScreen", inclusive = false)
+                    navController.popBackStack(route = NavHostRoutesEnum.LandingScreen.name, inclusive = false)
                 },
                 onReplayClick = {
                     viewModel.resetScores()
-                    navController.navigateUp()
+                    navController.popBackStack(
+                        route = NavHostRoutesEnum.GameScreen.name,
+                        inclusive = false
+                    )
                 }
             )
         }
     }
+}
+
+enum class NavHostRoutesEnum {
+    LandingScreen,
+    AddPlayersScreen,
+    GameScreen,
+    FinalScoresScreen
 }

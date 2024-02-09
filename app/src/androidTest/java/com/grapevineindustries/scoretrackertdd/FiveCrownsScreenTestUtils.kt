@@ -14,7 +14,7 @@ import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialogTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayersViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 
 object FiveCrownsScreenTestUtils {
     private lateinit var composeTestRule: ComposeTestRule
@@ -87,7 +87,7 @@ object FiveCrownsScreenTestUtils {
             .performClick()
     }
 
-    fun initPlayerList(viewModel: PlayersViewModel, playerNames: List<Player>) {
+    fun initPlayerList(viewModel: ScoreTrackerViewModel, playerNames: List<Player>) {
         viewModel.createPlayersList(playerNames.size)
         playerNames.forEachIndexed { index, player ->
             viewModel.setName(index, player.name)
