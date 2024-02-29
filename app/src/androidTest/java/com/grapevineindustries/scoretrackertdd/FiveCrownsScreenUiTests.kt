@@ -44,6 +44,7 @@ class FiveCrownsScreenUiTests {
         )
 
         val fiveCrownsViewModel = FiveCrownsViewModel()
+        val scoreTrackerViewModel = ScoreTrackerViewModel()
         backNavigation = false
 
         composeTestRule.setContent {
@@ -59,7 +60,7 @@ class FiveCrownsScreenUiTests {
                         fiveCrownsViewModel.incrementWildCard()
                     },
                     wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
-                    dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
+                    dealerIndex = scoreTrackerViewModel.dealer.collectAsState().value
                 )
             }
         }

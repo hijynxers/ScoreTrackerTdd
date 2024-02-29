@@ -39,7 +39,8 @@ fun CalcDialogPreview() {
     ScoreTrackerTheme {
         CalcDialog(
             closeWithPoints = {},
-            cancelDialog = {}
+            cancelDialog = {},
+            wildCard = 3
         )
     }
 }
@@ -49,7 +50,8 @@ private val numbers = listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50)
 @Composable
 fun CalcDialog(
     closeWithPoints: (Int) -> Unit,
-    cancelDialog: () -> Unit
+    cancelDialog: () -> Unit,
+    wildCard: Int
 ) {
     val sum = remember { mutableIntStateOf(0) }
     val factors = remember { mutableStateOf("") }
@@ -91,8 +93,13 @@ fun CalcDialog(
                                     .testTag(CalcDialogTestTags.BUTTON + convertedElement)
                                     .padding(4.dp),
                                 onClick = {
-                                    sum.intValue = sum.intValue + element
-                                    factors.value = factors.value + "  $convertedElement"
+                                    if (convertWildCard(wildCard) == convertedElement) {
+                                        sum.intValue = sum.intValue + 20
+                                        factors.value = factors.value + " *$convertedElement"
+                                    } else {
+                                        sum.intValue = sum.intValue + element
+                                        factors.value = factors.value + "  $convertedElement"
+                                    }
                                 }
                             ) {
                                 Text(

@@ -60,6 +60,4 @@ object CalcDialogTestUtils {
         composeTestRule.onNodeWithTag(CalcDialogTestTags.BUTTON + buttonNum)
             .performClick()
     }
-
-
 }

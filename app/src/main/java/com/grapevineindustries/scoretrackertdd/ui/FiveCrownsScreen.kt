@@ -107,7 +107,8 @@ fun FiveCrownsScreen(
                 updatePotentialPoints(lastClickedIndex.intValue, points)
                 calcDialogState.value = false
             },
-            cancelDialog = { calcDialogState.value = false }
+            cancelDialog = { calcDialogState.value = false },
+            wildCard = wildCard
         )
     }
 }

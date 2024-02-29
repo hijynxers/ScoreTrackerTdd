@@ -14,19 +14,40 @@ class CalcDialogUiTests {
 
     @Before
     fun setup() {
-        composeTestRule.setContent {
-            ScoreTrackerTheme {
-                CalcDialog(
-                    closeWithPoints = {},
-                    cancelDialog = {}
-                )
-            }
-        }
         CalcDialogTestUtils.setup(composeTestRule)
     }
 
     @Test
-    fun clicking_buttons_add_to_score() {
+    fun clicking_buttons_add_K_to_score() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                CalcDialog(
+                    closeWithPoints = {},
+                    cancelDialog = {},
+                    wildCard = 3
+                )
+            }
+        }
+
+        CalcDialogTestUtils.assertShowing()
+
+        CalcDialogTestUtils.clickButton("K")
+        CalcDialogTestUtils.assertSum("13")
+        CalcDialogTestUtils.assertFactors("  K")
+    }
+
+    @Test
+    fun clicking_buttons_add_to_score_K_wild() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                CalcDialog(
+                    closeWithPoints = {},
+                    cancelDialog = {},
+                    wildCard = 13
+                )
+            }
+        }
+
         CalcDialogTestUtils.assertShowing()
 
         CalcDialogTestUtils.clickButton("3")
@@ -70,11 +91,11 @@ class CalcDialogUiTests {
         CalcDialogTestUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q")
 
         CalcDialogTestUtils.clickButton("K")
-        CalcDialogTestUtils.assertSum("88")
-        CalcDialogTestUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q  K")
+        CalcDialogTestUtils.assertSum("95")
+        CalcDialogTestUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q *K")
 
         CalcDialogTestUtils.clickButton("JOKE")
-        CalcDialogTestUtils.assertSum("138")
-        CalcDialogTestUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q  K  JOKE")
+        CalcDialogTestUtils.assertSum("145")
+        CalcDialogTestUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q *K  JOKE")
     }
 }
