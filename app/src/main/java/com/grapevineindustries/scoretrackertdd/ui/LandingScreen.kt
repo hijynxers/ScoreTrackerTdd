@@ -29,7 +29,9 @@ import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun LandingPreview() {
-    LandingScreen(onAddPlayersClick = {})
+    LandingScreen(
+        onAddPlayersClick = {}
+    )
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

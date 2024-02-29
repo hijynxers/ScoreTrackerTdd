@@ -20,7 +20,7 @@ fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = NavHostRoutesEnum.LandingScreen.name,
-    viewModel: ScoreTrackerViewModel = ScoreTrackerViewModel()
+    scoreTrackerViewModel: ScoreTrackerViewModel = ScoreTrackerViewModel()
 ) {
     NavHost(
         modifier = modifier,
@@ -30,22 +30,22 @@ fun NavHost(
         composable(NavHostRoutesEnum.LandingScreen.name) {
             LandingScreen(
                 onAddPlayersClick = { numPlayers ->
-                    viewModel.createPlayersList(numPlayers)
+                    scoreTrackerViewModel.createPlayersList(numPlayers)
                     navController.navigate(NavHostRoutesEnum.AddPlayersScreen.name)
                 }
             )
         }
         composable(NavHostRoutesEnum.AddPlayersScreen.name) {
             AddPlayersScreen(
-                updatePlayerName = viewModel::setName,
+                updatePlayerName = scoreTrackerViewModel::setName,
                 onStatGameClicked = {
                     navController.navigate(NavHostRoutesEnum.GameScreen.name)
                 },
                 onBackPress = {
-                    viewModel.reset()
+                    scoreTrackerViewModel.reset()
                     navController.navigateUp()
                 },
-                players = viewModel.playerList,
+                players = scoreTrackerViewModel.playerList,
             )
         }
         composable(NavHostRoutesEnum.GameScreen.name) {
@@ -53,36 +53,36 @@ fun NavHost(
 
             FiveCrownsScreen(
                 onCloseGame = {
-                    viewModel.reset()
+                    scoreTrackerViewModel.reset()
                     fiveCrownsViewModel.reset()
                     navController.popBackStack(route = NavHostRoutesEnum.LandingScreen.name, inclusive = false)
                 },
-                players = viewModel.playerList,
+                players = scoreTrackerViewModel.playerList,
                 exitGameDialogState = fiveCrownsViewModel.exitGameDialogState.collectAsState().value,
                 updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
-                updatePotentialPoints = viewModel::setPotentialPoints,
+                updatePotentialPoints = scoreTrackerViewModel::setPotentialPoints,
                 tallyPoints = {
-                    viewModel.tallyPoints()
+                    scoreTrackerViewModel.tallyPoints()
                     if (fiveCrownsViewModel.endgameCondition()) {
                         navController.navigate(NavHostRoutesEnum.FinalScoresScreen.name)
                     } else {
                         fiveCrownsViewModel.incrementWildCard()
-                        viewModel.incrementDealer()
+                        scoreTrackerViewModel.incrementDealer()
                     }
                 },
                 wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
-                dealerIndex = viewModel.dealer.collectAsState().value
+                dealerIndex = scoreTrackerViewModel.dealer.collectAsState().value
             )
         }
         composable(NavHostRoutesEnum.FinalScoresScreen.name) {
             FinalScoreScreen(
-                playerData = viewModel.sortedPlayers(),
+                playerData = scoreTrackerViewModel.sortedPlayers(),
                 onNewGameClick = {
-                    viewModel.reset()
+                    scoreTrackerViewModel.reset()
                     navController.popBackStack(route = NavHostRoutesEnum.LandingScreen.name, inclusive = false)
                 },
                 onReplayClick = {
-                    viewModel.resetScores()
+                    scoreTrackerViewModel.resetScores()
                     navController.popBackStack(
                         route = NavHostRoutesEnum.GameScreen.name,
                         inclusive = false
