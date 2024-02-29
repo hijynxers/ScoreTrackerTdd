@@ -67,11 +67,11 @@ fun NavHost(
                         navController.navigate(NavHostRoutesEnum.FinalScoresScreen.name)
                     } else {
                         fiveCrownsViewModel.incrementWildCard()
-                        fiveCrownsViewModel.incrementDealer()
+                        viewModel.incrementDealer()
                     }
                 },
                 wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
-                dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
+                dealerIndex = viewModel.dealer.collectAsState().value
             )
         }
         composable(NavHostRoutesEnum.FinalScoresScreen.name) {

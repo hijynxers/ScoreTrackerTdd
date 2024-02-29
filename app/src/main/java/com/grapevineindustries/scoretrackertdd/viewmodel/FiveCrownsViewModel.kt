@@ -9,8 +9,6 @@ class FiveCrownsViewModel {
     val exitGameDialogState: StateFlow<Boolean> = _exitGameDialogState
     private val _wildCard = MutableStateFlow(3)
     val wildCard: StateFlow<Int> = _wildCard
-    private val _dealer = MutableStateFlow(0)
-    val dealer: StateFlow<Int> = _dealer
 
     fun updateExitGameDialogState(state: Boolean) {
         _exitGameDialogState.update { state }
@@ -18,10 +16,6 @@ class FiveCrownsViewModel {
 
     fun incrementWildCard() {
         _wildCard.update { _wildCard.value + 1 }
-    }
-
-    fun incrementDealer() {
-        _dealer.update { _dealer.value + 1 }
     }
 
     fun reset() {
