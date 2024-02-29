@@ -12,7 +12,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
-import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialogTestTags
+import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 
@@ -55,14 +55,14 @@ object FiveCrownsScreenTestUtils {
     }
 
     fun assertCalculatorShowing() {
-        composeTestRule.onNodeWithTag(CalcDialogTestTags.CALC_DIALOG)
+        composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.CALC_DIALOG)
             .assertIsDisplayed()
-        composeTestRule.onNodeWithTag(CalcDialogTestTags.OK)
+        composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.OK)
             .assertIsDisplayed()
     }
 
     fun assertCalculatorNotShowing() {
-        composeTestRule.onNodeWithTag(CalcDialogTestTags.CALC_DIALOG)
+        composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.CALC_DIALOG)
             .assertDoesNotExist()
     }
 

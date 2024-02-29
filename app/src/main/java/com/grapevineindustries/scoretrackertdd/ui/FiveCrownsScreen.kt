@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.ui.composables.CalcDialog
+import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
@@ -102,7 +102,7 @@ fun FiveCrownsScreen(
     )
 
     if (calcDialogState.value) {
-        CalcDialog(
+        FiveCrownsCalcDialog(
             closeWithPoints = { points ->
                 updatePotentialPoints(lastClickedIndex.intValue, points)
                 calcDialogState.value = false

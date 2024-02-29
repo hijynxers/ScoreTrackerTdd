@@ -34,7 +34,7 @@ class FiveCrownsScreenUiTests {
     fun setup() {
         FiveCrownsScreenTestUtils.setup(composeTestRule)
         AlertDialogTestUtils.setup(composeTestRule)
-        CalcDialogTestUtils.setup(composeTestRule)
+        FiveCrownsCalcDialogTestUtils.setup(composeTestRule)
 
         val playersViewModel = ScoreTrackerViewModel()
 
@@ -111,9 +111,9 @@ class FiveCrownsScreenUiTests {
 
         FiveCrownsScreenTestUtils.assertCalculatorShowing()
 
-        CalcDialogTestUtils.clickButton("K")
+        FiveCrownsCalcDialogTestUtils.clickButton("K")
 
-        CalcDialogTestUtils.clickConfirmButton()
+        FiveCrownsCalcDialogTestUtils.clickConfirmButton()
         FiveCrownsScreenTestUtils.assertCalculatorNotShowing()
         var expectedPlayerData = listOf(
             Player("player1", 3, 13),
@@ -138,9 +138,9 @@ class FiveCrownsScreenUiTests {
         FiveCrownsScreenTestUtils.assertScreenShowing()
         FiveCrownsScreenTestUtils.clickFirstCalculatorButton()
         FiveCrownsScreenTestUtils.assertCalculatorShowing()
-        CalcDialogTestUtils.clickButton("K")
+        FiveCrownsCalcDialogTestUtils.clickButton("K")
 
-        CalcDialogTestUtils.clickCancelButton()
+        FiveCrownsCalcDialogTestUtils.clickCancelButton()
 
         FiveCrownsScreenTestUtils.assertCalculatorNotShowing()
         FiveCrownsScreenTestUtils.assertPlayerData(initialPlayerData)

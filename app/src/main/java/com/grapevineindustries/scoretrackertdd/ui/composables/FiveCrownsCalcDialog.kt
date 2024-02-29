@@ -35,9 +35,9 @@ import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun CalcDialogPreview() {
+fun FiveCrownsCalcDialogPreview() {
     ScoreTrackerTheme {
-        CalcDialog(
+        FiveCrownsCalcDialog(
             closeWithPoints = {},
             cancelDialog = {},
             wildCard = 3
@@ -48,7 +48,7 @@ fun CalcDialogPreview() {
 private val numbers = listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50)
 
 @Composable
-fun CalcDialog(
+fun FiveCrownsCalcDialog(
     closeWithPoints: (Int) -> Unit,
     cancelDialog: () -> Unit,
     wildCard: Int
@@ -68,17 +68,17 @@ fun CalcDialog(
             content = {
                 Column(
                     modifier = Modifier
-                        .testTag(CalcDialogTestTags.CALC_DIALOG)
+                        .testTag(FiveCrownsCalcDialogTestTags.CALC_DIALOG)
                         .padding(all = 8.dp), horizontalAlignment = AbsoluteAlignment.Right
                 ) {
 
                     Text(
-                        modifier = Modifier.testTag(CalcDialogTestTags.FACTORS),
+                        modifier = Modifier.testTag(FiveCrownsCalcDialogTestTags.FACTORS),
                         text = factors.value,
                         textAlign = TextAlign.Right
                     )
                     Text(
-                        modifier = Modifier.testTag(CalcDialogTestTags.SUM),
+                        modifier = Modifier.testTag(FiveCrownsCalcDialogTestTags.SUM),
                         fontWeight = FontWeight.Bold,
                         text = sum.intValue.toString()
                     )
@@ -90,7 +90,7 @@ fun CalcDialog(
                             val convertedElement = convertWildCard(element)
                             Button(
                                 modifier = Modifier
-                                    .testTag(CalcDialogTestTags.BUTTON + convertedElement)
+                                    .testTag(FiveCrownsCalcDialogTestTags.BUTTON + convertedElement)
                                     .padding(4.dp),
                                 onClick = {
                                     if (convertWildCard(wildCard) == convertedElement) {
@@ -123,7 +123,7 @@ fun CalcDialog(
                     ) {
                         Button(
                             modifier = Modifier
-                                .testTag(CalcDialogTestTags.CANCEL),
+                                .testTag(FiveCrownsCalcDialogTestTags.CANCEL),
                             onClick = cancelDialog
                         ) {
                             Text(
@@ -135,7 +135,7 @@ fun CalcDialog(
 
                         Button(
                             modifier = Modifier
-                                .testTag(CalcDialogTestTags.OK)
+                                .testTag(FiveCrownsCalcDialogTestTags.OK)
                                 .weight(1f),
                             onClick = { closeWithPoints(sum.intValue) }
                         ) {
@@ -162,7 +162,7 @@ fun convertWildCard(card: Int): String {
     return ret
 }
 
-object CalcDialogTestTags {
+object FiveCrownsCalcDialogTestTags {
     const val CALC_DIALOG = "CALC_DIALOG"
     const val OK = "CALC_DIALOG_OK"
     const val CANCEL = "CALC_DIALOG_CANCEL"
