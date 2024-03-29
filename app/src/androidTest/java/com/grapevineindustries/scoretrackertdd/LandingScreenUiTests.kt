@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.grapevineindustries.scoretrackertdd.ui.GameOption
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
@@ -23,6 +24,8 @@ class LandingScreenUiTests {
         LandingScreenTestUtils.setup(composeTestRule)
         composeTestRule.setContent {
             LandingScreen(
+                updateGame = {},
+                game = GameOption.FIVE_CROWNS,
                 onAddPlayersClick = {
                     viewModel.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
                 }
@@ -80,5 +83,17 @@ class LandingScreenUiTests {
         LandingScreenTestUtils.clickAddPlayers()
 
         assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == viewModel.playerList.size)
+    }
+
+    @Test
+    fun display_navigation_bar() {
+        LandingScreenTestUtils.assertInitialContentDisplayed()
+        LandingScreenTestUtils.clickNavigationBar()
+        LandingScreenTestUtils.assertNavigationBarButtons()
+        LandingScreenTestUtils.clickFiveCrowns()
+        LandingScreenTestUtils.assertInitialContentDisplayed()
+        LandingScreenTestUtils.clickNavigationBar()
+        LandingScreenTestUtils.clickRummy()
+        LandingScreenTestUtils.assertRummyShowing()
     }
 }

@@ -1,6 +1,7 @@
 package com.grapevineindustries.scoretrackertdd.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
+import com.grapevineindustries.scoretrackertdd.ui.GameOption
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -10,6 +11,8 @@ class ScoreTrackerViewModel {
 
     private val _dealer = MutableStateFlow(0)
     val dealer: StateFlow<Int> = _dealer
+    private val _game = MutableStateFlow(GameOption.FIVE_CROWNS)
+    val game: StateFlow<GameOption> = _game
 
     fun createPlayersList(numPlayers: Int) {
         for (i in 1..numPlayers) {
@@ -27,6 +30,10 @@ class ScoreTrackerViewModel {
 
     fun setPotentialPoints(index: Int, value: Int) {
         playerList[index] = playerList[index].copy(pendingPoints = value)
+    }
+
+    fun updateGame(game: GameOption) {
+        _game.update { game }
     }
 
     fun incrementDealer() {

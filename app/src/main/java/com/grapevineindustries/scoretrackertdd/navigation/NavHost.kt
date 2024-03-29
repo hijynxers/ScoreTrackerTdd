@@ -29,9 +29,13 @@ fun NavHost(
     ) {
         composable(NavHostRoutesEnum.LandingScreen.name) {
             LandingScreen(
+                updateGame = scoreTrackerViewModel::updateGame,
+                game = scoreTrackerViewModel.game.collectAsState().value,
                 onAddPlayersClick = { numPlayers ->
                     scoreTrackerViewModel.createPlayersList(numPlayers)
-                    navController.navigate(NavHostRoutesEnum.AddPlayersScreen.name)
+                    navController.navigate(
+                        NavHostRoutesEnum.AddPlayersScreen.name
+                    )
                 }
             )
         }

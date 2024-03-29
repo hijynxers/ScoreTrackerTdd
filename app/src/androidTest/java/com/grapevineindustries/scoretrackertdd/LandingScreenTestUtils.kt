@@ -2,10 +2,12 @@ package com.grapevineindustries.scoretrackertdd
 
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
 
 object LandingScreenTestUtils {
@@ -34,6 +36,26 @@ object LandingScreenTestUtils {
 
         composeTestRule.onNodeWithTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
             .assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag(LandingScreenTestTags.NAVIGATION_DRAWER_BUTTON)
+            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag(NavigationDrawerTestTags.CONTENT)
+            .assertIsNotDisplayed()
+    }
+
+    fun assertNavigationBarButtons() {
+        composeTestRule.onNodeWithTag(NavigationDrawerTestTags.FIVE_CROWNS)
+            .assertIsDisplayed()
+    }
+
+    fun assertRummyShowing() {
+        composeTestRule.onNodeWithTag(LandingScreenTestTags.GAME_TITLE)
+            .assertIsDisplayed()
+            .assertTextEquals("Rummy")
+
+        composeTestRule.onNodeWithTag(NavigationDrawerTestTags.CONTENT)
+            .assertIsNotDisplayed()
     }
 
     fun reachMaxPlayerFromInitial() {
@@ -45,6 +67,21 @@ object LandingScreenTestUtils {
 
     fun clickAddPlayers() {
         composeTestRule.onNodeWithTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
+            .performClick()
+    }
+
+    fun clickNavigationBar() {
+        composeTestRule.onNodeWithTag(LandingScreenTestTags.NAVIGATION_DRAWER_BUTTON)
+            .performClick()
+    }
+
+    fun clickFiveCrowns() {
+        composeTestRule.onNodeWithTag(NavigationDrawerTestTags.FIVE_CROWNS)
+            .performClick()
+    }
+
+    fun clickRummy() {
+        composeTestRule.onNodeWithTag(NavigationDrawerTestTags.RUMMY)
             .performClick()
     }
 }
