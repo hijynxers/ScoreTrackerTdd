@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.utils
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
@@ -8,12 +8,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.ui.composables.AlertDialogTestTags
 
-object AlertDialogTestUtils {
-    private lateinit var composeTestRule: ComposeTestRule
-
-    fun setup(rule: ComposeTestRule) {
-        composeTestRule = rule
-    }
+class AlertDialogTestUtils(
+    private val composeTestRule: ComposeTestRule
+) {
 
     fun assertShowing(
         title: String = "Title",
@@ -37,7 +34,10 @@ object AlertDialogTestUtils {
             composeTestRule.onNodeWithTag(AlertDialogTestTags.DISMISS_BUTTON)
                 .assertDoesNotExist()
         } else {
-            composeTestRule.onNodeWithTag(AlertDialogTestTags.DISMISS_BUTTON, useUnmergedTree = true)
+            composeTestRule.onNodeWithTag(
+                AlertDialogTestTags.DISMISS_BUTTON,
+                useUnmergedTree = true
+            )
                 .assertIsDisplayed()
                 .onChild()
                 .assertTextEquals(dismissButtonText)
