@@ -8,17 +8,21 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoresScreenTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
-object FinalScoresTestUtils {
-    private lateinit var composeTestRule: ComposeTestRule
-
-    fun setup(rule: ComposeTestRule) {
-        composeTestRule = rule
-    }
-
-    fun assertShowing(playerData: List<Player>) {
+class FinalScoresTestUtils(
+    val composeTestRule: ComposeTestRule
+) {
+    fun assertShowing() {
         composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.FINAL_SCORES_SCREEN)
             .assertIsDisplayed()
 
+        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.REPLAY)
+            .assertIsDisplayed()
+
+        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.NEW_GAME)
+            .assertIsDisplayed()
+    }
+
+    fun assertData(playerData: List<Player>) {
         val playerNameNodes = composeTestRule.onAllNodesWithTag(FinalScoresScreenTestTags.PLAYER_NAME)
         val playerScoreNodes = composeTestRule.onAllNodesWithTag(FinalScoresScreenTestTags.PLAYER_SCORE)
 
@@ -26,11 +30,5 @@ object FinalScoresTestUtils {
             playerNameNodes[index].assertTextEquals(player.name)
             playerScoreNodes[index].assertTextEquals(player.score.toString())
         }
-
-        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.REPLAY)
-            .assertIsDisplayed()
-
-        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.NEW_GAME)
-            .assertIsDisplayed()
     }
 }

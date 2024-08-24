@@ -7,11 +7,16 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class FinalScoresUiTests {
     @JvmField
     @Rule
     val composeTestRule = createComposeRule()
+
+    private val finalScoresUtils = FinalScoresTestUtils(composeTestRule)
 
     private val playerData = listOf(
         Player("player1", 3),
@@ -21,8 +26,6 @@ class FinalScoresUiTests {
 
     @Before
     fun setup() {
-        FinalScoresTestUtils.setup(composeTestRule)
-
         composeTestRule.setContent {
             ScoreTrackerTheme {
                 FinalScoreScreen(
@@ -36,6 +39,7 @@ class FinalScoresUiTests {
 
     @Test
     fun screen_showing() {
-        FinalScoresTestUtils.assertShowing(playerData)
+        finalScoresUtils.assertShowing()
+        finalScoresUtils.assertData(playerData)
     }
 }
