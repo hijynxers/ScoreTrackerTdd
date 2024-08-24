@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.utils
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
@@ -8,12 +8,9 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
 
-object FiveCrownsCalcDialogTestUtils {
-    private lateinit var composeTestRule: ComposeTestRule
-
-    fun setup(rule: ComposeTestRule) {
-        composeTestRule = rule
-    }
+class FiveCrownsCalcDialogTestUtils(
+    private val composeTestRule: ComposeTestRule
+) {
 
     private val buttonList = listOf("3","4","5","6","7","8","9","10","J","Q","K","JOKE")
 

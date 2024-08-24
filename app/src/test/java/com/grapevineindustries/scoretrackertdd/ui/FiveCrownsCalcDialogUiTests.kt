@@ -1,0 +1,101 @@
+package com.grapevineindustries.scoretrackertdd
+
+import androidx.compose.ui.test.junit4.createComposeRule
+import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
+import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialog
+import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
+import org.junit.Rule
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+
+@RunWith(RobolectricTestRunner::class)
+class FiveCrownsCalcDialogUiTests {
+    @JvmField
+    @Rule
+    val composeTestRule = createComposeRule()
+
+    private val fiveCrownsCalcUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
+
+    @Test
+    fun clicking_buttons_add_K_to_score() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                FiveCrownsCalcDialog(
+                    closeWithPoints = {},
+                    cancelDialog = {},
+                    wildCard = 3
+                )
+            }
+        }
+
+        fiveCrownsCalcUtils.assertShowing()
+
+        fiveCrownsCalcUtils.clickButton("K")
+        fiveCrownsCalcUtils.assertSum("13")
+        fiveCrownsCalcUtils.assertFactors("  K")
+    }
+
+    @Test
+    fun clicking_buttons_add_to_score_K_wild() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                FiveCrownsCalcDialog(
+                    closeWithPoints = {},
+                    cancelDialog = {},
+                    wildCard = 13
+                )
+            }
+        }
+
+        fiveCrownsCalcUtils.assertShowing()
+
+        fiveCrownsCalcUtils.clickButton("3")
+        fiveCrownsCalcUtils.assertSum("3")
+        fiveCrownsCalcUtils.assertFactors("  3")
+
+        fiveCrownsCalcUtils.clickButton("4")
+        fiveCrownsCalcUtils.assertSum("7")
+        fiveCrownsCalcUtils.assertFactors("  3  4")
+
+        fiveCrownsCalcUtils.clickButton("5")
+        fiveCrownsCalcUtils.assertSum("12")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5")
+
+        fiveCrownsCalcUtils.clickButton("6")
+        fiveCrownsCalcUtils.assertSum("18")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6")
+
+        fiveCrownsCalcUtils.clickButton("7")
+        fiveCrownsCalcUtils.assertSum("25")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7")
+
+        fiveCrownsCalcUtils.clickButton("8")
+        fiveCrownsCalcUtils.assertSum("33")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8")
+
+        fiveCrownsCalcUtils.clickButton("9")
+        fiveCrownsCalcUtils.assertSum("42")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8  9")
+
+        fiveCrownsCalcUtils.clickButton("10")
+        fiveCrownsCalcUtils.assertSum("52")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8  9  10")
+
+        fiveCrownsCalcUtils.clickButton("J")
+        fiveCrownsCalcUtils.assertSum("63")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8  9  10  J")
+
+        fiveCrownsCalcUtils.clickButton("Q")
+        fiveCrownsCalcUtils.assertSum("75")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q")
+
+        fiveCrownsCalcUtils.clickButton("K")
+        fiveCrownsCalcUtils.assertSum("95")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q *K")
+
+        fiveCrownsCalcUtils.clickButton("JOKE")
+        fiveCrownsCalcUtils.assertSum("145")
+        fiveCrownsCalcUtils.assertFactors("  3  4  5  6  7  8  9  10  J  Q *K  JOKE")
+    }
+}
