@@ -8,9 +8,6 @@ import kotlinx.coroutines.flow.update
 
 class ScoreTrackerViewModel {
     var playerList = mutableStateListOf<Player>()
-
-    private val _dealer = MutableStateFlow(0)
-    val dealer: StateFlow<Int> = _dealer
     private val _game = MutableStateFlow(GameOption.FIVE_CROWNS)
     val game: StateFlow<GameOption> = _game
 
@@ -36,13 +33,8 @@ class ScoreTrackerViewModel {
         _game.update { game }
     }
 
-    fun incrementDealer() {
-        _dealer.update { _dealer.value + 1 }
-    }
-
     fun reset() {
         playerList = mutableStateListOf()
-        _dealer.update { 0 }
     }
 
     fun resetScores() {

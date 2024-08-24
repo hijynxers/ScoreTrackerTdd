@@ -1,7 +1,6 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.viewmodel
 
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
+import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import org.junit.Test
 
 class ScoreTrackerViewModelTests {
@@ -66,24 +65,13 @@ class ScoreTrackerViewModelTests {
     }
 
     @Test
-    fun increment_dealer() {
-        val vm = ScoreTrackerViewModel()
-        assert(0 == vm.dealer.value)
-        vm.incrementDealer()
-        assert(1 == vm.dealer.value)
-    }
-
-    @Test
     fun reset_view_model() {
         val vm = ScoreTrackerViewModel()
         vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
         assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == vm.playerList.size)
-        vm.incrementDealer()
-        assert(1 == vm.dealer.value)
 
         vm.reset()
         assert(0 == vm.playerList.size)
-        assert(0 == vm.dealer.value)
     }
 
     @Test

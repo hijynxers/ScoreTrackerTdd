@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.utils
 
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
@@ -10,19 +10,15 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.test.espresso.Espresso
+import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 
-object FiveCrownsScreenTestUtils {
-    private lateinit var composeTestRule: ComposeTestRule
-
-    fun setup(rule: ComposeTestRule) {
-        composeTestRule = rule
-    }
-
+class FiveCrownsScreenTestUtils(
+    private val composeTestRule: ComposeTestRule
+) {
     fun assertScreenShowing(
         numPlayers: Int = FiveCrownsConstants.DEFAULT_NUM_PLAYERS
     ) {
@@ -72,9 +68,9 @@ object FiveCrownsScreenTestUtils {
             .assertTextEquals(expected)
     }
 
-    fun clickBack() {
-        Espresso.pressBack()
-    }
+//    fun clickBack() {
+//        Espresso.pressBack()
+//    }
 
     fun clickFirstCalculatorButton() {
         composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.CALC_BUTTON)
@@ -87,11 +83,24 @@ object FiveCrownsScreenTestUtils {
             .performClick()
     }
 
+    fun clickEndGameButton() {
+        for (i in 3..13) {
+            clickTallyButton()
+        }
+    }
+
     fun initPlayerList(viewModel: ScoreTrackerViewModel, playerNames: List<Player>) {
         viewModel.createPlayersList(playerNames.size)
         playerNames.forEachIndexed { index, player ->
             viewModel.setName(index, player.name)
             viewModel.setScore(index, player.score)
+        }
+    }
+
+    fun clickEndGameTally() {
+        for (i in 3..13) {
+            composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
+                .performClick()
         }
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +35,7 @@ import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDial
 import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -61,22 +63,20 @@ fun FiveCrownsScreenPreview() {
 @Composable
 fun FiveCrownsScreen(
     onCloseGame: () -> Unit,
-    updateExitGameDialogState: (Boolean) -> Unit,
-    updatePotentialPoints: (Int, Int) -> Unit,
+    onEndGameClick: () -> Unit,
     tallyPoints: () -> Unit,
-    players: SnapshotStateList<Player>,
-    exitGameDialogState: Boolean,
-    wildCard: Int,
-    dealerIndex: Int
+    updatePotentialPoints: (Int, Int) -> Unit,
+    players: SnapshotStateList<Player>
 ) {
     val calcDialogState = remember { mutableStateOf(false) }
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
+    val fiveCrownsViewModel = remember { FiveCrownsViewModel() }
 
-    if (exitGameDialogState) {
+    if (fiveCrownsViewModel.exitGameDialogState.collectAsState().value) {
         ScoreTrackerAlertDialog(
-            onConfirmClick = { updateExitGameDialogState(false) },
+            onConfirmClick = { fiveCrownsViewModel.updateExitGameDialogState(false) },
             onDismissClick = {
-                updateExitGameDialogState(false)
+                fiveCrownsViewModel.reset()
                 onCloseGame()
             },
             title = stringResource(R.string.leave_game),
@@ -88,17 +88,25 @@ fun FiveCrownsScreen(
 
     BackHandler(
         onBack = {
-            updateExitGameDialogState(true)
+            fiveCrownsViewModel.updateExitGameDialogState(true)
         }
     )
 
     FiveCrownsScreenContent(
         players = players,
         showCalcDialog = { calcDialogState.value = true },
-        tallyPoints = tallyPoints,
+        tallyPoints = {
+            tallyPoints()
+            if (fiveCrownsViewModel.endgameCondition()) {
+                onEndGameClick()
+            } else {
+                fiveCrownsViewModel.incrementWildCard()
+                fiveCrownsViewModel.incrementDealer()
+            }
+        },
         lastClickedIndex = lastClickedIndex,
-        wildCard = wildCard,
-        dealerIndex = dealerIndex
+        wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
+        dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
     )
 
     if (calcDialogState.value) {
@@ -108,7 +116,7 @@ fun FiveCrownsScreen(
                 calcDialogState.value = false
             },
             cancelDialog = { calcDialogState.value = false },
-            wildCard = wildCard
+            wildCard = fiveCrownsViewModel.wildCard.collectAsState().value
         )
     }
 }
@@ -164,7 +172,7 @@ fun FiveCrownsScreenContent(
                                     lastClickedIndex.intValue = index
                                     showCalcDialog()
                                 },
-                                isDealer =  (dealerIndex % players.size == index)
+                                isDealer = (dealerIndex % players.size == index)
                             )
                         }
                     }
@@ -174,9 +182,7 @@ fun FiveCrownsScreenContent(
                     modifier = Modifier
                         .testTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
                         .fillMaxWidth(),
-                    onClick = {
-                        tallyPoints()
-                    }
+                    onClick = tallyPoints
                 ) {
                     Text(
                         text = stringResource(id = R.string.tally)

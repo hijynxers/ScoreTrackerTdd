@@ -1,6 +1,5 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.viewmodel
 
-import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Test
@@ -22,6 +21,14 @@ class FiveCrownsViewModelTests {
         assert(3 == vm.wildCard.value)
         vm.incrementWildCard()
         assert(4 == vm.wildCard.value)
+    }
+
+    @Test
+    fun increment_dealer() {
+        val vm = FiveCrownsViewModel()
+        assert(0 == vm.dealer.value)
+        vm.incrementDealer()
+        assert(1 == vm.dealer.value)
     }
 
     @Test
