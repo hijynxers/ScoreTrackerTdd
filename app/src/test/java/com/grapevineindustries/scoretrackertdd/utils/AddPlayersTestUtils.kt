@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.utils
 
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertCountEquals
@@ -9,16 +9,14 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreenTestTags
 
-object AddPlayersTestUtils {
-    private lateinit var composeTestRule: ComposeTestRule
-
-    fun setup(rule: ComposeTestRule) {
-        composeTestRule = rule
-    }
-
+class AddPlayersTestUtils(
+    private val composeTestRule: ComposeTestRule
+) {
     fun assertScreenShowing(
         numPlayers: Int = FiveCrownsConstants.DEFAULT_NUM_PLAYERS
     ) {
@@ -43,5 +41,9 @@ object AddPlayersTestUtils {
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index.toString())
             .assertIsDisplayed()
             .assert(hasText(text))
+    }
+
+    fun clickStartGame() {
+        composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.START_GAME_BUTTON).performClick()
     }
 }
