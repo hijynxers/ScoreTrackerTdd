@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.utils
 
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
@@ -10,13 +10,9 @@ import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
 
-object LandingScreenTestUtils {
-    private lateinit var composeTestRule: ComposeTestRule
-
-    fun setup(rule: ComposeTestRule) {
-        composeTestRule = rule
-    }
-
+class LandingScreenTestUtils (
+    private val composeTestRule: ComposeTestRule
+){
     fun assertInitialContentDisplayed() {
         composeTestRule.onNodeWithTag(LandingScreenTestTags.GAME_TITLE)
             .assertIsDisplayed()

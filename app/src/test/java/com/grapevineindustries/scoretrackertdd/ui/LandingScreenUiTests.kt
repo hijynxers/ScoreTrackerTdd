@@ -1,31 +1,34 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.ui
 
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.scoretrackertdd.ui.GameOption
-import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
-import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
+import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
+import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class LandingScreenUiTests {
     @JvmField
     @Rule
     val composeTestRule = createComposeRule()
 
     private val viewModel = ScoreTrackerViewModel()
-
+    private val landingScreenUtils = LandingScreenTestUtils(composeTestRule)
+    private var gameOption: GameOption = GameOption.FIVE_CROWNS
     @Before
     fun setup() {
-        LandingScreenTestUtils.setup(composeTestRule)
         composeTestRule.setContent {
             LandingScreen(
-                updateGame = {},
-                game = GameOption.FIVE_CROWNS,
+                updateGame = { viewModel.updateGame(gameOption) },
+                game = viewModel.game.collectAsState().value,
                 onAddPlayersClick = {
                     viewModel.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
                 }
@@ -35,7 +38,7 @@ class LandingScreenUiTests {
 
     @Test
     fun add_and_remove_number_of_players() {
-        LandingScreenTestUtils.assertInitialContentDisplayed()
+        landingScreenUtils.assertInitialContentDisplayed()
 
         composeTestRule.onNodeWithTag(LandingScreenTestTags.NUM_PLAYERS_ADD)
             .performClick()
@@ -50,7 +53,7 @@ class LandingScreenUiTests {
 
     @Test
     fun min_players_reached() {
-        LandingScreenTestUtils.assertInitialContentDisplayed()
+        landingScreenUtils.assertInitialContentDisplayed()
 
         composeTestRule.onNodeWithTag(LandingScreenTestTags.NUM_PLAYERS_MINUS)
             .performClick()
@@ -65,8 +68,8 @@ class LandingScreenUiTests {
 
     @Test
     fun max_players_reached() {
-        LandingScreenTestUtils.assertInitialContentDisplayed()
-        LandingScreenTestUtils.reachMaxPlayerFromInitial()
+        landingScreenUtils.assertInitialContentDisplayed()
+        landingScreenUtils.reachMaxPlayerFromInitial()
         composeTestRule.onNodeWithTag(LandingScreenTestTags.NUM_PLAYERS)
             .assertTextEquals("15")
 
@@ -79,21 +82,26 @@ class LandingScreenUiTests {
 
     @Test
     fun player_list_created_on_add_players_click() {
-        LandingScreenTestUtils.assertInitialContentDisplayed()
-        LandingScreenTestUtils.clickAddPlayers()
+        landingScreenUtils.assertInitialContentDisplayed()
+        landingScreenUtils.clickAddPlayers()
 
         assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == viewModel.playerList.size)
     }
 
     @Test
     fun display_navigation_bar() {
-        LandingScreenTestUtils.assertInitialContentDisplayed()
-        LandingScreenTestUtils.clickNavigationBar()
-        LandingScreenTestUtils.assertNavigationBarButtons()
-        LandingScreenTestUtils.clickFiveCrowns()
-        LandingScreenTestUtils.assertInitialContentDisplayed()
-        LandingScreenTestUtils.clickNavigationBar()
-        LandingScreenTestUtils.clickRummy()
-        LandingScreenTestUtils.assertRummyShowing()
+        landingScreenUtils.assertInitialContentDisplayed()
+
+        landingScreenUtils.clickNavigationBar()
+        landingScreenUtils.assertNavigationBarButtons()
+        gameOption = GameOption.RUMMY
+        landingScreenUtils.clickRummy()
+        landingScreenUtils.assertRummyShowing()
+
+        landingScreenUtils.clickNavigationBar()
+        landingScreenUtils.assertNavigationBarButtons()
+        gameOption = GameOption.FIVE_CROWNS
+        landingScreenUtils.clickFiveCrowns()
+        landingScreenUtils.assertInitialContentDisplayed()
     }
 }
