@@ -1,8 +1,8 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
+import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import org.junit.Before
 import org.junit.Rule

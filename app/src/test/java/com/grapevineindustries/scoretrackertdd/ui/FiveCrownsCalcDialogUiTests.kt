@@ -1,4 +1,4 @@
-package com.grapevineindustries.scoretrackertdd
+package com.grapevineindustries.scoretrackertdd.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
