@@ -114,7 +114,7 @@ fun LandingScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .fillMaxHeight()
-                                .padding(all = Dimen.padding_standard),
+                                .padding(all = Dimen.outerScreenPadding),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Spacer(modifier = Modifier.weight(2f))

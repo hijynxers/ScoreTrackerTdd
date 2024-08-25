@@ -59,7 +59,7 @@ fun FinalScoreScreen(
         modifier = Modifier.testTag(FinalScoresScreenTestTags.FINAL_SCORES_SCREEN),
         content = {
             Column(
-                modifier = Modifier.padding(all = Dimen.padding_standard)
+                modifier = Modifier.padding(all = Dimen.outerScreenPadding)
             ){
                 LazyColumn(
                     modifier = Modifier.weight(1f)

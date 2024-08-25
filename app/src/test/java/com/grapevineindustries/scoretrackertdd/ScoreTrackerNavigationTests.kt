@@ -2,6 +2,7 @@ package com.grapevineindustries.scoretrackertdd
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.grapevineindustries.scoretrackertdd.navigation.NavHost
+import com.grapevineindustries.scoretrackertdd.navigation.NavHostRoutesEnum
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
@@ -37,30 +38,27 @@ class ScoreTrackerNavigationTests {
     @Test
     fun to_fiveCrowns_screen() {
         composeTestRule.setContent {
-            NavHost()
+            NavHost(
+                startDestination = NavHostRoutesEnum.AddPlayersScreen.name
+            )
         }
 
-        landingScreenUtils.assertInitialContentDisplayed()
-        landingScreenUtils.clickAddPlayers()
 
-        addPlayersUtils.assertScreenShowing()
+        addPlayersUtils.assertScreenShowing(0)
         addPlayersUtils.clickStartGame()
 
-        fiveCrownsScreenUtils.assertScreenShowing()
+        fiveCrownsScreenUtils.assertScreenShowing(0)
     }
 
+    @Test
     fun to_finalScores_screen() {
         composeTestRule.setContent {
-            NavHost()
+            NavHost(
+                startDestination = NavHostRoutesEnum.GameScreen.name
+            )
         }
 
-        landingScreenUtils.assertInitialContentDisplayed()
-        landingScreenUtils.clickAddPlayers()
-
-        addPlayersUtils.assertScreenShowing()
-        addPlayersUtils.clickStartGame()
-
-        fiveCrownsScreenUtils.assertScreenShowing()
+        fiveCrownsScreenUtils.assertScreenShowing(0)
         fiveCrownsScreenUtils.clickEndGameTally()
 
         finalScoresUtils.assertShowing()

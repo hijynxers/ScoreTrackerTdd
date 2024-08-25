@@ -41,7 +41,7 @@ fun AddPlayersScreen(
         modifier = Modifier.testTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN),
         content = {
             Column(
-                modifier = Modifier.padding(all = Dimen.padding_standard)
+                modifier = Modifier.padding(all = Dimen.outerScreenPadding)
             ) {
                 LazyColumn(
                     modifier = Modifier

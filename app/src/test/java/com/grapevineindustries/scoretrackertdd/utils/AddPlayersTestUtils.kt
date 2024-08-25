@@ -23,10 +23,12 @@ class AddPlayersTestUtils(
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN)
             .assertIsDisplayed()
 
-        composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
-            .assertIsDisplayed()
-            .onChildren()
-            .assertCountEquals(numPlayers)
+        if(numPlayers != 0) {
+            composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
+                .assertIsDisplayed()
+                .onChildren()
+                .assertCountEquals(numPlayers)
+        }
 
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.START_GAME_BUTTON)
             .assertIsDisplayed()

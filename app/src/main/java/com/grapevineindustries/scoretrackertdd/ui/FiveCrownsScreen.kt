@@ -135,7 +135,7 @@ fun FiveCrownsScreenContent(
         modifier = Modifier.testTag(FiveCrownsScreenTestTags.SCREEN),
         content = {
             Column(
-                modifier = Modifier.padding(all = Dimen.padding_standard)
+                modifier = Modifier.padding(all = Dimen.outerScreenPadding)
             ) {
                 Row(
                     modifier = Modifier
