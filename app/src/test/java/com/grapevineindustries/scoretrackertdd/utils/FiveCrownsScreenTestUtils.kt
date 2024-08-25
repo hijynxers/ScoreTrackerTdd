@@ -10,6 +10,7 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
@@ -68,9 +69,9 @@ class FiveCrownsScreenTestUtils(
             .assertTextEquals(expected)
     }
 
-//    fun clickBack() {
-//        Espresso.pressBack()
-//    }
+    fun clickBack() {
+        Espresso.pressBack()
+    }
 
     fun clickFirstCalculatorButton() {
         composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.CALC_BUTTON)

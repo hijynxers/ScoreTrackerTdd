@@ -1,7 +1,7 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import androidx.compose.ui.test.junit4.createComposeRule
-import com.grapevineindustries.scoretrackertdd.navigation.NavHostRoutesEnum
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
@@ -21,7 +21,7 @@ import org.robolectric.RobolectricTestRunner
 class FiveCrownsScreenUiTests {
     @JvmField
     @Rule
-    val composeTestRule = createComposeRule()
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)
     private val alertDialogUtils = AlertDialogTestUtils(composeTestRule)
@@ -72,69 +72,62 @@ class FiveCrownsScreenUiTests {
 
     @Test
     fun back_press_chicken_test() {
-//        fiveCrownsScreenUtils.assertScreenShowing()
-//        assertFalse(backNavigation)
-//
-//        // verify confirm button doesn't navigate
-//        fiveCrownsScreenUtils.clickBack()
-//        alertDialogUtils.assertShowing(
-//            title = context.getString(R.string.leave_game),
-//            text = context.getString(R.string.lose_game_progress),
-//            confirmButtonText = context.getString(R.string.stay),
-//            dismissButtonText = context.getString(R.string.exit)
-//        )
-//        alertDialogUtils.clickConfirmButton()
-//        alertDialogUtils.assertNotShowing()
-//        assertFalse(backNavigation)
-//
-//        // verify dismiss button does navigate
-//        fiveCrownsScreenUtils.assertScreenShowing()
-//        fiveCrownsScreenUtils.clickBack()
-//        alertDialogUtils.assertShowing(
-//            title = context.getString(R.string.leave_game),
-//            text = context.getString(R.string.lose_game_progress),
-//            confirmButtonText = context.getString(R.string.stay),
-//            dismissButtonText = context.getString(R.string.exit)
-//        )
-//        alertDialogUtils.clickDismissButton()
-//        alertDialogUtils.assertNotShowing()
-//        assertTrue(backNavigation)
+
+        fiveCrownsScreenUtils.assertScreenShowing()
+        assertFalse(backNavigation)
+
+        // verify confirm button doesn't navigate
+        fiveCrownsScreenUtils.clickBack()
+        alertDialogUtils.assertShowing(
+            title = "Leave game?",
+            text = "If you leave you will lose game progress.",
+            confirmButtonText = "Stay",
+            dismissButtonText = "Exit"
+        )
+        alertDialogUtils.clickConfirmButton()
+        alertDialogUtils.assertNotShowing()
+        assertFalse(backNavigation)
+
+        // verify dismiss button does navigate
+        fiveCrownsScreenUtils.assertScreenShowing()
+        fiveCrownsScreenUtils.clickBack()
+        alertDialogUtils.assertShowing(
+            title = "Leave game?",
+            text = "If you leave you will lose game progress.",
+            confirmButtonText = "Stay",
+            dismissButtonText = "Exit"
+        )
+        alertDialogUtils.clickDismissButton()
+        alertDialogUtils.assertNotShowing()
+        assertTrue(backNavigation)
     }
 
     @Test
-    fun player_list_shows_correct_data() {
-        fiveCrownsScreenUtils.assertScreenShowing()
-
-        fiveCrownsScreenUtils.assertPlayerData(initialPlayerData)
-    }
-
-    @Test
-    fun add_score() {
-        fiveCrownsScreenUtils.assertScreenShowing()
-        fiveCrownsScreenUtils.clickFirstCalculatorButton()
-
-        fiveCrownsScreenUtils.assertCalculatorShowing()
-
-        fiveCrownsCalcDialogUtils.clickButton("K")
-
-        fiveCrownsCalcDialogUtils.clickConfirmButton()
-        fiveCrownsScreenUtils.assertCalculatorNotShowing()
-        var expectedPlayerData = listOf(
-            Player("player1", 3, 13),
+    fun player_list_shows_correct_data_after_tally() {
+        val intermediatePlayerData = listOf(
+            Player("player1", 3, pendingPoints = 10),
             Player("player2", 15),
             Player("player3", 183),
         )
-        fiveCrownsScreenUtils.assertPlayerData(expectedPlayerData)
+        val expectedPlayerData = listOf(
+            Player("player1", 13),
+            Player("player2", 15),
+            Player("player3", 183),
+        )
+
+        fiveCrownsScreenUtils.assertScreenShowing()
+        fiveCrownsScreenUtils.assertPlayerData(initialPlayerData)
+        assertTrue(fiveCrownsViewModel.state.dealer == 0)
+
+        fiveCrownsScreenUtils.clickFirstCalculatorButton()
+        fiveCrownsCalcDialogUtils.clickButton("10")
+        fiveCrownsCalcDialogUtils.clickConfirmButton()
+
+        fiveCrownsScreenUtils.assertPlayerData(intermediatePlayerData)
 
         fiveCrownsScreenUtils.clickTallyButton()
-        fiveCrownsScreenUtils.assertWildCard("4")
-
-        expectedPlayerData = listOf(
-            Player("player1", 16),
-            Player("player2", 15),
-            Player("player3", 183),
-        )
         fiveCrownsScreenUtils.assertPlayerData(expectedPlayerData)
+        assertTrue(fiveCrownsViewModel.state.dealer == 1)
     }
 
     @Test
