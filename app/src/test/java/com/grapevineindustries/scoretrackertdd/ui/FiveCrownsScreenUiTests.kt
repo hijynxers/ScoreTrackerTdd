@@ -70,12 +70,6 @@ class FiveCrownsScreenUiTests {
         }
     }
 
-
-    @Test
-    fun failed() {
-        assert(4 == 2)
-    }
-
     @Test
     fun back_press_chicken_test() {
 
