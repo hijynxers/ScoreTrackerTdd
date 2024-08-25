@@ -16,9 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -35,7 +33,7 @@ import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDial
 import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
-import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -53,8 +51,7 @@ fun FiveCrownsScreenPreview() {
             showCalcDialog = {},
             tallyPoints = {},
             lastClickedIndex = lastClickedIndex,
-            wildCard = 3,
-            dealerIndex = 0
+            state = FiveCrownsState()
         )
     }
 }
@@ -63,20 +60,21 @@ fun FiveCrownsScreenPreview() {
 @Composable
 fun FiveCrownsScreen(
     onCloseGame: () -> Unit,
-    onEndGameClick: () -> Unit,
     tallyPoints: () -> Unit,
+    updateExitGameDialogState: (Boolean) -> Unit,
+    updateCalcDialogState: (Boolean) -> Unit,
+    reset: () -> Unit,
     updatePotentialPoints: (Int, Int) -> Unit,
-    players: SnapshotStateList<Player>
+    players: SnapshotStateList<Player>,
+    state: FiveCrownsState
 ) {
-    val calcDialogState = remember { mutableStateOf(false) }
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
-    val fiveCrownsViewModel = remember { FiveCrownsViewModel() }
 
-    if (fiveCrownsViewModel.exitGameDialogState.collectAsState().value) {
+    if (state.isExitGameDialogShowing) {
         ScoreTrackerAlertDialog(
-            onConfirmClick = { fiveCrownsViewModel.updateExitGameDialogState(false) },
+            onConfirmClick = { updateExitGameDialogState(false) },
             onDismissClick = {
-                fiveCrownsViewModel.reset()
+                reset()
                 onCloseGame()
             },
             title = stringResource(R.string.leave_game),
@@ -88,35 +86,26 @@ fun FiveCrownsScreen(
 
     BackHandler(
         onBack = {
-            fiveCrownsViewModel.updateExitGameDialogState(true)
+            updateExitGameDialogState(true)
         }
     )
 
     FiveCrownsScreenContent(
         players = players,
-        showCalcDialog = { calcDialogState.value = true },
-        tallyPoints = {
-            tallyPoints()
-            if (fiveCrownsViewModel.endgameCondition()) {
-                onEndGameClick()
-            } else {
-                fiveCrownsViewModel.incrementWildCard()
-                fiveCrownsViewModel.incrementDealer()
-            }
-        },
+        showCalcDialog = { updateCalcDialogState(true) },
+        tallyPoints = tallyPoints,
         lastClickedIndex = lastClickedIndex,
-        wildCard = fiveCrownsViewModel.wildCard.collectAsState().value,
-        dealerIndex = fiveCrownsViewModel.dealer.collectAsState().value
+        state = state
     )
 
-    if (calcDialogState.value) {
+    if (state.isCalcDialogShowing) {
         FiveCrownsCalcDialog(
             closeWithPoints = { points ->
                 updatePotentialPoints(lastClickedIndex.intValue, points)
-                calcDialogState.value = false
+                updateCalcDialogState(false)
             },
-            cancelDialog = { calcDialogState.value = false },
-            wildCard = fiveCrownsViewModel.wildCard.collectAsState().value
+            cancelDialog = { updateCalcDialogState(false) },
+            wildCard = state.wildCard
         )
     }
 }
@@ -128,8 +117,7 @@ fun FiveCrownsScreenContent(
     tallyPoints: () -> Unit,
     players: List<Player>,
     lastClickedIndex: MutableIntState,
-    wildCard: Int,
-    dealerIndex: Int
+    state: FiveCrownsState
 ) {
     Scaffold(
         modifier = Modifier.testTag(FiveCrownsScreenTestTags.SCREEN),
@@ -151,7 +139,7 @@ fun FiveCrownsScreenContent(
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
                         modifier = Modifier.testTag(FiveCrownsScreenTestTags.WILD_CARD),
-                        text = convertWildCard(wildCard),
+                        text = convertWildCard(state.wildCard),
                         style = MaterialTheme.typography.displayMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -171,7 +159,7 @@ fun FiveCrownsScreenContent(
                                     lastClickedIndex.intValue = index
                                     showCalcDialog()
                                 },
-                                isDealer = (dealerIndex % players.size == index)
+                                isDealer = (state.dealer % players.size == index)
                             )
                         }
                     }

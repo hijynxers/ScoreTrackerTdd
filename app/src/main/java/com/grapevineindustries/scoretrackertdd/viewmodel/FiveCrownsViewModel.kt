@@ -1,35 +1,42 @@
 package com.grapevineindustries.scoretrackertdd.viewmodel
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
+data class FiveCrownsState(
+    val wildCard: Int = 3,
+    val dealer: Int = 0,
+    val isExitGameDialogShowing: Boolean = false,
+    val isCalcDialogShowing: Boolean = false
+)
 
 class FiveCrownsViewModel {
-    private val _exitGameDialogState = MutableStateFlow(false)
-    val exitGameDialogState: StateFlow<Boolean> = _exitGameDialogState
-    private val _wildCard = MutableStateFlow(3)
-    val wildCard: StateFlow<Int> = _wildCard
-    private val _dealer = MutableStateFlow(0)
-    val dealer: StateFlow<Int> = _dealer
+    var state by mutableStateOf(FiveCrownsState())
+        private set
 
     fun updateExitGameDialogState(state: Boolean) {
-        _exitGameDialogState.update { state }
+        this.state = this.state.copy(isExitGameDialogShowing = state)
+    }
+
+    fun updateCalcDialogState(state: Boolean) {
+        this.state = this.state.copy(isCalcDialogShowing = state)
     }
 
     fun incrementWildCard() {
-        _wildCard.update { _wildCard.value + 1 }
+        state = state.copy(wildCard = state.wildCard + 1)
     }
 
     fun incrementDealer() {
-        _dealer.update { _dealer.value + 1 }
+        state = state.copy(dealer = state.dealer + 1)
     }
 
     fun reset() {
-        _exitGameDialogState.update { false }
-        _wildCard.update { 3 }
+        state = state.copy(
+            wildCard = 3,
+            isExitGameDialogShowing = false
+        )
     }
 
-    fun endgameCondition(): Boolean {
-        return _wildCard.value == 13
-    }
+    fun endgameCondition(): Boolean = state.wildCard == 13
 }

@@ -1,13 +1,16 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.grapevineindustries.scoretrackertdd.navigation.NavHostRoutesEnum
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
+import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,12 +22,15 @@ class FiveCrownsScreenUiTests {
     @JvmField
     @Rule
     val composeTestRule = createComposeRule()
-    private var backNavigation = false
-    private var endGameNavigation = false
 
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)
     private val alertDialogUtils = AlertDialogTestUtils(composeTestRule)
     private val fiveCrownsCalcDialogUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
+
+    private val scoreTrackerViewModel = ScoreTrackerViewModel()
+    private val fiveCrownsViewModel = FiveCrownsViewModel()
+    private var backNavigation = false
+    private var endGameNavigation = false
 
     private val initialPlayerData = listOf(
         Player("player1", 3),
@@ -34,7 +40,6 @@ class FiveCrownsScreenUiTests {
 
     @Before
     fun setup() {
-        val scoreTrackerViewModel = ScoreTrackerViewModel()
         fiveCrownsScreenUtils.initPlayerList(
             viewModel = scoreTrackerViewModel,
             playerNames = initialPlayerData
@@ -45,17 +50,28 @@ class FiveCrownsScreenUiTests {
             ScoreTrackerTheme {
                 FiveCrownsScreen(
                     onCloseGame = { backNavigation = true },
-                    onEndGameClick = { endGameNavigation = true },
-                    tallyPoints = scoreTrackerViewModel::tallyPoints,
+                    tallyPoints = {
+                        scoreTrackerViewModel.tallyPoints()
+                        if (fiveCrownsViewModel.endgameCondition()) {
+                            endGameNavigation = true
+                        } else {
+                            fiveCrownsViewModel.incrementWildCard()
+                            fiveCrownsViewModel.incrementDealer()
+                        }
+                    },
+                    updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
+                    updateCalcDialogState = fiveCrownsViewModel::updateCalcDialogState,
+                    reset = fiveCrownsViewModel::reset,
                     updatePotentialPoints = scoreTrackerViewModel::setPotentialPoints,
-                    players = scoreTrackerViewModel.playerList
+                    players = scoreTrackerViewModel.playerList,
+                    state = fiveCrownsViewModel.state
                 )
             }
         }
     }
 
-//    @Test
-//    fun back_press_chicken_test() {
+    @Test
+    fun back_press_chicken_test() {
 //        fiveCrownsScreenUtils.assertScreenShowing()
 //        assertFalse(backNavigation)
 //
@@ -83,7 +99,7 @@ class FiveCrownsScreenUiTests {
 //        alertDialogUtils.clickDismissButton()
 //        alertDialogUtils.assertNotShowing()
 //        assertTrue(backNavigation)
-//    }
+    }
 
     @Test
     fun player_list_shows_correct_data() {
@@ -145,6 +161,10 @@ class FiveCrownsScreenUiTests {
     @Test
     fun end_game_click() {
         fiveCrownsScreenUtils.assertScreenShowing()
-        fiveCrownsScreenUtils.clickEndGameButton()
+        assertFalse(endGameNavigation)
+
+        fiveCrownsScreenUtils.endTheGame()
+
+        assertTrue(endGameNavigation)
     }
 }

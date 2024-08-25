@@ -2,6 +2,7 @@ package com.grapevineindustries.scoretrackertdd.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -11,6 +12,7 @@ import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 
 @Composable
@@ -51,6 +53,8 @@ fun NavHost(
             )
         }
         composable(NavHostRoutesEnum.GameScreen.name) {
+            val fiveCrownsViewModel = remember { FiveCrownsViewModel() }
+
             FiveCrownsScreen(
                 onCloseGame = {
                     scoreTrackerViewModel.reset()
@@ -59,12 +63,21 @@ fun NavHost(
                         inclusive = false
                     )
                 },
-                onEndGameClick = {
-                    navController.navigate(NavHostRoutesEnum.FinalScoresScreen.name)
+                tallyPoints = {
+                    scoreTrackerViewModel.tallyPoints()
+                    if (fiveCrownsViewModel.endgameCondition()) {
+                        navController.navigate(NavHostRoutesEnum.FinalScoresScreen.name)
+                    } else {
+                        fiveCrownsViewModel.incrementWildCard()
+                        fiveCrownsViewModel.incrementDealer()
+                    }
                 },
-                tallyPoints = scoreTrackerViewModel::tallyPoints,
+                updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
+                updateCalcDialogState = fiveCrownsViewModel::updateCalcDialogState,
+                reset = fiveCrownsViewModel::reset,
                 updatePotentialPoints = scoreTrackerViewModel::setPotentialPoints,
-                players = scoreTrackerViewModel.playerList
+                players = scoreTrackerViewModel.playerList,
+                state = fiveCrownsViewModel.state
             )
         }
         composable(NavHostRoutesEnum.FinalScoresScreen.name) {

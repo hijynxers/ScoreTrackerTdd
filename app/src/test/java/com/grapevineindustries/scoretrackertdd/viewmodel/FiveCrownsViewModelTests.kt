@@ -8,34 +8,34 @@ class FiveCrownsViewModelTests {
     @Test
     fun alert_dialog_state_updates() {
         val vm = FiveCrownsViewModel()
-        assertFalse(vm.exitGameDialogState.value)
+        assertFalse(vm.state.isExitGameDialogShowing)
         vm.updateExitGameDialogState(true)
-        assertTrue(vm.exitGameDialogState.value)
+        assertTrue(vm.state.isExitGameDialogShowing)
         vm.updateExitGameDialogState(false)
-        assertFalse(vm.exitGameDialogState.value)
+        assertFalse(vm.state.isExitGameDialogShowing)
     }
 
     @Test
     fun increment_wild_card() {
         val vm = FiveCrownsViewModel()
-        assert(3 == vm.wildCard.value)
+        assert(3 == vm.state.wildCard)
         vm.incrementWildCard()
-        assert(4 == vm.wildCard.value)
+        assert(4 == vm.state.wildCard)
     }
 
     @Test
     fun increment_dealer() {
         val vm = FiveCrownsViewModel()
-        assert(0 == vm.dealer.value)
+        assert(0 == vm.state.dealer)
         vm.incrementDealer()
-        assert(1 == vm.dealer.value)
+        assert(1 == vm.state.dealer)
     }
 
     @Test
     fun endgame() {
         val vm = FiveCrownsViewModel()
         assertFalse(vm.endgameCondition())
-        while (vm.wildCard.value != 13) {
+        while (vm.state.wildCard != 13) {
             vm.incrementWildCard()
         }
         assertTrue(vm.endgameCondition())
@@ -46,11 +46,11 @@ class FiveCrownsViewModelTests {
         val vm = FiveCrownsViewModel()
         vm.updateExitGameDialogState(true)
         vm.incrementWildCard()
-        assertTrue(vm.exitGameDialogState.value)
-        assert(vm.wildCard.value == 4)
+        assertTrue(vm.state.isExitGameDialogShowing)
+        assert(vm.state.wildCard == 4)
 
         vm.reset()
-        assertFalse(vm.exitGameDialogState.value)
-        assert(vm.wildCard.value == 3)
+        assertFalse(vm.state.isExitGameDialogShowing)
+        assert(vm.state.wildCard == 3)
     }
 }

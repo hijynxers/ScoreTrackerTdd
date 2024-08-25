@@ -83,7 +83,7 @@ class FiveCrownsScreenTestUtils(
             .performClick()
     }
 
-    fun clickEndGameButton() {
+    fun endTheGame() {
         for (i in 3..13) {
             clickTallyButton()
         }
