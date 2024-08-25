@@ -73,7 +73,7 @@ class FiveCrownsScreenUiTests {
 
     @Test
     fun failed() {
-        assert(4 == 3)
+        assert(4 == 2)
     }
 
     @Test
