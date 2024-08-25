@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoresScreenTestTags
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
@@ -30,5 +31,13 @@ class FinalScoresTestUtils(
             playerNameNodes[index].assertTextEquals(player.name)
             playerScoreNodes[index].assertTextEquals(player.score.toString())
         }
+    }
+
+    fun clickNewGame() {
+        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.NEW_GAME).performClick()
+    }
+
+    fun clickReplay() {
+        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.REPLAY).performClick()
     }
 }

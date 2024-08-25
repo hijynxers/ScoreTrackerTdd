@@ -158,7 +158,6 @@ fun FiveCrownsScreenContent(
                     Spacer(modifier = Modifier.weight(1f))
                 }
 
-
                 LazyColumn(
                     modifier = Modifier
                         .testTag(FiveCrownsScreenTestTags.PLAYER_COLUMN)
