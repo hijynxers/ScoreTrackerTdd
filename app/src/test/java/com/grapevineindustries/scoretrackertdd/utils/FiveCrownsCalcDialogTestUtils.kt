@@ -26,10 +26,10 @@ class FiveCrownsCalcDialogTestUtils(
         composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.FACTORS)
             .assertIsNotDisplayed()
 
-        buttonList.forEachIndexed { index, num ->
-            composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.BUTTON + buttonList[index])
+        buttonList.forEach { num ->
+            composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.BUTTON + num)
                 .assertIsDisplayed()
-                .assertTextEquals(buttonList[index])
+                .assertTextEquals(num)
         }
     }
 
