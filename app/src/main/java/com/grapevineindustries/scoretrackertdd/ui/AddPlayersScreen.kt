@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -16,9 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
@@ -26,9 +22,9 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddPlayersScreen(
-    updatePlayerName: (Int, String) -> Unit,
-    onStatGameClicked: () -> Unit,
+    onStartGameClicked: () -> Unit,
     onBackPress: () -> Unit,
+    updatePlayer: (Int, Player) -> Unit,
     players: List<Player>
 ) {
     BackHandler(
@@ -48,23 +44,22 @@ fun AddPlayersScreen(
                         .testTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
                         .weight(1f)
                 ) {
-                    itemsIndexed(players) { index, _ ->
+                    itemsIndexed(players) { index, player ->
                         OutlinedTextField(
                             modifier = Modifier.testTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index),
-                            value = players[index].name,
+                            value = player.name,
                             onValueChange = { it ->
                                 it.also {
-                                    updatePlayerName(index, it)
+                                    updatePlayer(
+                                        index,
+                                        player.copy(
+                                            name = it
+                                        )
+                                    )
                                 }
                             },
                             singleLine = true,
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions.Default.copy(
-                                capitalization = KeyboardCapitalization.Sentences,
-                                autoCorrect = true,
-                                keyboardType = KeyboardType.Text,
-                                imeAction = ImeAction.Next
-                            ),
+                            maxLines = 1
                         )
                     }
                 }
@@ -73,7 +68,10 @@ fun AddPlayersScreen(
                     modifier = Modifier
                         .testTag(AddPlayersScreenTestTags.START_GAME_BUTTON)
                         .fillMaxWidth(),
-                    onClick = onStatGameClicked
+                    onClick = {
+//                        onStartGameClicked(viewModel.playerList)
+                        onStartGameClicked()
+                    }
                 ) {
                     Text(
                         text = stringResource(id = R.string.start_game)

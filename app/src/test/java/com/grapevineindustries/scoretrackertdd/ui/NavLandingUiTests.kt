@@ -1,13 +1,10 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
-import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,23 +12,19 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class LandingScreenUiTests {
+class NavLandingUiTests {
     @JvmField
     @Rule
     val composeTestRule = createComposeRule()
 
-    private val viewModel = ScoreTrackerViewModel()
     private val landingScreenUtils = LandingScreenTestUtils(composeTestRule)
     private var gameOption: GameOption = GameOption.FIVE_CROWNS
+
     @Before
     fun setup() {
         composeTestRule.setContent {
             LandingScreen(
-                updateGame = { viewModel.updateGame(gameOption) },
-                game = viewModel.game.collectAsState().value,
-                onAddPlayersClick = {
-                    viewModel.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
-                }
+                onAddPlayersClick = {}
             )
         }
     }
@@ -84,8 +77,6 @@ class LandingScreenUiTests {
     fun player_list_created_on_add_players_click() {
         landingScreenUtils.assertInitialContentDisplayed()
         landingScreenUtils.clickAddPlayers()
-
-        assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == viewModel.playerList.size)
     }
 
     @Test

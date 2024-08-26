@@ -6,8 +6,7 @@ import org.junit.Test
 class ScoreTrackerViewModelTests {
     @Test
     fun players_list_created() {
-        val vm = ScoreTrackerViewModel()
-
+        val vm = createVm()
         vm.createPlayersList(numPlayers = 3)
 
         assert(3 == vm.playerList.size)
@@ -15,7 +14,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun update_name_in_players_list() {
-        val vm = ScoreTrackerViewModel()
+        val vm = PlayerViewModel()
         vm.createPlayersList(3)
         val expectedName = "nathan"
         val playerIndex = 1
@@ -26,7 +25,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun update_score_in_players_list() {
-        val vm = ScoreTrackerViewModel()
+        val vm = createVm()
         vm.createPlayersList(3)
         val playerIndex = 1
         val expectedScore = 45
@@ -37,7 +36,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun update_points_in_players_list() {
-        val vm = ScoreTrackerViewModel()
+        val vm = createVm()
         vm.createPlayersList(3)
         val playerIndex = 1
         val expectedPoints = 45
@@ -48,7 +47,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun tally_scores() {
-        val vm = ScoreTrackerViewModel()
+        val vm = createVm()
         vm.createPlayersList(3)
         val playerIndex = 1
         val expectedPoints = 45
@@ -66,7 +65,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun reset_view_model() {
-        val vm = ScoreTrackerViewModel()
+        val vm = createVm()
         vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
         assert(FiveCrownsConstants.DEFAULT_NUM_PLAYERS == vm.playerList.size)
 
@@ -76,7 +75,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun reset_scores() {
-        val vm = ScoreTrackerViewModel()
+        val vm = createVm()
         vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
         vm.setScore(0, 22)
         vm.setScore(1, 3)
@@ -93,7 +92,7 @@ class ScoreTrackerViewModelTests {
 
     @Test
     fun sort_by_score() {
-        val vm = ScoreTrackerViewModel()
+        val vm = createVm()
         vm.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
         vm.setScore(0, 22)
         vm.setScore(1, 3)
@@ -106,4 +105,6 @@ class ScoreTrackerViewModelTests {
 
         assert(expectedPlayers == vm.sortedPlayers())
     }
+
+    fun createVm() = PlayerViewModel()
 }

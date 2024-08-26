@@ -48,8 +48,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun LandingPreview() {
     LandingScreen(
-        updateGame = {},
-        game = GameOption.FIVE_CROWNS,
         onAddPlayersClick = {}
     )
 }
@@ -58,8 +56,6 @@ fun LandingPreview() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LandingScreen(
-    updateGame: (GameOption) -> Unit,
-    game: GameOption,
     onAddPlayersClick: (Int) -> Unit
 ) {
     ScoreTrackerTheme {
@@ -73,13 +69,13 @@ fun LandingScreen(
                         coroutineScope.launch {
                             drawerState.close()
                         }
-                        updateGame(GameOption.FIVE_CROWNS)
+//                        updateGame(GameOption.FIVE_CROWNS)
                     },
                     onRummyClick = {
                         coroutineScope.launch {
                             drawerState.close()
                         }
-                        updateGame(GameOption.RUMMY)
+//                        updateGame(GameOption.RUMMY)
                     }
                 )
             },
@@ -121,7 +117,7 @@ fun LandingScreen(
 
                             Text(
                                 modifier = Modifier.testTag(LandingScreenTestTags.GAME_TITLE),
-                                text = getGameTitle(game),
+                                text = getGameTitle(GameOption.FIVE_CROWNS),
                                 style = MaterialTheme.typography.displayMedium
                             )
                             Spacer(modifier = Modifier.weight(1f))

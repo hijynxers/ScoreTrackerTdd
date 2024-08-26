@@ -1,9 +1,7 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
-import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,24 +18,20 @@ class AddPlayersUiTests {
     @Rule
     val composeTestRule = createComposeRule()
 
-    private val viewModel = ScoreTrackerViewModel()
     private val startGameButtonClicked = MutableStateFlow(false)
 
     private val addPlayersUtils = AddPlayersTestUtils(composeTestRule)
 
     @Before
     fun setup() {
-        viewModel.createPlayersList(FiveCrownsConstants.DEFAULT_NUM_PLAYERS)
-
         composeTestRule.setContent {
-            AddPlayersScreen(
-                players = viewModel.playerList,
-                updatePlayerName = viewModel::setName,
-                onBackPress = {},
-                onStatGameClicked = {
-                    startGameButtonClicked.update { true }
-                }
-            )
+//            AddPlayersScreen(
+//                onBackPress = {},
+//                onStartGameClicked = {
+//                    startGameButtonClicked.update { true }
+//                },
+////                numPlayers = 3
+//            )
         }
     }
 

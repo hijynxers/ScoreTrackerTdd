@@ -1,8 +1,6 @@
 package com.grapevineindustries.scoretrackertdd.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,88 +10,69 @@ import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
-import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
-import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.PlayerViewModel
 
 @Composable
 fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = NavHostRoutesEnum.LandingScreen.name,
-    scoreTrackerViewModel: ScoreTrackerViewModel = ScoreTrackerViewModel()
+    startDestination: String = NavHostRoutes.LandingScreen,
+    playerViewModel: PlayerViewModel = PlayerViewModel()
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(NavHostRoutesEnum.LandingScreen.name) {
+        composable(NavHostRoutes.LandingScreen) {
             LandingScreen(
-                updateGame = scoreTrackerViewModel::updateGame,
-                game = scoreTrackerViewModel.game.collectAsState().value,
                 onAddPlayersClick = { numPlayers ->
-                    scoreTrackerViewModel.createPlayersList(numPlayers)
-                    navController.navigate(
-                        NavHostRoutesEnum.AddPlayersScreen.name
-                    )
+                    playerViewModel.createPlayersList(numPlayers)
+                    navController.navigate(NavHostRoutes.AddPlayersScreen)
                 }
             )
         }
-        composable(NavHostRoutesEnum.AddPlayersScreen.name) {
+        composable(NavHostRoutes.AddPlayersScreen) {
             AddPlayersScreen(
-                updatePlayerName = scoreTrackerViewModel::setName,
-                onStatGameClicked = {
-                    navController.navigate(NavHostRoutesEnum.GameScreen.name)
+                onStartGameClicked = {
+                    navController.navigate(NavHostRoutes.GameScreen)
                 },
                 onBackPress = {
-                    scoreTrackerViewModel.reset()
                     navController.navigateUp()
                 },
-                players = scoreTrackerViewModel.playerList,
+                updatePlayer = playerViewModel::updatePlayer,
+                players = playerViewModel.playerList
             )
         }
-        composable(NavHostRoutesEnum.GameScreen.name) {
-            val fiveCrownsViewModel = remember { FiveCrownsViewModel() }
-
+        composable(NavHostRoutes.GameScreen) {
             FiveCrownsScreen(
-                onCloseGame = {
-                    scoreTrackerViewModel.reset()
+                players = playerViewModel.playerList,
+                updatePlayer = playerViewModel::updatePlayer,
+                tallyPoints = playerViewModel::tallyPoints,
+                navigateToLandingScreen = {
                     navController.popBackStack(
-                        route = NavHostRoutesEnum.LandingScreen.name,
+                        route = NavHostRoutes.LandingScreen,
                         inclusive = false
                     )
                 },
-                tallyPoints = {
-                    scoreTrackerViewModel.tallyPoints()
-                    if (fiveCrownsViewModel.endgameCondition()) {
-                        navController.navigate(NavHostRoutesEnum.FinalScoresScreen.name)
-                    } else {
-                        fiveCrownsViewModel.incrementWildCard()
-                        fiveCrownsViewModel.incrementDealer()
-                    }
-                },
-                updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
-                updateCalcDialogState = fiveCrownsViewModel::updateCalcDialogState,
-                reset = fiveCrownsViewModel::reset,
-                updatePotentialPoints = scoreTrackerViewModel::setPotentialPoints,
-                players = scoreTrackerViewModel.playerList,
-                state = fiveCrownsViewModel.state
+                navigateToFinalScoreScreen = {
+                    navController.navigate(NavHostRoutes.FinalScoresScreen)
+                }
             )
         }
-        composable(NavHostRoutesEnum.FinalScoresScreen.name) {
+        composable(NavHostRoutes.FinalScoresScreen) {
             FinalScoreScreen(
-                playerData = scoreTrackerViewModel.sortedPlayers(),
+                playerData = playerViewModel.sortedPlayers(),
                 onNewGameClick = {
-                    scoreTrackerViewModel.reset()
                     navController.popBackStack(
-                        route = NavHostRoutesEnum.LandingScreen.name,
+                        route = NavHostRoutes.LandingScreen,
                         inclusive = false
                     )
                 },
                 onReplayClick = {
-                    scoreTrackerViewModel.resetScores()
+                    playerViewModel.resetScores()
                     navController.popBackStack(
-                        route = NavHostRoutesEnum.GameScreen.name,
+                        route = NavHostRoutes.GameScreen,
                         inclusive = false
                     )
                 }
@@ -102,9 +81,9 @@ fun NavHost(
     }
 }
 
-enum class NavHostRoutesEnum {
-    LandingScreen,
-    AddPlayersScreen,
-    GameScreen,
-    FinalScoresScreen
+object NavHostRoutes {
+    const val LandingScreen = "NAV_LANDING_SCREEN"
+    const val AddPlayersScreen = "NAV_ADD_PLAYER_SCREEN"
+    const val GameScreen = "NAV_GAME_SCREEN"
+    const val FinalScoresScreen = "NAV_FINAL_SCORES_SCREEN"
 }

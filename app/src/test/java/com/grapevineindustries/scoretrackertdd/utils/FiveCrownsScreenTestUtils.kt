@@ -14,8 +14,8 @@ import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
 
 class FiveCrownsScreenTestUtils(
     private val composeTestRule: ComposeTestRule
@@ -42,12 +42,19 @@ class FiveCrownsScreenTestUtils(
     }
 
     fun assertPlayerData(playerData: List<Player>) {
-        val playerNameNodes = composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.PLAYER_NAME)
-        val playerScoreNodes = composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.PLAYER_SCORE)
+        val playerNameNodes =
+            composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.PLAYER_NAME)
+        val playerScoreNodes =
+            composeTestRule.onAllNodesWithTag(FiveCrownsScreenTestTags.PLAYER_SCORE)
+        val playerPotentialPointsNodes = composeTestRule.onAllNodesWithTag(
+            FiveCrownsScreenTestTags.PLAYER_POTENTIAL_POINTS,
+            useUnmergedTree = true
+        )
 
         playerData.forEachIndexed { index, player ->
             playerNameNodes[index].assertTextEquals(player.name)
             playerScoreNodes[index].assertTextEquals(player.score.toString())
+            playerPotentialPointsNodes[index].assertTextEquals(player.pendingPoints.toString())
         }
     }
 
@@ -90,7 +97,7 @@ class FiveCrownsScreenTestUtils(
         }
     }
 
-    fun initPlayerList(viewModel: ScoreTrackerViewModel, playerNames: List<Player>) {
+    fun initPlayerList(viewModel: FiveCrownsViewModel, playerNames: List<Player>) {
         viewModel.createPlayersList(playerNames.size)
         playerNames.forEachIndexed { index, player ->
             viewModel.setName(index, player.name)

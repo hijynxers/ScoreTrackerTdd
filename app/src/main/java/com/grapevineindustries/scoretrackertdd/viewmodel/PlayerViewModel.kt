@@ -1,20 +1,20 @@
 package com.grapevineindustries.scoretrackertdd.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
-import com.grapevineindustries.scoretrackertdd.ui.GameOption
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.serialization.Serializable
 
-class ScoreTrackerViewModel {
+class PlayerViewModel {
     var playerList = mutableStateListOf<Player>()
-    private val _game = MutableStateFlow(GameOption.FIVE_CROWNS)
-    val game: StateFlow<GameOption> = _game
 
     fun createPlayersList(numPlayers: Int) {
+        reset()
         for (i in 1..numPlayers) {
             playerList.add(Player(""))
         }
+    }
+
+    fun updatePlayer(index: Int, player: Player) {
+        playerList[index] = player
     }
 
     fun setName(index: Int, value: String) {
@@ -27,10 +27,6 @@ class ScoreTrackerViewModel {
 
     fun setPotentialPoints(index: Int, value: Int) {
         playerList[index] = playerList[index].copy(pendingPoints = value)
-    }
-
-    fun updateGame(game: GameOption) {
-        _game.update { game }
     }
 
     fun reset() {
@@ -63,6 +59,7 @@ class ScoreTrackerViewModel {
     }
 }
 
+@Serializable
 data class Player(
     var name: String,
     var score: Int = 0,

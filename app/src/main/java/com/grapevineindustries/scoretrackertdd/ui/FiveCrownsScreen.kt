@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -34,6 +33,7 @@ import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -59,23 +59,21 @@ fun FiveCrownsScreenPreview() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiveCrownsScreen(
-    onCloseGame: () -> Unit,
+    players: List<Player>,
+    updatePlayer: (Int, Player) -> Unit,
     tallyPoints: () -> Unit,
-    updateExitGameDialogState: (Boolean) -> Unit,
-    updateCalcDialogState: (Boolean) -> Unit,
-    reset: () -> Unit,
-    updatePotentialPoints: (Int, Int) -> Unit,
-    players: SnapshotStateList<Player>,
-    state: FiveCrownsState
+    fiveCrownsViewModel: FiveCrownsViewModel = remember { FiveCrownsViewModel() },
+    navigateToLandingScreen: () -> Unit,
+    navigateToFinalScoreScreen: () -> Unit
 ) {
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
-    if (state.isExitGameDialogShowing) {
+    if (fiveCrownsViewModel.state.isExitGameDialogShowing) {
         ScoreTrackerAlertDialog(
-            onConfirmClick = { updateExitGameDialogState(false) },
+            onConfirmClick = { fiveCrownsViewModel.updateExitGameDialogState(false) },
             onDismissClick = {
-                reset()
-                onCloseGame()
+                fiveCrownsViewModel.updateExitGameDialogState(false)
+                navigateToLandingScreen()
             },
             title = stringResource(R.string.leave_game),
             text = stringResource(R.string.lose_game_progress),
@@ -86,26 +84,36 @@ fun FiveCrownsScreen(
 
     BackHandler(
         onBack = {
-            updateExitGameDialogState(true)
+            fiveCrownsViewModel.updateExitGameDialogState(true)
         }
     )
 
     FiveCrownsScreenContent(
         players = players,
-        showCalcDialog = { updateCalcDialogState(true) },
-        tallyPoints = tallyPoints,
+        showCalcDialog = { fiveCrownsViewModel.updateCalcDialogState(true) },
+        tallyPoints = {
+            tallyPoints()
+            fiveCrownsViewModel.tallyPoints()
+            if (fiveCrownsViewModel.endgameCondition()) {
+                navigateToFinalScoreScreen()
+            } else {
+                fiveCrownsViewModel.incrementDealer()
+                fiveCrownsViewModel.incrementWildCard()
+            }
+        },
         lastClickedIndex = lastClickedIndex,
-        state = state
+        state = fiveCrownsViewModel.state
     )
 
-    if (state.isCalcDialogShowing) {
+    if (fiveCrownsViewModel.state.isCalcDialogShowing) {
         FiveCrownsCalcDialog(
             closeWithPoints = { points ->
-                updatePotentialPoints(lastClickedIndex.intValue, points)
-                updateCalcDialogState(false)
+                updatePlayer(lastClickedIndex.intValue, players[lastClickedIndex.intValue].copy(pendingPoints = points))
+//                fiveCrownsViewModel.setPotentialPoints(lastClickedIndex.intValue, points)
+                fiveCrownsViewModel.updateCalcDialogState(false)
             },
-            cancelDialog = { updateCalcDialogState(false) },
-            wildCard = state.wildCard
+            cancelDialog = { fiveCrownsViewModel.updateCalcDialogState(false) },
+            wildCard = fiveCrownsViewModel.state.wildCard
         )
     }
 }
@@ -113,9 +121,9 @@ fun FiveCrownsScreen(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiveCrownsScreenContent(
+    players: List<Player>,
     showCalcDialog: () -> Unit,
     tallyPoints: () -> Unit,
-    players: List<Player>,
     lastClickedIndex: MutableIntState,
     state: FiveCrownsState
 ) {
@@ -187,5 +195,6 @@ object FiveCrownsScreenTestTags {
     const val TALLY_BUTTON = "FIVE_CROWNS_TALLY_BUTTON"
     const val PLAYER_NAME = "FIVE_CROWNS_PLAYER_CARD_PLAYER_NAME"
     const val PLAYER_SCORE = "FIVE_CROWNS_PLAYER_CARD_PLAYER_SCORE"
+    const val PLAYER_POTENTIAL_POINTS = "FIVE_CROWNS_PLAYER_CARD_PLAYER_POTENTIAL_POINTS"
     const val CALC_BUTTON = "-FIVE_CROWNS_SCREEN_CALC_BUTTON"
 }

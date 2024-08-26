@@ -100,6 +100,7 @@ fun PlayerDataCard(
                     onClick = onClick
                 ) {
                     Text(
+                        modifier = Modifier.testTag(FiveCrownsScreenTestTags.PLAYER_POTENTIAL_POINTS),
                         text = player.pendingPoints.toString(),
                         color = if (isDealer) {
                             MaterialTheme.colorScheme.onPrimaryContainer

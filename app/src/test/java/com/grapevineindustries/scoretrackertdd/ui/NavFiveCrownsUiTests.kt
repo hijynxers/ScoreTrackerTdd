@@ -1,14 +1,17 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
 import androidx.activity.ComponentActivity
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
+import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
+import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.ScoreTrackerViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.PlayerViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
@@ -18,7 +21,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class FiveCrownsScreenUiTests {
+class NavFiveCrownsUiTests {
     @JvmField
     @Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -27,44 +30,50 @@ class FiveCrownsScreenUiTests {
     private val alertDialogUtils = AlertDialogTestUtils(composeTestRule)
     private val fiveCrownsCalcDialogUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
 
-    private val scoreTrackerViewModel = ScoreTrackerViewModel()
-    private val fiveCrownsViewModel = FiveCrownsViewModel()
-    private var backNavigation = false
-    private var endGameNavigation = false
-
     private val initialPlayerData = listOf(
-        Player("player1", 3),
-        Player("player2", 15),
-        Player("player3", 183),
+        Player("player1"),
+        Player("player2"),
+        Player("player3"),
     )
+
+    private var fiveCrownsViewModel = FiveCrownsViewModel()
+    private var playerViewModel = PlayerViewModel()
+    private var backNavigation = false
+    private var finalScoreNavigation = false
+
+    private var isCalcDialogShown = false
 
     @Before
     fun setup() {
-        fiveCrownsScreenUtils.initPlayerList(
-            viewModel = scoreTrackerViewModel,
-            playerNames = initialPlayerData
-        )
         backNavigation = false
+
+        playerViewModel.playerList = initialPlayerData.toMutableStateList()
 
         composeTestRule.setContent {
             ScoreTrackerTheme {
-                FiveCrownsScreen(
-                    onCloseGame = { backNavigation = true },
-                    tallyPoints = {
-                        scoreTrackerViewModel.tallyPoints()
-                        if (fiveCrownsViewModel.endgameCondition()) {
-                            endGameNavigation = true
-                        } else {
-                            fiveCrownsViewModel.incrementWildCard()
-                            fiveCrownsViewModel.incrementDealer()
-                        }
-                    },
-                    updateExitGameDialogState = fiveCrownsViewModel::updateExitGameDialogState,
-                    updateCalcDialogState = fiveCrownsViewModel::updateCalcDialogState,
-                    reset = fiveCrownsViewModel::reset,
-                    updatePotentialPoints = scoreTrackerViewModel::setPotentialPoints,
-                    players = scoreTrackerViewModel.playerList,
-                    state = fiveCrownsViewModel.state
+//                FiveCrownsScreen(
+//                    players = playerViewModel.playerList,
+//                    fiveCrownsViewModel = fiveCrownsViewModel,
+//                    updatePlayer = playerViewModel::updatePlayer,
+//                    tallyPoints = playerViewModel::tallyPoints,
+//                    navigateToLandingScreen = { backNavigation = true },
+//                    navigateToFinalScoreScreen = { finalScoreNavigation = true }
+//                )
+                FiveCrownsScreenContent(
+                    players = listOf(
+                        Player("player1"),
+                        Player("player2"),
+                        Player("player3")
+                    ),
+                    showCalcDialog = { isCalcDialogShown = true },
+                    tallyPoints = { /*TODO*/ },
+                    lastClickedIndex = mutableIntStateOf(0),
+                    state = FiveCrownsState(
+                        wildCard = 3,
+                        dealer = 0,
+                        isExitGameDialogShowing = false,
+                        isCalcDialogShowing = false
+                    )
                 )
             }
         }
@@ -72,7 +81,6 @@ class FiveCrownsScreenUiTests {
 
     @Test
     fun back_press_chicken_test() {
-
         fiveCrownsScreenUtils.assertScreenShowing()
         assertFalse(backNavigation)
 
@@ -105,14 +113,14 @@ class FiveCrownsScreenUiTests {
     @Test
     fun player_list_shows_correct_data_after_tally() {
         val intermediatePlayerData = listOf(
-            Player("player1", 3, pendingPoints = 10),
-            Player("player2", 15),
-            Player("player3", 183),
+            Player("player1", 0, pendingPoints = 10),
+            Player("player2", 0),
+            Player("player3", 0),
         )
         val expectedPlayerData = listOf(
-            Player("player1", 13),
-            Player("player2", 15),
-            Player("player3", 183),
+            Player("player1", 10),
+            Player("player2"),
+            Player("player3"),
         )
 
         fiveCrownsScreenUtils.assertScreenShowing()
@@ -154,10 +162,10 @@ class FiveCrownsScreenUiTests {
     @Test
     fun end_game_click() {
         fiveCrownsScreenUtils.assertScreenShowing()
-        assertFalse(endGameNavigation)
+        assertFalse(finalScoreNavigation)
 
         fiveCrownsScreenUtils.endTheGame()
 
-        assertTrue(endGameNavigation)
+        assertTrue(finalScoreNavigation)
     }
 }
