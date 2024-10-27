@@ -60,7 +60,7 @@ fun FinalScoreScreen(
         content = {
             Column(
                 modifier = Modifier.padding(all = Dimen.outerScreenPadding)
-            ){
+            ) {
                 LazyColumn(
                     modifier = Modifier.weight(1f)
                         .fillMaxWidth(),

@@ -41,14 +41,12 @@ fun NavHost(
                     navController.navigateUp()
                 },
                 updatePlayer = playerViewModel::updatePlayer,
-                players = playerViewModel.playerList
+                players = playerViewModel.players
             )
         }
         composable(NavHostRoutes.GameScreen) {
             FiveCrownsScreen(
-                players = playerViewModel.playerList,
-                updatePlayer = playerViewModel::updatePlayer,
-                tallyPoints = playerViewModel::tallyPoints,
+                playerViewModel = playerViewModel,
                 navigateToLandingScreen = {
                     navController.popBackStack(
                         route = NavHostRoutes.LandingScreen,

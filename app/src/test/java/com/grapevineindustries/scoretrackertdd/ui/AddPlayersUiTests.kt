@@ -1,11 +1,12 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
+import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -16,31 +17,48 @@ import org.robolectric.RobolectricTestRunner
 class AddPlayersUiTests {
     @JvmField
     @Rule
-    val composeTestRule = createComposeRule()
+    val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val startGameButtonClicked = MutableStateFlow(false)
+    private var startGameClicked = false
+    private var backClicked = false
+    private var player = Player("")
+    private var index = 0
 
     private val addPlayersUtils = AddPlayersTestUtils(composeTestRule)
 
     @Before
     fun setup() {
         composeTestRule.setContent {
-//            AddPlayersScreen(
-//                onBackPress = {},
-//                onStartGameClicked = {
-//                    startGameButtonClicked.update { true }
-//                },
-////                numPlayers = 3
-//            )
+            AddPlayersScreen(
+                onStartGameClicked = { startGameClicked = true },
+                onBackPress = { backClicked = true },
+                updatePlayer = { index, player ->
+                    this.player = player
+                    this.index = index
+                },
+                players = listOf(
+                    Player(""),
+                    Player(""),
+                    Player("")
+                )
+            )
         }
     }
 
     @Test
     fun clicked_start_game_button() {
-        assertFalse(startGameButtonClicked.value)
+        assertFalse(startGameClicked)
 
         addPlayersUtils.clickStartGame()
-        assertTrue(startGameButtonClicked.value)
+        assertTrue(startGameClicked)
+    }
+
+    @Test
+    fun clicked_back_button() {
+        assertFalse(backClicked)
+
+        Espresso.pressBack()
+        assertTrue(backClicked)
     }
 
     @Test
@@ -48,13 +66,10 @@ class AddPlayersUiTests {
         val expectedText = "name 1"
         addPlayersUtils.assertScreenShowing()
 
-        addPlayersUtils.addAndAssertPlayerNameText(
+        addPlayersUtils.addPlayerNameText(
             index = 0,
             text = expectedText
         )
-        addPlayersUtils.addAndAssertPlayerNameText(
-            index = 2,
-            text = expectedText
-        )
+        assert(player == Player(name = expectedText))
     }
 }

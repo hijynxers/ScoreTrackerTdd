@@ -5,6 +5,7 @@ import com.grapevineindustries.scoretrackertdd.navigation.NavHost
 import com.grapevineindustries.scoretrackertdd.navigation.NavHostRoutes
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
+import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
@@ -26,6 +27,7 @@ class ScoreTrackerNavigationTests {
     private val addPlayersUtils = AddPlayersTestUtils(composeTestRule)
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)
     private val finalScoresUtils = FinalScoresTestUtils(composeTestRule)
+    private val fiveCrownsCalcDialogUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
 
     @Test
     fun to_addPlayer_screen() {
@@ -42,12 +44,14 @@ class ScoreTrackerNavigationTests {
     @Test
     fun to_fiveCrowns_screen() {
         composeTestRule.setContent {
+            playerViewModel.createPlayersList(3)
             NavHost(
-                startDestination = NavHostRoutes.AddPlayersScreen
+                startDestination = NavHostRoutes.AddPlayersScreen,
+                playerViewModel = playerViewModel
             )
         }
 
-        addPlayersUtils.assertScreenShowing()
+        addPlayersUtils.assertScreenShowing(0)
         addPlayersUtils.addAndAssertPlayerNameText(0, "player1")
         addPlayersUtils.addAndAssertPlayerNameText(1, "player2")
         addPlayersUtils.addAndAssertPlayerNameText(2, "player3")
@@ -66,6 +70,11 @@ class ScoreTrackerNavigationTests {
     @Test
     fun to_finalScores_screen() {
         composeTestRule.setContent {
+            playerViewModel.createPlayersList(3)
+            playerViewModel.updatePlayer(0, Player(name = "player1"))
+            playerViewModel.updatePlayer(1, Player(name = "player2"))
+            playerViewModel.updatePlayer(2, Player(name = "player3"))
+
             NavHost(
                 startDestination = NavHostRoutes.GameScreen,
                 playerViewModel = playerViewModel
@@ -106,5 +115,34 @@ class ScoreTrackerNavigationTests {
         finalScoresUtils.clickReplay()
 
         fiveCrownsScreenUtils.assertScreenShowing()
+    }
+
+    @Test
+    fun five_crowns_flow() {
+        composeTestRule.setContent {
+            NavHost()
+        }
+
+        landingScreenUtils.assertInitialContentDisplayed()
+        landingScreenUtils.clickAddPlayers()
+
+        addPlayersUtils.clickStartGame()
+
+        fiveCrownsScreenUtils.clickFirstCalculatorButton()
+        fiveCrownsCalcDialogUtils.clickButton("10")
+        fiveCrownsCalcDialogUtils.clickConfirmButton()
+        fiveCrownsScreenUtils.clickEndGameTally()
+
+        finalScoresUtils.assertShowing()
+        finalScoresUtils.assertData(
+            listOf(
+                Player(name = "", score = 0),
+                Player(name = "", score = 0),
+                Player(name = "", score = 10),
+            )
+        )
+        finalScoresUtils.clickNewGame()
+
+        landingScreenUtils.assertInitialContentDisplayed()
     }
 }

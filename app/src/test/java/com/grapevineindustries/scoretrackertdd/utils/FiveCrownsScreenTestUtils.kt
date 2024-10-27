@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
@@ -13,8 +14,8 @@ import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
+import com.grapevineindustries.scoretrackertdd.ui.composables.AlertDialogTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
-import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
 import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 class FiveCrownsScreenTestUtils(
@@ -70,6 +71,16 @@ class FiveCrownsScreenTestUtils(
             .assertDoesNotExist()
     }
 
+    fun assertEndGameDialogShowing() {
+        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+            .isDisplayed()
+    }
+
+    fun assertEndGameDialogNotShowing() {
+        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+            .assertDoesNotExist()
+    }
+
     fun assertWildCard(expected: String) {
         composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.WILD_CARD)
             .assertIsDisplayed()
@@ -94,14 +105,6 @@ class FiveCrownsScreenTestUtils(
     fun endTheGame() {
         for (i in 3..13) {
             clickTallyButton()
-        }
-    }
-
-    fun initPlayerList(viewModel: FiveCrownsViewModel, playerNames: List<Player>) {
-        viewModel.createPlayersList(playerNames.size)
-        playerNames.forEachIndexed { index, player ->
-            viewModel.setName(index, player.name)
-            viewModel.setScore(index, player.score)
         }
     }
 

@@ -2,7 +2,6 @@ package com.grapevineindustries.scoretrackertdd.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
@@ -21,7 +20,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class NavFiveCrownsUiTests {
+class FiveCrownsUiTests {
     @JvmField
     @Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -38,27 +37,65 @@ class NavFiveCrownsUiTests {
 
     private var fiveCrownsViewModel = FiveCrownsViewModel()
     private var playerViewModel = PlayerViewModel()
+
     private var backNavigation = false
     private var finalScoreNavigation = false
-
     private var isCalcDialogShown = false
+    private var tallyPointsClicked = false
+    private var updatePlayerClicked = false
+    private var lastClickedIndex = mutableIntStateOf(-1)
 
     @Before
     fun setup() {
         backNavigation = false
+        finalScoreNavigation = false
+        isCalcDialogShown = false
+        tallyPointsClicked = false
+        updatePlayerClicked = false
+        lastClickedIndex.intValue = -1
+        playerViewModel.createPlayersList(3)
+        playerViewModel.updatePlayer(0, Player("player1"))
+        playerViewModel.updatePlayer(1, Player("player2"))
+        playerViewModel.updatePlayer(2, Player("player3"))
+    }
 
-        playerViewModel.playerList = initialPlayerData.toMutableStateList()
+    @Test
+    fun tally_points_clicked() {
+        launchScreenContent()
+        fiveCrownsScreenUtils.assertScreenShowing()
+        assertFalse(tallyPointsClicked)
 
+        fiveCrownsScreenUtils.clickTallyButton()
+
+        assertTrue(tallyPointsClicked)
+    }
+
+    @Test
+    fun show_calc_dialog_clicked() {
+        launchScreenContent()
+        fiveCrownsScreenUtils.assertScreenShowing()
+        assertFalse(isCalcDialogShown)
+        assert(lastClickedIndex.intValue == -1)
+
+        fiveCrownsScreenUtils.clickFirstCalculatorButton()
+
+        assertTrue(isCalcDialogShown)
+        assert(lastClickedIndex.intValue == 0)
+    }
+
+    @Test
+    fun verify_initial_state() {
+        launchScreenContent()
+        fiveCrownsScreenUtils.assertCalculatorNotShowing()
+        fiveCrownsScreenUtils.assertEndGameDialogNotShowing()
+        fiveCrownsScreenUtils.assertWildCard("3")
+        // Is there a way to test dealer position from the color?
+    }
+
+    @Test
+    fun verify_exit_game_dialog_state() {
         composeTestRule.setContent {
             ScoreTrackerTheme {
-//                FiveCrownsScreen(
-//                    players = playerViewModel.playerList,
-//                    fiveCrownsViewModel = fiveCrownsViewModel,
-//                    updatePlayer = playerViewModel::updatePlayer,
-//                    tallyPoints = playerViewModel::tallyPoints,
-//                    navigateToLandingScreen = { backNavigation = true },
-//                    navigateToFinalScoreScreen = { finalScoreNavigation = true }
-//                )
                 FiveCrownsScreenContent(
                     players = listOf(
                         Player("player1"),
@@ -66,21 +103,54 @@ class NavFiveCrownsUiTests {
                         Player("player3")
                     ),
                     showCalcDialog = { isCalcDialogShown = true },
-                    tallyPoints = { /*TODO*/ },
-                    lastClickedIndex = mutableIntStateOf(0),
+                    tallyPoints = { tallyPointsClicked = true },
+                    lastClickedIndex = lastClickedIndex,
                     state = FiveCrownsState(
-                        wildCard = 3,
+                        wildCard = 13,
                         dealer = 0,
-                        isExitGameDialogShowing = false,
-                        isCalcDialogShowing = false
+                        isExitGameDialogShowing = true,
+                        isCalcDialogShowing = isCalcDialogShown
                     )
                 )
             }
         }
+
+        fiveCrownsScreenUtils.assertCalculatorNotShowing()
+        fiveCrownsScreenUtils.assertEndGameDialogShowing()
+        fiveCrownsScreenUtils.assertWildCard("K")
+    }
+
+    @Test
+    fun verify_calc_dialog_state() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                FiveCrownsScreenContent(
+                    players = listOf(
+                        Player("player1"),
+                        Player("player2"),
+                        Player("player3")
+                    ),
+                    showCalcDialog = { isCalcDialogShown = true },
+                    tallyPoints = { tallyPointsClicked = true },
+                    lastClickedIndex = lastClickedIndex,
+                    state = FiveCrownsState(
+                        wildCard = 12,
+                        dealer = 0,
+                        isExitGameDialogShowing = false,
+                        isCalcDialogShowing = true
+                    )
+                )
+            }
+        }
+
+        fiveCrownsScreenUtils.assertCalculatorNotShowing()
+        fiveCrownsScreenUtils.assertEndGameDialogShowing()
+        fiveCrownsScreenUtils.assertWildCard("Q")
     }
 
     @Test
     fun back_press_chicken_test() {
+        launchScreen()
         fiveCrownsScreenUtils.assertScreenShowing()
         assertFalse(backNavigation)
 
@@ -112,6 +182,8 @@ class NavFiveCrownsUiTests {
 
     @Test
     fun player_list_shows_correct_data_after_tally() {
+        launchScreen()
+
         val intermediatePlayerData = listOf(
             Player("player1", 0, pendingPoints = 10),
             Player("player2", 0),
@@ -125,7 +197,7 @@ class NavFiveCrownsUiTests {
 
         fiveCrownsScreenUtils.assertScreenShowing()
         fiveCrownsScreenUtils.assertPlayerData(initialPlayerData)
-        assertTrue(fiveCrownsViewModel.state.dealer == 0)
+        assertTrue(fiveCrownsViewModel.state.value.dealer == 0)
 
         fiveCrownsScreenUtils.clickFirstCalculatorButton()
         fiveCrownsCalcDialogUtils.clickButton("10")
@@ -135,11 +207,12 @@ class NavFiveCrownsUiTests {
 
         fiveCrownsScreenUtils.clickTallyButton()
         fiveCrownsScreenUtils.assertPlayerData(expectedPlayerData)
-        assertTrue(fiveCrownsViewModel.state.dealer == 1)
+        assertTrue(fiveCrownsViewModel.state.value.dealer == 1)
     }
 
     @Test
     fun calc_dialog_cancel_does_not_add_points() {
+        launchScreen()
         fiveCrownsScreenUtils.assertScreenShowing()
         fiveCrownsScreenUtils.clickFirstCalculatorButton()
         fiveCrownsScreenUtils.assertCalculatorShowing()
@@ -153,6 +226,7 @@ class NavFiveCrownsUiTests {
 
     @Test
     fun wildcard_displays_correctly() {
+        launchScreen()
         fiveCrownsScreenUtils.assertScreenShowing()
 
         fiveCrownsScreenUtils.clickTallyButton()
@@ -161,11 +235,50 @@ class NavFiveCrownsUiTests {
 
     @Test
     fun end_game_click() {
+        launchScreen()
         fiveCrownsScreenUtils.assertScreenShowing()
         assertFalse(finalScoreNavigation)
 
         fiveCrownsScreenUtils.endTheGame()
 
         assertTrue(finalScoreNavigation)
+    }
+
+    private fun launchScreen() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                FiveCrownsScreen(
+                    playerViewModel = playerViewModel,
+                    fiveCrownsViewModel = fiveCrownsViewModel,
+                    navigateToLandingScreen = { backNavigation = true },
+                    navigateToFinalScoreScreen = { finalScoreNavigation = true }
+                )
+            }
+        }
+    }
+
+    private fun launchScreenContent() {
+        composeTestRule.setContent {
+            ScoreTrackerTheme {
+                FiveCrownsScreenContent(
+                    players = listOf(
+                        Player("player1"),
+                        Player("player2"),
+                        Player("player3")
+                    ),
+                    showCalcDialog = {
+                        isCalcDialogShown = true
+                    },
+                    tallyPoints = { tallyPointsClicked = true },
+                    lastClickedIndex = lastClickedIndex,
+                    state = FiveCrownsState(
+                        wildCard = 3,
+                        dealer = 0,
+                        isExitGameDialogShowing = false,
+                        isCalcDialogShowing = isCalcDialogShown
+                    )
+                )
+            }
+        }
     }
 }

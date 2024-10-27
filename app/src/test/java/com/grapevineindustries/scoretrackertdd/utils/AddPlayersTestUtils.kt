@@ -45,6 +45,12 @@ class AddPlayersTestUtils(
             .assert(hasText(text))
     }
 
+    fun addPlayerNameText(index: Int, text: String) {
+        composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index.toString())
+            .assertIsDisplayed()
+            .performTextInput(text)
+    }
+
     fun clickStartGame() {
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.START_GAME_BUTTON).performClick()
     }
