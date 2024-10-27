@@ -51,7 +51,7 @@ class ScoreTrackerNavigationTests {
             )
         }
 
-        addPlayersUtils.assertScreenShowing(0)
+        addPlayersUtils.assertScreenShowing()
         addPlayersUtils.addAndAssertPlayerNameText(0, "player1")
         addPlayersUtils.addAndAssertPlayerNameText(1, "player2")
         addPlayersUtils.addAndAssertPlayerNameText(2, "player3")
