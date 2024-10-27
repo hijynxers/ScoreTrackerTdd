@@ -17,19 +17,26 @@ class FiveCrownsCalcDialogUiTests {
 
     private val fiveCrownsCalcUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
 
-    @Test
-    fun clicking_buttons_add_K_to_score() {
+    private fun launchWithCompose(
+        wildcard: Int
+    ) {
         composeTestRule.setContent {
             ScoreTrackerTheme {
                 FiveCrownsCalcDialog(
                     closeWithPoints = {},
                     cancelDialog = {},
-                    wildCard = 3
+                    wildCard = wildcard,
+                    player = "Player 1"
                 )
             }
         }
+    }
 
+    @Test
+    fun clicking_buttons_add_K_to_score() {
+        launchWithCompose(3)
         fiveCrownsCalcUtils.assertShowing()
+        fiveCrownsCalcUtils.assertPlayerName("Player 1")
 
         fiveCrownsCalcUtils.clickButton("K")
         fiveCrownsCalcUtils.assertSum("13")
@@ -38,15 +45,7 @@ class FiveCrownsCalcDialogUiTests {
 
     @Test
     fun clicking_buttons_add_to_score_K_wild() {
-        composeTestRule.setContent {
-            ScoreTrackerTheme {
-                FiveCrownsCalcDialog(
-                    closeWithPoints = {},
-                    cancelDialog = {},
-                    wildCard = 13
-                )
-            }
-        }
+        launchWithCompose(13)
 
         fiveCrownsCalcUtils.assertShowing()
 

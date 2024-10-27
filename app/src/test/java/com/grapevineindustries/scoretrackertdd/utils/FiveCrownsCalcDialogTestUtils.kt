@@ -43,6 +43,12 @@ class FiveCrownsCalcDialogTestUtils(
             .assertTextEquals(factors)
     }
 
+    fun assertPlayerName(name: String) {
+        composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.PLAYER)
+            .assertIsDisplayed()
+            .assertTextEquals(name)
+    }
+
     fun clickConfirmButton() {
         composeTestRule.onNodeWithTag(FiveCrownsCalcDialogTestTags.OK)
             .performClick()

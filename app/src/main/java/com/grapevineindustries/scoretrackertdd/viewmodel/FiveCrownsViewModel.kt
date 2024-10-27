@@ -31,10 +31,5 @@ class FiveCrownsViewModel {
         _state.update { _state.value.copy(dealer = _state.value.dealer + 1) }
     }
 
-    fun resetNewGame() {
-//        resetScores()
-        _state.update { FiveCrownsState(dealer = _state.value.dealer) }
-    }
-
     fun endgameCondition(): Boolean = _state.value.wildCard == 13
 }

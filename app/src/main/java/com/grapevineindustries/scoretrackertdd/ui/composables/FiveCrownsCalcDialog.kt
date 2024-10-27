@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -40,7 +41,8 @@ fun FiveCrownsCalcDialogPreview() {
         FiveCrownsCalcDialog(
             closeWithPoints = {},
             cancelDialog = {},
-            wildCard = 3
+            wildCard = 3,
+            player = "Player 1"
         )
     }
 }
@@ -51,7 +53,8 @@ private val numbers = listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50)
 fun FiveCrownsCalcDialog(
     closeWithPoints: (Int) -> Unit,
     cancelDialog: () -> Unit,
-    wildCard: Int
+    wildCard: Int,
+    player: String
 ) {
     val sum = remember { mutableIntStateOf(0) }
     val factors = remember { mutableStateOf("") }
@@ -69,9 +72,15 @@ fun FiveCrownsCalcDialog(
                 Column(
                     modifier = Modifier
                         .testTag(FiveCrownsCalcDialogTestTags.CALC_DIALOG)
-                        .padding(all = 8.dp), horizontalAlignment = AbsoluteAlignment.Right
+                        .padding(all = 8.dp),
+                    horizontalAlignment = AbsoluteAlignment.Right
                 ) {
-
+                    Text(
+                        modifier = Modifier.testTag(FiveCrownsCalcDialogTestTags.PLAYER),
+                        text = player,
+                        textAlign = TextAlign.Right
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         modifier = Modifier.testTag(FiveCrownsCalcDialogTestTags.FACTORS),
                         text = factors.value,
@@ -94,11 +103,11 @@ fun FiveCrownsCalcDialog(
                                     .padding(4.dp),
                                 onClick = {
                                     if (convertWildCard(wildCard) == convertedElement) {
-                                        sum.intValue = sum.intValue + 20
-                                        factors.value = factors.value + " *$convertedElement"
+                                        sum.intValue += 20
+                                        factors.value += " *$convertedElement"
                                     } else {
-                                        sum.intValue = sum.intValue + element
-                                        factors.value = factors.value + "  $convertedElement"
+                                        sum.intValue += element
+                                        factors.value += "  $convertedElement"
                                     }
                                 }
                             ) {
@@ -169,4 +178,5 @@ object FiveCrownsCalcDialogTestTags {
     const val BUTTON = "CALC_DIALOG_BUTTON_"
     const val SUM = "CALC_DIALOG_SUM"
     const val FACTORS = "CALC_DIALOG_FACTORS"
+    const val PLAYER = "CALC_DIALOG_PLAYER"
 }

@@ -176,8 +176,7 @@ fun LandingScreen(
                                 },
                                 content = {
                                     Text(
-                                        text = stringResource(id = R.string.start_game),
-                                        style = MaterialTheme.typography.bodyMedium
+                                        text = stringResource(id = R.string.start_game)
                                     )
                                 }
                             )

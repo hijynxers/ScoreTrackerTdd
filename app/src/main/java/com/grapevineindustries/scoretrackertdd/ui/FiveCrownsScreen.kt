@@ -113,7 +113,8 @@ fun FiveCrownsScreen(
                 fiveCrownsViewModel.updateCalcDialogState(false)
             },
             cancelDialog = { fiveCrownsViewModel.updateCalcDialogState(false) },
-            wildCard = fiveCrownsViewModel.state.collectAsState().value.wildCard
+            wildCard = fiveCrownsViewModel.state.collectAsState().value.wildCard,
+            player = playerViewModel.players[lastClickedIndex.intValue].name
         )
     }
 }

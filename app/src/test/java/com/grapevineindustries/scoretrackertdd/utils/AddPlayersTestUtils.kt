@@ -28,6 +28,9 @@ class AddPlayersTestUtils(
                 .assertIsDisplayed()
                 .onChildren()
                 .assertCountEquals(numPlayers)
+        } else {
+            composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
+                .assertDoesNotExist()
         }
 
         composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.START_GAME_BUTTON)
