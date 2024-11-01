@@ -13,10 +13,10 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.scoretrackertdd.FiveCrownsConstants
+import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.AlertDialogTestTags
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialogTestTags
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 class FiveCrownsScreenTestUtils(
     private val composeTestRule: ComposeTestRule

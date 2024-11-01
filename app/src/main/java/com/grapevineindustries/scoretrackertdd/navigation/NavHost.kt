@@ -10,14 +10,14 @@ import com.grapevineindustries.scoretrackertdd.ui.AddPlayersScreen
 import com.grapevineindustries.scoretrackertdd.ui.FinalScoreScreen
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreen
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayerViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 
 @Composable
 fun NavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     startDestination: String = NavHostRoutes.LandingScreen,
-    playerViewModel: PlayerViewModel = PlayerViewModel()
+    gameViewModel: GameViewModel = GameViewModel()
 ) {
     NavHost(
         modifier = modifier,
@@ -27,7 +27,7 @@ fun NavHost(
         composable(NavHostRoutes.LandingScreen) {
             LandingScreen(
                 onAddPlayersClick = { numPlayers ->
-                    playerViewModel.createPlayersList(numPlayers)
+                    gameViewModel.createPlayersList(numPlayers)
                     navController.navigate(NavHostRoutes.AddPlayersScreen)
                 }
             )
@@ -40,13 +40,13 @@ fun NavHost(
                 onBackPress = {
                     navController.navigateUp()
                 },
-                updatePlayer = playerViewModel::updatePlayer,
-                players = playerViewModel.players
+                updatePlayer = gameViewModel::updatePlayer,
+                players = gameViewModel.players
             )
         }
         composable(NavHostRoutes.GameScreen) {
             FiveCrownsScreen(
-                playerViewModel = playerViewModel,
+                gameViewModel = gameViewModel,
                 navigateToLandingScreen = {
                     navController.popBackStack(
                         route = NavHostRoutes.LandingScreen,
@@ -60,7 +60,7 @@ fun NavHost(
         }
         composable(NavHostRoutes.FinalScoresScreen) {
             FinalScoreScreen(
-                playerData = playerViewModel.sortedPlayers(),
+                playerData = gameViewModel.sortedPlayers(),
                 onNewGameClick = {
                     navController.popBackStack(
                         route = NavHostRoutes.LandingScreen,
@@ -68,7 +68,8 @@ fun NavHost(
                     )
                 },
                 onReplayClick = {
-                    playerViewModel.resetScores()
+                    gameViewModel.resetScores()
+                    gameViewModel.resetWildCard()
                     navController.popBackStack(
                         route = NavHostRoutes.GameScreen,
                         inclusive = false

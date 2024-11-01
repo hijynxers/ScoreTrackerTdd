@@ -3,14 +3,13 @@ package com.grapevineindustries.scoretrackertdd.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
-import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayerViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
@@ -35,8 +34,7 @@ class FiveCrownsUiTests {
         Player("player3"),
     )
 
-    private var fiveCrownsViewModel = FiveCrownsViewModel()
-    private var playerViewModel = PlayerViewModel()
+    private var gameViewModel = GameViewModel()
 
     private var backNavigation = false
     private var finalScoreNavigation = false
@@ -53,10 +51,10 @@ class FiveCrownsUiTests {
         tallyPointsClicked = false
         updatePlayerClicked = false
         lastClickedIndex.intValue = -1
-        playerViewModel.createPlayersList(3)
-        playerViewModel.updatePlayer(0, Player("player1"))
-        playerViewModel.updatePlayer(1, Player("player2"))
-        playerViewModel.updatePlayer(2, Player("player3"))
+        gameViewModel.createPlayersList(3)
+        gameViewModel.updatePlayer(0, Player("player1"))
+        gameViewModel.updatePlayer(1, Player("player2"))
+        gameViewModel.updatePlayer(2, Player("player3"))
     }
 
     @Test
@@ -197,7 +195,7 @@ class FiveCrownsUiTests {
 
         fiveCrownsScreenUtils.assertScreenShowing()
         fiveCrownsScreenUtils.assertPlayerData(initialPlayerData)
-        assertTrue(fiveCrownsViewModel.state.value.dealer == 0)
+        assertTrue(gameViewModel.state.value.dealer == 0)
 
         fiveCrownsScreenUtils.clickFirstCalculatorButton()
         fiveCrownsCalcDialogUtils.clickButton("10")
@@ -207,7 +205,7 @@ class FiveCrownsUiTests {
 
         fiveCrownsScreenUtils.clickTallyButton()
         fiveCrownsScreenUtils.assertPlayerData(expectedPlayerData)
-        assertTrue(fiveCrownsViewModel.state.value.dealer == 1)
+        assertTrue(gameViewModel.state.value.dealer == 1)
     }
 
     @Test
@@ -248,8 +246,7 @@ class FiveCrownsUiTests {
         composeTestRule.setContent {
             ScoreTrackerTheme {
                 FiveCrownsScreen(
-                    playerViewModel = playerViewModel,
-                    fiveCrownsViewModel = fiveCrownsViewModel,
+                    gameViewModel = gameViewModel,
                     navigateToLandingScreen = { backNavigation = true },
                     navigateToFinalScoreScreen = { finalScoreNavigation = true }
                 )
@@ -266,9 +263,7 @@ class FiveCrownsUiTests {
                         Player("player2"),
                         Player("player3")
                     ),
-                    showCalcDialog = {
-                        isCalcDialogShown = true
-                    },
+                    showCalcDialog = { isCalcDialogShown = true },
                     tallyPoints = { tallyPointsClicked = true },
                     lastClickedIndex = lastClickedIndex,
                     state = FiveCrownsState(

@@ -20,9 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @Preview(showBackground = true)
 @Composable

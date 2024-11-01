@@ -3,8 +3,8 @@ package com.grapevineindustries.scoretrackertdd.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.espresso.Espresso
+import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Before

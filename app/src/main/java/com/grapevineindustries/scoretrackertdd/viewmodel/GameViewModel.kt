@@ -1,10 +1,34 @@
 package com.grapevineindustries.scoretrackertdd.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
-import kotlinx.serialization.Serializable
+import com.grapevineindustries.scoretrackertdd.Player
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
-class PlayerViewModel {
+class GameViewModel {
+    private var _state = MutableStateFlow(FiveCrownsState())
+    var state: StateFlow<FiveCrownsState> = _state
+
     var players = mutableStateListOf<Player>()
+
+    fun updateExitGameDialogState(state: Boolean) {
+        _state.update { _state.value.copy(isExitGameDialogShowing = state) }
+    }
+
+    fun updateCalcDialogState(state: Boolean) {
+        _state.update { _state.value.copy(isCalcDialogShowing = state) }
+    }
+
+    fun incrementWildCard() {
+        _state.update { _state.value.copy(wildCard = _state.value.wildCard + 1) }
+    }
+
+    fun incrementDealer() {
+        _state.update { _state.value.copy(dealer = _state.value.dealer + 1) }
+    }
+
+    fun endgameCondition(): Boolean = _state.value.wildCard == 13
 
     fun createPlayersList(numPlayers: Int) {
         reset()
@@ -53,11 +77,8 @@ class PlayerViewModel {
     fun sortedPlayers(): List<Player> {
         return players.sortedBy { it.score }
     }
-}
 
-@Serializable
-data class Player(
-    var name: String,
-    var score: Int = 0,
-    var pendingPoints: Int = 0
-)
+    fun resetWildCard() {
+        _state.update { FiveCrownsState() }
+    }
+}

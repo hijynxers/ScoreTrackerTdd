@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
@@ -34,9 +35,7 @@ import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
-import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsViewModel
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayerViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -61,18 +60,17 @@ fun FiveCrownsScreenPreview() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiveCrownsScreen(
-    playerViewModel: PlayerViewModel,
-    fiveCrownsViewModel: FiveCrownsViewModel = remember { FiveCrownsViewModel() },
+    gameViewModel: GameViewModel,
     navigateToLandingScreen: () -> Unit,
     navigateToFinalScoreScreen: (List<Player>) -> Unit
 ) {
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
-    if (fiveCrownsViewModel.state.collectAsState().value.isExitGameDialogShowing) {
+    if (gameViewModel.state.collectAsState().value.isExitGameDialogShowing) {
         ScoreTrackerAlertDialog(
-            onConfirmClick = { fiveCrownsViewModel.updateExitGameDialogState(false) },
+            onConfirmClick = { gameViewModel.updateExitGameDialogState(false) },
             onDismissClick = {
-                fiveCrownsViewModel.updateExitGameDialogState(false)
+                gameViewModel.updateExitGameDialogState(false)
                 navigateToLandingScreen()
             },
             title = stringResource(R.string.leave_game),
@@ -84,37 +82,37 @@ fun FiveCrownsScreen(
 
     BackHandler(
         onBack = {
-            fiveCrownsViewModel.updateExitGameDialogState(true)
+            gameViewModel.updateExitGameDialogState(true)
         }
     )
 
     FiveCrownsScreenContent(
-        players = playerViewModel.players,
+        players = gameViewModel.players,
         showCalcDialog = {
-            fiveCrownsViewModel.updateCalcDialogState(true)
+            gameViewModel.updateCalcDialogState(true)
         },
         tallyPoints = {
-            playerViewModel.tallyPoints()
-            if (fiveCrownsViewModel.endgameCondition()) {
-                navigateToFinalScoreScreen(playerViewModel.players)
+            gameViewModel.tallyPoints()
+            if (gameViewModel.endgameCondition()) {
+                navigateToFinalScoreScreen(gameViewModel.players)
             } else {
-                fiveCrownsViewModel.incrementDealer()
-                fiveCrownsViewModel.incrementWildCard()
+                gameViewModel.incrementDealer()
+                gameViewModel.incrementWildCard()
             }
         },
         lastClickedIndex = lastClickedIndex,
-        state = fiveCrownsViewModel.state.collectAsState().value
+        state = gameViewModel.state.collectAsState().value
     )
 
-    if (fiveCrownsViewModel.state.collectAsState().value.isCalcDialogShowing) {
+    if (gameViewModel.state.collectAsState().value.isCalcDialogShowing) {
         FiveCrownsCalcDialog(
             closeWithPoints = { points ->
-                playerViewModel.setPotentialPoints(lastClickedIndex.intValue, points)
-                fiveCrownsViewModel.updateCalcDialogState(false)
+                gameViewModel.setPotentialPoints(lastClickedIndex.intValue, points)
+                gameViewModel.updateCalcDialogState(false)
             },
-            cancelDialog = { fiveCrownsViewModel.updateCalcDialogState(false) },
-            wildCard = fiveCrownsViewModel.state.collectAsState().value.wildCard,
-            player = playerViewModel.players[lastClickedIndex.intValue].name
+            cancelDialog = { gameViewModel.updateCalcDialogState(false) },
+            wildCard = gameViewModel.state.collectAsState().value.wildCard,
+            player = gameViewModel.players[lastClickedIndex.intValue].name
         )
     }
 }

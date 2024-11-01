@@ -12,8 +12,13 @@ data class FiveCrownsState(
 )
 
 class FiveCrownsViewModel {
-    private val _state = MutableStateFlow(FiveCrownsState())
-    val state: StateFlow<FiveCrownsState> = _state
+    private var _state: MutableStateFlow<FiveCrownsState>
+    var state: StateFlow<FiveCrownsState>
+
+    init {
+        _state = MutableStateFlow(FiveCrownsState())
+        state = _state
+    }
 
     fun updateExitGameDialogState(state: Boolean) {
         _state.update { _state.value.copy(isExitGameDialogShowing = state) }

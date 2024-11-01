@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

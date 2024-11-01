@@ -8,8 +8,7 @@ import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
-import com.grapevineindustries.scoretrackertdd.viewmodel.Player
-import com.grapevineindustries.scoretrackertdd.viewmodel.PlayerViewModel
+import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +20,7 @@ class ScoreTrackerNavigationTests {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val playerViewModel = PlayerViewModel()
+    private val gameViewModel = GameViewModel()
 
     private val landingScreenUtils = LandingScreenTestUtils(composeTestRule)
     private val addPlayersUtils = AddPlayersTestUtils(composeTestRule)
@@ -44,10 +43,10 @@ class ScoreTrackerNavigationTests {
     @Test
     fun to_fiveCrowns_screen() {
         composeTestRule.setContent {
-            playerViewModel.createPlayersList(3)
+            gameViewModel.createPlayersList(3)
             NavHost(
                 startDestination = NavHostRoutes.AddPlayersScreen,
-                playerViewModel = playerViewModel
+                gameViewModel = gameViewModel
             )
         }
 
@@ -70,14 +69,14 @@ class ScoreTrackerNavigationTests {
     @Test
     fun to_finalScores_screen() {
         composeTestRule.setContent {
-            playerViewModel.createPlayersList(3)
-            playerViewModel.updatePlayer(0, Player(name = "player1"))
-            playerViewModel.updatePlayer(1, Player(name = "player2"))
-            playerViewModel.updatePlayer(2, Player(name = "player3"))
+            gameViewModel.createPlayersList(3)
+            gameViewModel.updatePlayer(0, Player(name = "player1"))
+            gameViewModel.updatePlayer(1, Player(name = "player2"))
+            gameViewModel.updatePlayer(2, Player(name = "player3"))
 
             NavHost(
                 startDestination = NavHostRoutes.GameScreen,
-                playerViewModel = playerViewModel
+                gameViewModel = gameViewModel
             )
         }
 
