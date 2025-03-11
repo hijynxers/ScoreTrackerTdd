@@ -1,12 +1,18 @@
 package com.grapevineindustries.scoretrackertdd.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
 import com.grapevineindustries.scoretrackertdd.Player
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class GameViewModel {
+class GameViewModel: ViewModel() {
+
+    init {
+        val a = 4
+        val b = a
+    }
     private var _state = MutableStateFlow(FiveCrownsState())
     var state: StateFlow<FiveCrownsState> = _state
 

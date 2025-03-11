@@ -1,6 +1,5 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -26,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
@@ -57,10 +57,9 @@ fun FiveCrownsScreenPreview() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiveCrownsScreen(
-    gameViewModel: GameViewModel,
+    gameViewModel: GameViewModel = viewModel(),
     navigateToLandingScreen: () -> Unit,
     navigateToFinalScoreScreen: (List<Player>) -> Unit
 ) {
@@ -117,7 +116,6 @@ fun FiveCrownsScreen(
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiveCrownsScreenContent(
     players: List<Player>,
@@ -128,9 +126,14 @@ fun FiveCrownsScreenContent(
 ) {
     Scaffold(
         modifier = Modifier.testTag(FiveCrownsScreenTestTags.SCREEN),
-        content = {
+        content = { paddingValues ->
             Column(
-                modifier = Modifier.padding(all = Dimen.outerScreenPadding)
+                modifier = Modifier.padding(
+                    start = Dimen.outerScreenPadding,
+                    end = Dimen.outerScreenPadding,
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding()
+                )
             ) {
                 Row(
                     modifier = Modifier
