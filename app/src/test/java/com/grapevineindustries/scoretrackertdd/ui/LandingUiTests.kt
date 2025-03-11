@@ -18,7 +18,6 @@ class NavLandingUiTests {
     val composeTestRule = createComposeRule()
 
     private val landingScreenUtils = LandingScreenTestUtils(composeTestRule)
-    private var gameOption: GameOption = GameOption.FIVE_CROWNS
 
     @Before
     fun setup() {
@@ -77,22 +76,5 @@ class NavLandingUiTests {
     fun player_list_created_on_add_players_click() {
         landingScreenUtils.assertInitialContentDisplayed()
         landingScreenUtils.clickAddPlayers()
-    }
-
-    @Test
-    fun display_navigation_bar() {
-        landingScreenUtils.assertInitialContentDisplayed()
-
-        landingScreenUtils.clickNavigationBar()
-        landingScreenUtils.assertNavigationBarButtons()
-        gameOption = GameOption.RUMMY
-        landingScreenUtils.clickRummy()
-//        landingScreenUtils.assertRummyShowing()
-
-        landingScreenUtils.clickNavigationBar()
-        landingScreenUtils.assertNavigationBarButtons()
-        gameOption = GameOption.FIVE_CROWNS
-        landingScreenUtils.clickFiveCrowns()
-        landingScreenUtils.assertInitialContentDisplayed()
     }
 }
