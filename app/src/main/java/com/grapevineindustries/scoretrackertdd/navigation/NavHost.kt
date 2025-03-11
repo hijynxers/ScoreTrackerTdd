@@ -30,7 +30,8 @@ fun NavHost(
                 onAddPlayersClick = { numPlayers ->
                     gameViewModel.createPlayersList(numPlayers)
                     navController.navigate(NavHostRoutes.AddPlayersScreen)
-                }
+                },
+                onUpdateGame = {  }
             )
         }
         composable(NavHostRoutes.AddPlayersScreen) {

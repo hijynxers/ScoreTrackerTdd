@@ -87,7 +87,7 @@ class NavLandingUiTests {
         landingScreenUtils.assertNavigationBarButtons()
         gameOption = GameOption.RUMMY
         landingScreenUtils.clickRummy()
-//        landingScreenUtils.assertRummyShowing()
+        landingScreenUtils.assertRummyShowing()
 
         landingScreenUtils.clickNavigationBar()
         landingScreenUtils.assertNavigationBarButtons()

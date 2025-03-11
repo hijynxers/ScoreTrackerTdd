@@ -39,6 +39,7 @@ import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags.NAVIGATION_DRAWER_BUTTON
 import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags.CONTENT
 import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags.FIVE_CROWNS
+import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags.RUMMY
 import com.grapevineindustries.scoretrackertdd.ui.composables.STButton
 import kotlinx.coroutines.launch
 
@@ -46,57 +47,59 @@ import kotlinx.coroutines.launch
 @Composable
 fun LandingPreview() {
     LandingScreen(
-        onAddPlayersClick = {}
+        onAddPlayersClick = {},
+        onUpdateGame = {}
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LandingScreen(
-    onAddPlayersClick: (Int) -> Unit
+    onAddPlayersClick: (Int) -> Unit,
+    onUpdateGame: (GameOption) -> Unit
 ) {
     ScoreTrackerTheme {
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
         val coroutineScope = rememberCoroutineScope()
 
-        ModalNavigationDrawer(
-            drawerContent = {
-                NavigationDrawer(
-                    onFiveCrownsClick = {
-                        coroutineScope.launch {
-                            drawerState.close()
-                        }
-//                        updateGame(GameOption.FIVE_CROWNS)
-                    },
-                    onRummyClick = {
-                        coroutineScope.launch {
-                            drawerState.close()
-                        }
-//                        updateGame(GameOption.RUMMY)
-                    }
-                )
-            },
-            drawerState = drawerState,
-            content = {
+//        ModalNavigationDrawer(
+//            drawerContent = {
+//                NavigationDrawer(
+//                    onFiveCrownsClick = {
+//                        coroutineScope.launch {
+//                            drawerState.close()
+//                        }
+//                        onUpdateGame(GameOption.FIVE_CROWNS)
+//                    },
+//                    onRummyClick = {
+//                        coroutineScope.launch {
+//                            drawerState.close()
+//                        }
+//                        onUpdateGame(GameOption.RUMMY)
+//                    }
+//                )
+//            },
+//            drawerState = drawerState,
+//            content = {
                 Scaffold(
                     topBar = {
                         TopAppBar(
                             title = { Text(text = "Score Tracker") },
-                            navigationIcon = {
-                                IconButton(
-                                    modifier = Modifier.testTag(NAVIGATION_DRAWER_BUTTON),
-                                    onClick = {
-                                        coroutineScope.launch {
-                                            drawerState.open()
-                                        }
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Menu,
-                                        contentDescription = "Menu"
-                                    )
-                                }
-                            }
+//                            navigationIcon = {
+//                                IconButton(
+//                                    modifier = Modifier.testTag(NAVIGATION_DRAWER_BUTTON),
+//                                    onClick = {
+//                                        coroutineScope.launch {
+//                                            drawerState.open()
+//                                        }
+//                                    }
+//                                ) {
+//                                    Icon(
+//                                        imageVector = Icons.Default.Menu,
+//                                        contentDescription = "Menu"
+//                                    )
+//                                }
+//                            }
                         )
                     },
                     content = { paddingValues ->
@@ -179,8 +182,8 @@ fun LandingScreen(
                         }
                     }
                 )
-            }
-        )
+//            }
+//        )
     }
 }
 
@@ -199,12 +202,12 @@ fun NavigationDrawer(
                 ) {
                     Text(text = "Five Crowns")
                 }
-//                TextButton(
-//                    modifier = Modifier.testTag(RUMMY),
-//                    onClick = onRummyClick
-//                ) {
-//                    Text(text = "Rummy")
-//                }
+                TextButton(
+                    modifier = Modifier.testTag(RUMMY),
+                    onClick = onRummyClick
+                ) {
+                    Text(text = "Rummy")
+                }
             }
         }
     )
