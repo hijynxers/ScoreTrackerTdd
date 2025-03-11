@@ -10,9 +10,9 @@ import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags
 
-class LandingScreenTestUtils (
+class LandingScreenTestUtils(
     private val composeTestRule: ComposeTestRule
-){
+) {
     fun assertInitialContentDisplayed() {
         composeTestRule.onNodeWithTag(LandingScreenTestTags.GAME_TITLE)
             .assertIsDisplayed()
