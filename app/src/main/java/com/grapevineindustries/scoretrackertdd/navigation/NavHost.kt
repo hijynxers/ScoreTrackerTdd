@@ -1,7 +1,6 @@
 package com.grapevineindustries.scoretrackertdd.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -47,7 +46,6 @@ fun NavHost(
             )
         }
         composable(NavHostRoutes.GameScreen) {
-            val vm = remember { gameViewModel }
             FiveCrownsScreen(
                 gameViewModel = gameViewModel,
                 navigateToLandingScreen = {

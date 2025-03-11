@@ -5,6 +5,7 @@
     <string name="num_players">Number of Players</string>
 
     <string name="start_game">Start Game</string>
+    <string name="enter_players">Enter Players</string>
 
     <string name="leave_game">Leave game?</string>
     <string name="lose_game_progress">If you leave you will lose game progress.</string>

@@ -1,6 +1,5 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +23,7 @@ import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
+import com.grapevineindustries.scoretrackertdd.ui.composables.STButton
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -44,7 +43,6 @@ fun FinalScorePreview() {
     }
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FinalScoreScreen(
     playerData: List<Player>,
@@ -52,22 +50,29 @@ fun FinalScoreScreen(
     onReplayClick: () -> Unit
 ) {
     BackHandler(
-        onBack = {  }
+        onBack = { }
     )
 
-    Scaffold (
+    Scaffold(
         modifier = Modifier.testTag(FinalScoresScreenTestTags.FINAL_SCORES_SCREEN),
-        content = {
+        content = { paddingValues ->
             Column(
-                modifier = Modifier.padding(all = Dimen.outerScreenPadding)
+                modifier = Modifier.padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                    start = Dimen.outerScreenPadding,
+                    end = Dimen.outerScreenPadding
+                )
             ) {
                 LazyColumn(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier
+                        .weight(1f)
                         .fillMaxWidth(),
                     content = {
                         items(playerData) { player ->
                             Row(
-                                modifier = Modifier.fillMaxWidth()
+                                modifier = Modifier
+                                    .fillMaxWidth()
                                     .padding(horizontal = 45.dp, vertical = 4.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
@@ -86,7 +91,8 @@ fun FinalScoreScreen(
                 )
 
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(
                             start = 4.dp,
                             end = 4.dp,
@@ -94,28 +100,20 @@ fun FinalScoreScreen(
                         ),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Button(
-                        modifier = Modifier
-                            .testTag(FinalScoresScreenTestTags.NEW_GAME),
-                        onClick = onNewGameClick
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.new_game)
-                        )
-                    }
+                    STButton(
+                        onClick = onNewGameClick,
+                        text = stringResource(id = R.string.new_game),
+                        testTag = FinalScoresScreenTestTags.NEW_GAME
+                    )
 
                     Spacer(modifier = Modifier.width(16.dp))
 
-                    Button(
-                        modifier = Modifier
-                            .testTag(FinalScoresScreenTestTags.REPLAY)
-                            .weight(1f),
-                        onClick = onReplayClick
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.replay)
-                        )
-                    }
+                    STButton(
+                        onClick = onReplayClick,
+                        text = stringResource(id = R.string.replay),
+                        testTag = FinalScoresScreenTestTags.REPLAY,
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
         }

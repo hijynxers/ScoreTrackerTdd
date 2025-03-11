@@ -32,6 +32,7 @@ class LandingScreenTestUtils (
 
         composeTestRule.onNodeWithTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
             .assertIsDisplayed()
+            .assertTextEquals("Enter Players")
 
         composeTestRule.onNodeWithTag(LandingScreenTestTags.NAVIGATION_DRAWER_BUTTON)
             .assertIsDisplayed()

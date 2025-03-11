@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -32,6 +31,7 @@ import com.grapevineindustries.scoretrackertdd.theme.Dimen
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.composables.FiveCrownsCalcDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.PlayerDataCard
+import com.grapevineindustries.scoretrackertdd.ui.composables.STButton
 import com.grapevineindustries.scoretrackertdd.ui.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.scoretrackertdd.ui.composables.convertWildCard
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
@@ -65,6 +65,12 @@ fun FiveCrownsScreen(
 ) {
     val lastClickedIndex = remember { mutableIntStateOf(-1) }
 
+    BackHandler(
+        onBack = {
+            gameViewModel.updateExitGameDialogState(true)
+        }
+    )
+
     if (gameViewModel.state.collectAsState().value.isExitGameDialogShowing) {
         ScoreTrackerAlertDialog(
             onConfirmClick = { gameViewModel.updateExitGameDialogState(false) },
@@ -78,12 +84,6 @@ fun FiveCrownsScreen(
             dismissButtonText = stringResource(R.string.exit)
         )
     }
-
-    BackHandler(
-        onBack = {
-            gameViewModel.updateExitGameDialogState(true)
-        }
-    )
 
     FiveCrownsScreenContent(
         players = gameViewModel.players,
@@ -175,16 +175,12 @@ fun FiveCrownsScreenContent(
                     }
                 )
 
-                Button(
-                    modifier = Modifier
-                        .testTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
-                        .fillMaxWidth(),
-                    onClick = tallyPoints
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.tally)
-                    )
-                }
+                STButton(
+                    onClick = tallyPoints,
+                    text = stringResource(id = R.string.tally),
+                    testTag = FiveCrownsScreenTestTags.TALLY_BUTTON,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         }
     )

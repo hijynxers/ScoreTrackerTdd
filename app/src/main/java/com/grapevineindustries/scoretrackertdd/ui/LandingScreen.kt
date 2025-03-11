@@ -1,16 +1,14 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,7 +39,7 @@ import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
 import com.grapevineindustries.scoretrackertdd.ui.LandingScreenTestTags.NAVIGATION_DRAWER_BUTTON
 import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags.CONTENT
 import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags.FIVE_CROWNS
-import com.grapevineindustries.scoretrackertdd.ui.NavigationDrawerTestTags.RUMMY
+import com.grapevineindustries.scoretrackertdd.ui.composables.STButton
 import kotlinx.coroutines.launch
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -53,7 +51,6 @@ fun LandingPreview() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LandingScreen(
     onAddPlayersClick: (Int) -> Unit
@@ -102,15 +99,19 @@ fun LandingScreen(
                             }
                         )
                     },
-                    content = {
+                    content = { paddingValues ->
                         val numPlayers =
                             remember { mutableIntStateOf(DEFAULT_NUM_PLAYERS) }
 
                         Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(all = Dimen.outerScreenPadding),
+                                .fillMaxSize()
+                                .padding(
+                                    top = paddingValues.calculateTopPadding(),
+                                    bottom = paddingValues.calculateBottomPadding(),
+                                    start = Dimen.outerScreenPadding,
+                                    end = Dimen.outerScreenPadding
+                                ),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Spacer(modifier = Modifier.weight(2f))
@@ -167,18 +168,13 @@ fun LandingScreen(
                             }
                             Spacer(modifier = Modifier.weight(2f))
 
-                            Button(
-                                modifier = Modifier
-                                    .testTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
-                                    .fillMaxWidth(),
+                            STButton(
                                 onClick = {
                                     onAddPlayersClick(numPlayers.intValue)
                                 },
-                                content = {
-                                    Text(
-                                        text = stringResource(id = R.string.start_game)
-                                    )
-                                }
+                                text = stringResource(id = R.string.enter_players),
+                                testTag = LandingScreenTestTags.ADD_PLAYERS_BUTTON,
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         }
                     }
@@ -203,12 +199,12 @@ fun NavigationDrawer(
                 ) {
                     Text(text = "Five Crowns")
                 }
-                TextButton(
-                    modifier = Modifier.testTag(RUMMY),
-                    onClick = onRummyClick
-                ) {
-                    Text(text = "Rummy")
-                }
+//                TextButton(
+//                    modifier = Modifier.testTag(RUMMY),
+//                    onClick = onRummyClick
+//                ) {
+//                    Text(text = "Rummy")
+//                }
             }
         }
     )

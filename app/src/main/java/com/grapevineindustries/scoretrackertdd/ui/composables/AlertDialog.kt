@@ -1,17 +1,34 @@
 package com.grapevineindustries.scoretrackertdd.ui.composables
 
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.grapevineindustries.scoretrackertdd.R
+import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
+
+@Preview
+@Composable
+private fun AlertDialogPreview() {
+    ScoreTrackerTheme {
+        ScoreTrackerAlertDialog(
+            onConfirmClick = { },
+            onDismissClick = { },
+            title = stringResource(R.string.leave_game),
+            text = stringResource(R.string.lose_game_progress),
+            confirmButtonText = stringResource(R.string.stay),
+            dismissButtonText = stringResource(R.string.exit)
+        )
+    }
+}
 
 @Composable
 fun ScoreTrackerAlertDialog(
     onConfirmClick: () -> Unit,
     onDismissClick: () -> Unit = {},
-    onDismissRequest: () -> Unit = {},
     testTag: String = AlertDialogTestTags.ALERT_DIALOG,
     title: String,
     text: String,
@@ -33,30 +50,22 @@ fun ScoreTrackerAlertDialog(
             )
         },
         confirmButton = {
-            Button(
-                modifier = Modifier.testTag(AlertDialogTestTags.CONFIRM_BUTTON),
+            STButton(
                 onClick = onConfirmClick,
-                content = {
-                    Text(
-                        text = confirmButtonText
-                    )
-                }
+                testTag = AlertDialogTestTags.CONFIRM_BUTTON,
+                text = confirmButtonText
             )
         },
         dismissButton = {
             if (dismissButtonText != null) {
-                 Button(
-                    modifier = Modifier.testTag(AlertDialogTestTags.DISMISS_BUTTON),
+                STButton(
                     onClick = onDismissClick,
-                    content = {
-                        Text(
-                            text = dismissButtonText
-                        )
-                    }
+                    testTag = AlertDialogTestTags.DISMISS_BUTTON,
+                    text = dismissButtonText
                 )
             }
         },
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onConfirmClick
     )
 }
 

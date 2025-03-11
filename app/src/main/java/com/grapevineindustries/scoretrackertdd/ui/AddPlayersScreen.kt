@@ -1,6 +1,5 @@
 package com.grapevineindustries.scoretrackertdd.ui
 
-import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,12 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.R
 import com.grapevineindustries.scoretrackertdd.theme.Dimen
+import com.grapevineindustries.scoretrackertdd.ui.composables.STButton
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddPlayersScreen(
     onStartGameClicked: () -> Unit,
@@ -38,9 +38,14 @@ fun AddPlayersScreen(
 
     Scaffold(
         modifier = Modifier.testTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN),
-        content = {
+        content = { paddingValues ->
             Column(
-                modifier = Modifier.padding(all = Dimen.outerScreenPadding)
+                modifier = Modifier.padding(
+                    top = paddingValues.calculateTopPadding(),
+                    bottom = paddingValues.calculateBottomPadding(),
+                    start = Dimen.outerScreenPadding,
+                    end = Dimen.outerScreenPadding
+                )
             ) {
                 Text("Enter Player Names:")
                 Spacer(modifier = Modifier.height(4.dp))
@@ -67,23 +72,20 @@ fun AddPlayersScreen(
                                 }
                             },
                             singleLine = true,
-                            maxLines = 1
+                            maxLines = 1,
+                            keyboardOptions = KeyboardOptions(
+                                imeAction = if (index == players.size - 1) ImeAction.Done else ImeAction.Next
+                            )
                         )
                     }
                 }
 
-                Button(
-                    modifier = Modifier
-                        .testTag(AddPlayersScreenTestTags.START_GAME_BUTTON)
-                        .fillMaxWidth(),
-                    onClick = {
-                        onStartGameClicked()
-                    }
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.start_game)
-                    )
-                }
+                STButton(
+                    onClick = onStartGameClicked,
+                    text = stringResource(id = R.string.start_game),
+                    testTag = AddPlayersScreenTestTags.START_GAME_BUTTON,
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         }
     )
