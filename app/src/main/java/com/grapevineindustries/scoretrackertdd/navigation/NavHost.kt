@@ -67,6 +67,7 @@ fun NavHost(
                         route = NavHostRoutes.LandingScreen,
                         inclusive = false
                     )
+                    gameViewModel.resetWildCard()
                 },
                 onReplayClick = {
                     gameViewModel.resetScores()

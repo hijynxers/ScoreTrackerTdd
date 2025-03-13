@@ -9,6 +9,7 @@ import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUti
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
+import junit.framework.TestCase.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -89,7 +90,9 @@ class ScoreTrackerNavigationTests {
     @Test
     fun finalScores_click_new_game() {
         composeTestRule.setContent {
-            NavHost()
+            NavHost(
+                gameViewModel = gameViewModel
+            )
         }
 
         landingScreenUtils.assertInitialContentDisplayed()
@@ -99,6 +102,7 @@ class ScoreTrackerNavigationTests {
         finalScoresUtils.clickNewGame()
 
         landingScreenUtils.assertInitialContentDisplayed()
+        assertEquals(3, gameViewModel.state.value.wildCard)
     }
 
     @Test
