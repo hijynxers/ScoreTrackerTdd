@@ -10,6 +10,7 @@ import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUti
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.scoretrackertdd.viewmodel.FiveCrownsState
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Before
@@ -176,6 +177,105 @@ class FiveCrownsUiTests {
         alertDialogUtils.clickDismissButton()
         alertDialogUtils.assertNotShowing()
         assertTrue(backNavigation)
+    }
+
+    @Test
+    fun no_score_show_alert_dialog_dismiss_clicked() {
+        launchScreen()
+
+        assertEquals(gameViewModel.state.value.wildCard, 3)
+        assertFalse(gameViewModel.state.value.isNoScoreDialogShowing)
+        fiveCrownsScreenUtils.clickTallyButton()
+
+        assertTrue(gameViewModel.state.value.isNoScoreDialogShowing)
+        assertEquals(gameViewModel.state.value.wildCard, 3)
+
+        alertDialogUtils.assertShowing(
+            title = "Tally scores?",
+            text = "No points were entered. Are you sure you want to tally?",
+            confirmButtonText = "Yes",
+            dismissButtonText = "No"
+        )
+
+        alertDialogUtils.clickDismissButton()
+        assertEquals(gameViewModel.state.value.wildCard, 3)
+        fiveCrownsScreenUtils.assertPlayerData(
+            playerData = listOf(
+                Player("player1"),
+                Player("player2"),
+                Player("player3")
+            )
+        )
+    }
+
+    @Test
+    fun no_score_show_alert_dialog_confirm_clicked_zero_score() {
+        launchScreen()
+
+        assertEquals(gameViewModel.state.value.wildCard, 3)
+        assertFalse(gameViewModel.state.value.isNoScoreDialogShowing)
+        fiveCrownsScreenUtils.clickTallyButton()
+
+        assertTrue(gameViewModel.state.value.isNoScoreDialogShowing)
+        assertEquals(gameViewModel.state.value.wildCard, 3)
+        assertEquals(
+            listOf(
+                Player("player1"),
+                Player("player2"),
+                Player("player3")
+            ),
+            gameViewModel.players.toList()
+        )
+
+        alertDialogUtils.assertShowing(
+            title = "Tally scores?",
+            text = "No points were entered. Are you sure you want to tally?",
+            confirmButtonText = "Yes",
+            dismissButtonText = "No"
+        )
+
+        alertDialogUtils.clickConfirmButton()
+        assertEquals(gameViewModel.state.value.wildCard, 4)
+        fiveCrownsScreenUtils.assertPlayerData(
+            playerData = listOf(
+                Player("player1"),
+                Player("player2"),
+                Player("player3")
+            )
+        )
+    }
+
+    @Test
+    fun no_score_show_alert_dialog_confirm_clicked_zero_score_and_endgame() {
+        launchScreen()
+        fiveCrownsScreenUtils.advanceToLastRound()
+
+        assertEquals(gameViewModel.state.value.wildCard, 13)
+        assertFalse(gameViewModel.state.value.isNoScoreDialogShowing)
+        fiveCrownsScreenUtils.clickTallyButton()
+
+        assertTrue(gameViewModel.state.value.isNoScoreDialogShowing)
+        assertEquals(gameViewModel.state.value.wildCard, 13)
+        assertEquals(
+            listOf(
+                Player("player1"),
+                Player("player2"),
+                Player("player3")
+            ),
+            gameViewModel.players.toList()
+        )
+
+        alertDialogUtils.assertShowing(
+            title = "Tally scores?",
+            text = "No points were entered. Are you sure you want to tally?",
+            confirmButtonText = "Yes",
+            dismissButtonText = "No"
+        )
+
+        assertFalse(finalScoreNavigation)
+
+        alertDialogUtils.clickConfirmButton()
+        assertTrue(finalScoreNavigation)
     }
 
     @Test

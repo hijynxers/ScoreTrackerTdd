@@ -92,16 +92,37 @@ fun FiveCrownsScreen(
         },
         tallyPoints = {
             gameViewModel.tallyPoints()
-            if (gameViewModel.endgameCondition()) {
-                navigateToFinalScoreScreen(gameViewModel.players)
-            } else {
-                gameViewModel.incrementDealer()
-                gameViewModel.incrementWildCard()
+            if (!gameViewModel.state.value.isNoScoreDialogShowing) {
+                if (gameViewModel.endgameCondition()) {
+                    navigateToFinalScoreScreen(gameViewModel.players)
+                } else {
+                    gameViewModel.incrementDealer()
+                    gameViewModel.incrementWildCard()
+                }
             }
         },
         lastClickedIndex = lastClickedIndex,
         state = gameViewModel.state.collectAsState().value
     )
+
+    if (gameViewModel.state.collectAsState().value.isNoScoreDialogShowing) {
+        ScoreTrackerAlertDialog(
+            title = "Tally scores?",
+            text = "No points were entered. Are you sure you want to tally?",
+            confirmButtonText = "Yes",
+            onConfirmClick = {
+                gameViewModel.updateNoScoreDialogState(false)
+                if (gameViewModel.endgameCondition()) {
+                    navigateToFinalScoreScreen(gameViewModel.players)
+                } else {
+                    gameViewModel.incrementDealer()
+                    gameViewModel.incrementWildCard()
+                }
+            },
+            dismissButtonText = "No",
+            onDismissClick = { gameViewModel.updateNoScoreDialogState(false) }
+        )
+    }
 
     if (gameViewModel.state.collectAsState().value.isCalcDialogShowing) {
         FiveCrownsCalcDialog(

@@ -8,7 +8,8 @@ data class FiveCrownsState(
     val wildCard: Int = 3,
     val dealer: Int = 0,
     val isExitGameDialogShowing: Boolean = false,
-    val isCalcDialogShowing: Boolean = false
+    val isCalcDialogShowing: Boolean = false,
+    val isNoScoreDialogShowing: Boolean = false
 )
 
 class FiveCrownsViewModel {

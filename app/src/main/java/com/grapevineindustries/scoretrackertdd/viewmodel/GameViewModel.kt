@@ -9,10 +9,6 @@ import kotlinx.coroutines.flow.update
 
 class GameViewModel: ViewModel() {
 
-    init {
-        val a = 4
-        val b = a
-    }
     private var _state = MutableStateFlow(FiveCrownsState())
     var state: StateFlow<FiveCrownsState> = _state
 
@@ -24,6 +20,10 @@ class GameViewModel: ViewModel() {
 
     fun updateCalcDialogState(state: Boolean) {
         _state.update { _state.value.copy(isCalcDialogShowing = state) }
+    }
+
+    fun updateNoScoreDialogState(state: Boolean) {
+        _state.update { _state.value.copy(isNoScoreDialogShowing = state) }
     }
 
     fun incrementWildCard() {
@@ -57,12 +57,22 @@ class GameViewModel: ViewModel() {
 
     fun tallyPoints() {
         val tempList = players.toList()
-        tempList.forEachIndexed { index, _ ->
-            val score = players[index].pendingPoints + players[index].score
-            players[index] = players[index].copy(
-                score = score,
-                pendingPoints = 0
-            )
+
+        var hasScore = false
+        tempList.forEach { player ->
+            if (player.pendingPoints > 0 )
+                hasScore = true
+        }
+        if (hasScore) {
+            tempList.forEachIndexed { index, _ ->
+                val score = players[index].pendingPoints + players[index].score
+                players[index] = players[index].copy(
+                    score = score,
+                    pendingPoints = 0
+                )
+            }
+        } else {
+            updateNoScoreDialogState(true)
         }
     }
 

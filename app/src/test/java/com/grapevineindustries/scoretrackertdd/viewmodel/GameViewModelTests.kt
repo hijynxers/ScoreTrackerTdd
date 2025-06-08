@@ -107,6 +107,22 @@ class GameViewModelTests {
         vm.tallyPoints()
 
         assert(expectedPlayers == vm.players)
+        assertFalse(vm.state.value.isNoScoreDialogShowing)
+    }
+
+    @Test
+    fun tally_scores_with_no_score_shows_dialog() {
+        val vm = createVm()
+        val expectedPlayers = listOf(
+            Player("", 0, pendingPoints = 0),
+            Player("", 0, pendingPoints = 0),
+            Player("", 0, pendingPoints = 0),
+        )
+
+        vm.tallyPoints()
+
+        assert(expectedPlayers == vm.players)
+        assertTrue(vm.state.value.isNoScoreDialogShowing)
     }
 
     private fun createVm(

@@ -114,4 +114,13 @@ class FiveCrownsScreenTestUtils(
                 .performClick()
         }
     }
+
+    fun advanceToLastRound() {
+        for (i in 3..12) {
+            composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
+                .performClick()
+            composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+                .performClick()
+        }
+    }
 }
