@@ -3,8 +3,11 @@ package com.grapevineindustries.scoretrackertdd.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.Player
 import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
+import com.grapevineindustries.scoretrackertdd.ui.composables.AlertDialogTestTags
 import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
@@ -328,6 +331,8 @@ class FiveCrownsUiTests {
         fiveCrownsScreenUtils.assertScreenShowing()
 
         fiveCrownsScreenUtils.clickTallyButton()
+        composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+            .performClick()
         fiveCrownsScreenUtils.assertWildCard("4")
     }
 

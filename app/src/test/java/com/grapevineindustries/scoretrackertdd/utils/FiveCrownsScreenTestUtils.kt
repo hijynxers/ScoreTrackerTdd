@@ -105,12 +105,20 @@ class FiveCrownsScreenTestUtils(
     fun endTheGame() {
         for (i in 3..13) {
             clickTallyButton()
+            composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+                .performClick()
         }
     }
 
-    fun clickEndGameTally() {
-        for (i in 3..13) {
+    fun clickEndGameTally(
+        startWildCard: Int = 3
+    ) {
+        for (i in startWildCard..13) {
             composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
+                .assertIsDisplayed()
+                .performClick()
+            composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+                .assertIsDisplayed()
                 .performClick()
         }
     }

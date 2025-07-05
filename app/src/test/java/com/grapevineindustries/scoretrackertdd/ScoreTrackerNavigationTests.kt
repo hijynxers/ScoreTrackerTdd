@@ -1,8 +1,12 @@
 package com.grapevineindustries.scoretrackertdd
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.grapevineindustries.scoretrackertdd.navigation.NavHost
 import com.grapevineindustries.scoretrackertdd.navigation.NavHostRoutes
+import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
@@ -134,7 +138,11 @@ class ScoreTrackerNavigationTests {
         fiveCrownsScreenUtils.clickFirstCalculatorButton()
         fiveCrownsCalcDialogUtils.clickButton("10")
         fiveCrownsCalcDialogUtils.clickConfirmButton()
-        fiveCrownsScreenUtils.clickEndGameTally()
+        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
+            .assertIsDisplayed()
+            .performClick()
+
+        fiveCrownsScreenUtils.clickEndGameTally(startWildCard = 4)
 
         finalScoresUtils.assertShowing()
         finalScoresUtils.assertData(
