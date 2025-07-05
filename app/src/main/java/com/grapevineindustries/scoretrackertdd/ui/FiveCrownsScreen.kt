@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -40,7 +40,7 @@ import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun FiveCrownsScreenPreview() {
-    val lastClickedIndex = remember { mutableIntStateOf(-1) }
+    val lastClickedIndex = rememberSaveable { mutableIntStateOf(-1) }
 
     ScoreTrackerTheme {
         FiveCrownsScreenContent(
@@ -63,7 +63,7 @@ fun FiveCrownsScreen(
     navigateToLandingScreen: () -> Unit,
     navigateToFinalScoreScreen: (List<Player>) -> Unit
 ) {
-    val lastClickedIndex = remember { mutableIntStateOf(-1) }
+    val lastClickedIndex = rememberSaveable { mutableIntStateOf(-1) }
 
     BackHandler(
         onBack = {
