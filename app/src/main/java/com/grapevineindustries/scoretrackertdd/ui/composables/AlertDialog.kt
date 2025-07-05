@@ -65,7 +65,7 @@ fun ScoreTrackerAlertDialog(
                 )
             }
         },
-        onDismissRequest = onConfirmClick
+        onDismissRequest = onDismissClick
     )
 }
 
