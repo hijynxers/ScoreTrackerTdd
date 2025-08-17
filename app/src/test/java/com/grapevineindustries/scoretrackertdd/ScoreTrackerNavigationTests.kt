@@ -4,8 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.scoretrackertdd.navigation.FiveCrownsNavHost
-import com.grapevineindustries.scoretrackertdd.navigation.FiveCrownsNavHostRoutes
+import androidx.navigation.compose.rememberNavController
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
@@ -25,8 +24,6 @@ class ScoreTrackerNavigationTests {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val gameViewModel = GameViewModel()
-
     private val landingScreenUtils = LandingScreenTestUtils(composeTestRule)
     private val addPlayersUtils = AddPlayersTestUtils(composeTestRule)
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)
@@ -35,9 +32,7 @@ class ScoreTrackerNavigationTests {
 
     @Test
     fun to_addPlayer_screen() {
-        composeTestRule.setContent {
-            FiveCrownsNavHost()
-        }
+        launchNavController()
 
         landingScreenUtils.assertInitialContentDisplayed()
         landingScreenUtils.clickAddPlayers()
@@ -47,13 +42,11 @@ class ScoreTrackerNavigationTests {
 
     @Test
     fun to_fiveCrowns_screen() {
-        composeTestRule.setContent {
-            gameViewModel.createPlayersList(3)
-            FiveCrownsNavHost(
-                startDestination = FiveCrownsNavHostRoutes.AddPlayersScreen,
-                gameViewModel = gameViewModel
-            )
-        }
+        val gameViewModel = GameViewModel()
+        gameViewModel.createPlayersList(3)
+
+        launchNavController(gameViewModel = gameViewModel)
+        landingScreenUtils.clickAddPlayers()
 
         addPlayersUtils.assertScreenShowing()
         addPlayersUtils.addAndAssertPlayerNameText(0, "player1")
@@ -73,17 +66,15 @@ class ScoreTrackerNavigationTests {
 
     @Test
     fun to_finalScores_screen() {
-        composeTestRule.setContent {
-            gameViewModel.createPlayersList(3)
-            gameViewModel.updatePlayer(0, Player(name = "player1"))
-            gameViewModel.updatePlayer(1, Player(name = "player2"))
-            gameViewModel.updatePlayer(2, Player(name = "player3"))
+        val gameViewModel = GameViewModel()
+        gameViewModel.createPlayersList(3)
+        gameViewModel.updatePlayer(0, Player(name = "player1"))
+        gameViewModel.updatePlayer(1, Player(name = "player2"))
+        gameViewModel.updatePlayer(2, Player(name = "player3"))
 
-            FiveCrownsNavHost(
-                startDestination = FiveCrownsNavHostRoutes.GameScreen,
-                gameViewModel = gameViewModel
-            )
-        }
+        launchNavController(gameViewModel = gameViewModel)
+        landingScreenUtils.clickAddPlayers()
+        addPlayersUtils.clickStartGame()
 
         fiveCrownsScreenUtils.assertScreenShowing()
         fiveCrownsScreenUtils.clickEndGameTally()
@@ -93,11 +84,8 @@ class ScoreTrackerNavigationTests {
 
     @Test
     fun finalScores_click_new_game() {
-        composeTestRule.setContent {
-            FiveCrownsNavHost(
-                gameViewModel = gameViewModel
-            )
-        }
+        val gameViewModel = GameViewModel()
+        launchNavController(gameViewModel = gameViewModel)
 
         landingScreenUtils.assertInitialContentDisplayed()
         landingScreenUtils.clickAddPlayers()
@@ -111,9 +99,7 @@ class ScoreTrackerNavigationTests {
 
     @Test
     fun finalScores_click_replay() {
-        composeTestRule.setContent {
-            FiveCrownsNavHost()
-        }
+        launchNavController()
 
         landingScreenUtils.assertInitialContentDisplayed()
         landingScreenUtils.clickAddPlayers()
@@ -126,9 +112,7 @@ class ScoreTrackerNavigationTests {
 
     @Test
     fun five_crowns_flow() {
-        composeTestRule.setContent {
-            FiveCrownsNavHost()
-        }
+        launchNavController()
 
         landingScreenUtils.assertInitialContentDisplayed()
         landingScreenUtils.clickAddPlayers()
@@ -155,5 +139,16 @@ class ScoreTrackerNavigationTests {
         finalScoresUtils.clickNewGame()
 
         landingScreenUtils.assertInitialContentDisplayed()
+    }
+
+    private fun launchNavController(
+        gameViewModel: GameViewModel = GameViewModel()
+    ) {
+        composeTestRule.setContent {
+            MainAppNavHost(
+                mainNavController = rememberNavController(),
+                gameViewModel = gameViewModel
+            )
+        }
     }
 }

@@ -197,7 +197,6 @@ fun FiveCrownsScreenContent(
 }
 
 object FiveCrownsScreenTestTags {
-    const val SCREEN = "FIVE_CROWNS_SCREEN"
     const val PLAYER_COLUMN = "FIVE_CROWNS_PLAYER_COLUMN"
     const val WILD_CARD = "FIVE_CROWNS_WILD_CARD"
     const val TALLY_BUTTON = "FIVE_CROWNS_TALLY_BUTTON"

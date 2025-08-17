@@ -80,7 +80,6 @@ fun AddPlayersScreen(
 }
 
 object AddPlayersScreenTestTags {
-    const val ADD_PLAYERS_SCREEN = "ADD_PLAYERS_SCREEN"
     const val PLAYER_TEXT_INPUT = "PLAYER_NAME_INPUT"
     const val PLAYER_COLUMN = "ADD_PLAYER_PLAYER_COLUMN"
     const val START_GAME_BUTTON = "START_GAME_BUTTON"

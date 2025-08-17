@@ -20,9 +20,6 @@ class AddPlayersTestUtils(
     fun assertScreenShowing(
         numPlayers: Int = FiveCrownsConstants.DEFAULT_NUM_PLAYERS
     ) {
-        composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN)
-            .assertIsDisplayed()
-
         if(numPlayers != 0) {
             composeTestRule.onNodeWithTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
                 .assertIsDisplayed()

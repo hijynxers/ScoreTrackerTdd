@@ -13,9 +13,6 @@ class FinalScoresTestUtils(
     val composeTestRule: ComposeTestRule
 ) {
     fun assertShowing() {
-        composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.FINAL_SCORES_SCREEN)
-            .assertIsDisplayed()
-
         composeTestRule.onNodeWithTag(FinalScoresScreenTestTags.REPLAY)
             .assertIsDisplayed()
 

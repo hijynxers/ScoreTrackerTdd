@@ -110,7 +110,6 @@ fun FinalScoreScreen(
 }
 
 object FinalScoresScreenTestTags {
-    const val FINAL_SCORES_SCREEN = "FINAL_SCORES_SCREEN"
     const val PLAYER_NAME = "FINAL_SCORES_PLAYER_NAME"
     const val PLAYER_SCORE = "FINAL_SCORES_PLAYER_SCORE"
     const val REPLAY = "FINAL_SCORES_REPLAY"

@@ -26,8 +26,7 @@ class AddPlayersUiTests {
 
     private val addPlayersUtils = AddPlayersTestUtils(composeTestRule)
 
-    @Before
-    fun setup() {
+    fun launchScreen() {
         composeTestRule.setContent {
             AddPlayersScreen(
                 onStartGameClicked = { startGameClicked = true },
@@ -47,6 +46,7 @@ class AddPlayersUiTests {
 
     @Test
     fun clicked_start_game_button() {
+        launchScreen()
         assertFalse(startGameClicked)
 
         addPlayersUtils.clickStartGame()
@@ -55,6 +55,7 @@ class AddPlayersUiTests {
 
     @Test
     fun clicked_back_button() {
+        launchScreen()
         assertFalse(backClicked)
 
         Espresso.pressBack()
@@ -63,6 +64,7 @@ class AddPlayersUiTests {
 
     @Test
     fun input_is_recorded_in_text_field() {
+        launchScreen()
         val expectedText = "name 1"
         addPlayersUtils.assertScreenShowing()
 

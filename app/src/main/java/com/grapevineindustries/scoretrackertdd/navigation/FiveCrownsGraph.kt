@@ -15,13 +15,10 @@ fun NavGraphBuilder.fiveCrownsGraph(
     gameViewModel: GameViewModel
 ) {
     composable(FiveCrownsDestinations.LANDING) {
-        // You might want to pass a specific NavController for this graph if its
-        // backstack behavior is completely isolated. For now, using the main one.
-        LandingScreen( // Your existing Five Crowns LandingScreen
+        LandingScreen(
             onAddPlayersClick = { numPlayers ->
                 gameViewModel.createPlayersList(numPlayers)
                 navController.navigate(FiveCrownsDestinations.ADD_PLAYERS)
-                // Potentially signal to hide Main TopAppBar from here
             }
         )
     }
@@ -38,7 +35,7 @@ fun NavGraphBuilder.fiveCrownsGraph(
     composable(FiveCrownsDestinations.GAME) {
         FiveCrownsScreen(
             gameViewModel = gameViewModel,
-            navigateToLandingScreen = { // This should navigate to the landing of *this graph*
+            navigateToLandingScreen = {
                 navController.popBackStack(
                     route = FiveCrownsDestinations.LANDING,
                     inclusive = false
@@ -53,7 +50,7 @@ fun NavGraphBuilder.fiveCrownsGraph(
         FinalScoreScreen(
             playerData = gameViewModel.sortedPlayers(),
             onNewGameClick = {
-                gameViewModel.resetGameAndPlayers() // Assuming a method to reset
+                gameViewModel.resetGameAndPlayers()
                 navController.popBackStack(
                     route = FiveCrownsDestinations.LANDING,
                     inclusive = false
@@ -71,9 +68,8 @@ fun NavGraphBuilder.fiveCrownsGraph(
     }
 }
 
-// --- Define Routes for within Five Crowns (example) ---
 object FiveCrownsDestinations {
-    const val LANDING = "fiveCrownsLanding" // Renamed to avoid clash if you have a global landing
+    const val LANDING = "fiveCrownsLanding"
     const val ADD_PLAYERS = "fiveCrownsAddPlayers"
     const val GAME = "fiveCrownsGame"
     const val FINAL_SCORES = "fiveCrownsFinalScores"

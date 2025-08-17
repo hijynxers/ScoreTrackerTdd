@@ -24,9 +24,6 @@ class FiveCrownsScreenTestUtils(
     fun assertScreenShowing(
         numPlayers: Int = FiveCrownsConstants.DEFAULT_NUM_PLAYERS
     ) {
-        composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.SCREEN)
-            .assertIsDisplayed()
-
         composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.WILD_CARD)
             .assertIsDisplayed()
             .assertTextEquals(FiveCrownsConstants.INITIAL_WILD_CARD.toString())

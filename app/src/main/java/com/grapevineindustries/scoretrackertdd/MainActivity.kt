@@ -76,10 +76,8 @@ fun MainAppScreen() {
         val currentRoute =
             mainNavController.currentBackStackEntryAsState().value?.destination?.route
 
-        // Determine which TopAppBar to show or if to show one at all
-        // This is a simplified example. You might need more complex logic.
-        val showMainTopAppBar = currentRoute != FiveCrownsDestinations.ADD_PLAYERS &&
-                currentRoute != FiveCrownsDestinations.GAME // etc.
+        val showMainTopAppBar = currentRoute == FiveCrownsDestinations.LANDING ||
+                currentRoute == PlunderDestinations.PLUNDER
 
         val drawerItems = listOf(
             DrawerMenuItem(
@@ -157,9 +155,11 @@ fun MainAppScreen() {
 }
 
 @Composable
-fun MainAppNavHost(mainNavController: NavHostController, modifier: Modifier = Modifier) {
-    val gameViewModel: GameViewModel = viewModel()
-
+fun MainAppNavHost(
+    mainNavController: NavHostController,
+    modifier: Modifier = Modifier,
+    gameViewModel: GameViewModel = viewModel()
+) {
     NavHost(
         navController = mainNavController,
         startDestination = MainAppDestinations.FIVE_CROWNS_GRAPH,
@@ -195,10 +195,8 @@ fun MainAppNavHost(mainNavController: NavHostController, modifier: Modifier = Mo
 //    }
 //}
 
-// You'll need GameViewModel.resetGameAndPlayers() or similar
 fun GameViewModel.resetGameAndPlayers() {
-    // Implementation to clear players, scores, round, wildCard, etc.
-    this.players.clear() // Example
+    this.players.clear()
     this.resetScores()
     this.resetWildCard()
 }
