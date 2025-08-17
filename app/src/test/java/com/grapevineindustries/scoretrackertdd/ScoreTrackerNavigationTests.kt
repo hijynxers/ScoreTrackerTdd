@@ -4,8 +4,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.scoretrackertdd.navigation.NavHost
-import com.grapevineindustries.scoretrackertdd.navigation.NavHostRoutes
+import com.grapevineindustries.scoretrackertdd.navigation.FiveCrownsNavHost
+import com.grapevineindustries.scoretrackertdd.navigation.FiveCrownsNavHostRoutes
 import com.grapevineindustries.scoretrackertdd.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
 import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
@@ -36,7 +36,7 @@ class ScoreTrackerNavigationTests {
     @Test
     fun to_addPlayer_screen() {
         composeTestRule.setContent {
-            NavHost()
+            FiveCrownsNavHost()
         }
 
         landingScreenUtils.assertInitialContentDisplayed()
@@ -49,8 +49,8 @@ class ScoreTrackerNavigationTests {
     fun to_fiveCrowns_screen() {
         composeTestRule.setContent {
             gameViewModel.createPlayersList(3)
-            NavHost(
-                startDestination = NavHostRoutes.AddPlayersScreen,
+            FiveCrownsNavHost(
+                startDestination = FiveCrownsNavHostRoutes.AddPlayersScreen,
                 gameViewModel = gameViewModel
             )
         }
@@ -79,8 +79,8 @@ class ScoreTrackerNavigationTests {
             gameViewModel.updatePlayer(1, Player(name = "player2"))
             gameViewModel.updatePlayer(2, Player(name = "player3"))
 
-            NavHost(
-                startDestination = NavHostRoutes.GameScreen,
+            FiveCrownsNavHost(
+                startDestination = FiveCrownsNavHostRoutes.GameScreen,
                 gameViewModel = gameViewModel
             )
         }
@@ -94,7 +94,7 @@ class ScoreTrackerNavigationTests {
     @Test
     fun finalScores_click_new_game() {
         composeTestRule.setContent {
-            NavHost(
+            FiveCrownsNavHost(
                 gameViewModel = gameViewModel
             )
         }
@@ -112,7 +112,7 @@ class ScoreTrackerNavigationTests {
     @Test
     fun finalScores_click_replay() {
         composeTestRule.setContent {
-            NavHost()
+            FiveCrownsNavHost()
         }
 
         landingScreenUtils.assertInitialContentDisplayed()
@@ -127,7 +127,7 @@ class ScoreTrackerNavigationTests {
     @Test
     fun five_crowns_flow() {
         composeTestRule.setContent {
-            NavHost()
+            FiveCrownsNavHost()
         }
 
         landingScreenUtils.assertInitialContentDisplayed()

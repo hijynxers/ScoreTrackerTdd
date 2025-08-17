@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
@@ -145,66 +144,56 @@ fun FiveCrownsScreenContent(
     lastClickedIndex: MutableIntState,
     state: FiveCrownsState
 ) {
-    Scaffold(
-        modifier = Modifier.testTag(FiveCrownsScreenTestTags.SCREEN),
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier.padding(
-                    start = Dimen.outerScreenPadding,
-                    end = Dimen.outerScreenPadding,
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding()
-                )
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.wildcard),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Text(
-                        modifier = Modifier.testTag(FiveCrownsScreenTestTags.WILD_CARD),
-                        text = convertWildCard(state.wildCard),
-                        style = MaterialTheme.typography.displayMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                }
-
-                LazyColumn(
-                    modifier = Modifier
-                        .testTag(FiveCrownsScreenTestTags.PLAYER_COLUMN)
-                        .fillMaxWidth()
-                        .weight(1f),
-                    content = {
-                        itemsIndexed(players) { index, player ->
-                            PlayerDataCard(
-                                player = player,
-                                onClick = {
-                                    lastClickedIndex.intValue = index
-                                    showCalcDialog()
-                                },
-                                isDealer = (state.dealer % players.size == index)
-                            )
-                        }
-                    }
-                )
-
-                STButton(
-                    onClick = tallyPoints,
-                    text = stringResource(id = R.string.tally),
-                    testTag = FiveCrownsScreenTestTags.TALLY_BUTTON,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+    Column(
+        modifier = Modifier.padding(horizontal = Dimen.outerScreenPadding)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Text(
+                text = stringResource(id = R.string.wildcard),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier.testTag(FiveCrownsScreenTestTags.WILD_CARD),
+                text = convertWildCard(state.wildCard),
+                style = MaterialTheme.typography.displayMedium,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.weight(1f))
         }
-    )
+
+        LazyColumn(
+            modifier = Modifier
+                .testTag(FiveCrownsScreenTestTags.PLAYER_COLUMN)
+                .fillMaxWidth()
+                .weight(1f),
+            content = {
+                itemsIndexed(players) { index, player ->
+                    PlayerDataCard(
+                        player = player,
+                        onClick = {
+                            lastClickedIndex.intValue = index
+                            showCalcDialog()
+                        },
+                        isDealer = (state.dealer % players.size == index)
+                    )
+                }
+            }
+        )
+
+        STButton(
+            onClick = tallyPoints,
+            text = stringResource(id = R.string.tally),
+            testTag = FiveCrownsScreenTestTags.TALLY_BUTTON,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
 
 object FiveCrownsScreenTestTags {

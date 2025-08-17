@@ -7,12 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,97 +34,82 @@ fun LandingPreview() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LandingScreen(
     onAddPlayersClick: (Int) -> Unit
 ) {
     ScoreTrackerTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = "Score Tracker") },
-                )
-            },
-            content = { paddingValues ->
-                val numPlayers = rememberSaveable { mutableIntStateOf(DEFAULT_NUM_PLAYERS) }
+        val numPlayers = rememberSaveable { mutableIntStateOf(DEFAULT_NUM_PLAYERS) }
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = paddingValues.calculateTopPadding(),
-                            bottom = paddingValues.calculateBottomPadding(),
-                            start = Dimen.outerScreenPadding,
-                            end = Dimen.outerScreenPadding
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.weight(2f))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = Dimen.outerScreenPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Spacer(modifier = Modifier.weight(2f))
 
-                    Text(
-                        modifier = Modifier.testTag(LandingScreenTestTags.GAME_TITLE),
-                        text = getGameTitle(GameOption.FIVE_CROWNS),
-                        style = MaterialTheme.typography.displayMedium
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier.testTag(LandingScreenTestTags.GAME_TITLE),
+                text = getGameTitle(GameOption.FIVE_CROWNS),
+                style = MaterialTheme.typography.displayMedium
+            )
+            Spacer(modifier = Modifier.weight(1f))
 
-                    Text(
-                        text = stringResource(id = R.string.num_players),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+            Text(
+                text = stringResource(id = R.string.num_players),
+                style = MaterialTheme.typography.bodyLarge
+            )
 
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        TextButton(
-                            modifier = Modifier.testTag(LandingScreenTestTags.NUM_PLAYERS_MINUS),
-                            onClick = {
-                                if (numPlayers.intValue > MIN_PLAYERS) {
-                                    numPlayers.intValue -= 1
-                                }
-                            },
-                            content = {
-                                Text(
-                                    text = "-",
-                                    style = MaterialTheme.typography.bodyLarge
-                                )
-                            }
-                        )
-
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                TextButton(
+                    modifier = Modifier.testTag(LandingScreenTestTags.NUM_PLAYERS_MINUS),
+                    onClick = {
+                        if (numPlayers.intValue > MIN_PLAYERS) {
+                            numPlayers.intValue -= 1
+                        }
+                    },
+                    content = {
                         Text(
-                            modifier = Modifier.testTag(LandingScreenTestTags.NUM_PLAYERS),
-                            text = numPlayers.intValue.toString()
-                        )
-
-                        TextButton(
-                            modifier = Modifier.testTag(LandingScreenTestTags.NUM_PLAYERS_ADD),
-                            onClick = {
-                                if (numPlayers.intValue < MAX_PLAYERS) {
-                                    numPlayers.intValue += 1
-                                }
-                            },
-                            content = {
-                                Text(
-                                    text = "+",
-                                    style = MaterialTheme.typography.bodyLarge
-                                )
-                            }
+                            text = "-",
+                            style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    Spacer(modifier = Modifier.weight(2f))
+                )
 
-                    STButton(
-                        onClick = {
-                            onAddPlayersClick(numPlayers.intValue)
-                        },
-                        text = stringResource(id = R.string.enter_players),
-                        testTag = LandingScreenTestTags.ADD_PLAYERS_BUTTON,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
+                Text(
+                    modifier = Modifier.testTag(LandingScreenTestTags.NUM_PLAYERS),
+                    text = numPlayers.intValue.toString()
+                )
+
+                TextButton(
+                    modifier = Modifier.testTag(LandingScreenTestTags.NUM_PLAYERS_ADD),
+                    onClick = {
+                        if (numPlayers.intValue < MAX_PLAYERS) {
+                            numPlayers.intValue += 1
+                        }
+                    },
+                    content = {
+                        Text(
+                            text = "+",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+                )
             }
-        )
+            Spacer(modifier = Modifier.weight(2f))
+
+            STButton(
+                onClick = {
+                    onAddPlayersClick(numPlayers.intValue)
+                },
+                text = stringResource(id = R.string.enter_players),
+                testTag = LandingScreenTestTags.ADD_PLAYERS_BUTTON,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
 

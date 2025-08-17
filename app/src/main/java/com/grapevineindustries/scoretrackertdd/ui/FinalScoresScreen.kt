@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -53,71 +52,61 @@ fun FinalScoreScreen(
         onBack = { }
     )
 
-    Scaffold(
-        modifier = Modifier.testTag(FinalScoresScreenTestTags.FINAL_SCORES_SCREEN),
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier.padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding(),
-                    start = Dimen.outerScreenPadding,
-                    end = Dimen.outerScreenPadding
-                )
-            ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-                    content = {
-                        items(playerData) { player ->
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 45.dp, vertical = 4.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    modifier = Modifier.testTag(FinalScoresScreenTestTags.PLAYER_NAME),
-                                    text = player.name
-                                )
+    Column(
+        modifier = Modifier.padding(horizontal = Dimen.outerScreenPadding)
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            content = {
+                items(playerData) { player ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 45.dp, vertical = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier.testTag(FinalScoresScreenTestTags.PLAYER_NAME),
+                            text = player.name
+                        )
 
-                                Text(
-                                    modifier = Modifier.testTag(FinalScoresScreenTestTags.PLAYER_SCORE),
-                                    text = player.score.toString()
-                                )
-                            }
-                        }
+                        Text(
+                            modifier = Modifier.testTag(FinalScoresScreenTestTags.PLAYER_SCORE),
+                            text = player.score.toString()
+                        )
                     }
-                )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = 4.dp,
-                            end = 4.dp,
-                            top = 12.dp
-                        ),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    STButton(
-                        onClick = onNewGameClick,
-                        text = stringResource(id = R.string.new_game),
-                        testTag = FinalScoresScreenTestTags.NEW_GAME
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    STButton(
-                        onClick = onReplayClick,
-                        text = stringResource(id = R.string.replay),
-                        testTag = FinalScoresScreenTestTags.REPLAY,
-                        modifier = Modifier.weight(1f)
-                    )
                 }
             }
+        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 4.dp,
+                    end = 4.dp,
+                    top = 12.dp
+                ),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            STButton(
+                onClick = onNewGameClick,
+                text = stringResource(id = R.string.new_game),
+                testTag = FinalScoresScreenTestTags.NEW_GAME
+            )
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            STButton(
+                onClick = onReplayClick,
+                text = stringResource(id = R.string.replay),
+                testTag = FinalScoresScreenTestTags.REPLAY,
+                modifier = Modifier.weight(1f)
+            )
         }
-    )
+    }
 }
 
 object FinalScoresScreenTestTags {

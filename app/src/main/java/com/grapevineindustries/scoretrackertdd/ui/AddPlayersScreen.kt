@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,60 +34,49 @@ fun AddPlayersScreen(
             onBackPress()
         }
     )
-
-    Scaffold(
-        modifier = Modifier.testTag(AddPlayersScreenTestTags.ADD_PLAYERS_SCREEN),
-        content = { paddingValues ->
-            Column(
-                modifier = Modifier.padding(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding(),
-                    start = Dimen.outerScreenPadding,
-                    end = Dimen.outerScreenPadding
-                )
-            ) {
-                Text("Enter Player Names:")
-                Spacer(modifier = Modifier.height(4.dp))
-                LazyColumn(
-                    modifier = Modifier
-                        .testTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
-                        .weight(1f)
-                ) {
-                    itemsIndexed(players) { index, player ->
-                        OutlinedTextField(
-                            modifier = Modifier.testTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index),
-                            label = {
-                                Text("Player ${index + 1}")
-                            },
-                            value = player.name,
-                            onValueChange = { it ->
-                                it.also {
-                                    updatePlayer(
-                                        index,
-                                        player.copy(
-                                            name = it
-                                        )
-                                    )
-                                }
-                            },
-                            singleLine = true,
-                            maxLines = 1,
-                            keyboardOptions = KeyboardOptions(
-                                imeAction = if (index == players.size - 1) ImeAction.Done else ImeAction.Next
+    Column(
+        modifier = Modifier.padding(horizontal = Dimen.outerScreenPadding)
+    ) {
+        Text("Enter Player Names:")
+        Spacer(modifier = Modifier.height(4.dp))
+        LazyColumn(
+            modifier = Modifier
+                .testTag(AddPlayersScreenTestTags.PLAYER_COLUMN)
+                .weight(1f)
+        ) {
+            itemsIndexed(players) { index, player ->
+                OutlinedTextField(
+                    modifier = Modifier.testTag(AddPlayersScreenTestTags.PLAYER_TEXT_INPUT + index),
+                    label = {
+                        Text("Player ${index + 1}")
+                    },
+                    value = player.name,
+                    onValueChange = { it ->
+                        it.also {
+                            updatePlayer(
+                                index,
+                                player.copy(
+                                    name = it
+                                )
                             )
-                        )
-                    }
-                }
-
-                STButton(
-                    onClick = onStartGameClicked,
-                    text = stringResource(id = R.string.start_game),
-                    testTag = AddPlayersScreenTestTags.START_GAME_BUTTON,
-                    modifier = Modifier.fillMaxWidth(),
+                        }
+                    },
+                    singleLine = true,
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = if (index == players.size - 1) ImeAction.Done else ImeAction.Next
+                    )
                 )
             }
         }
-    )
+
+        STButton(
+            onClick = onStartGameClicked,
+            text = stringResource(id = R.string.start_game),
+            testTag = AddPlayersScreenTestTags.START_GAME_BUTTON,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
 
 object AddPlayersScreenTestTags {

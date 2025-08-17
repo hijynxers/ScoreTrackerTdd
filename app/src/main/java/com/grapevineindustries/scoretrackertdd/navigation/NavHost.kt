@@ -14,66 +14,73 @@ import com.grapevineindustries.scoretrackertdd.ui.LandingScreen
 import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
 
 @Composable
-fun NavHost(
+fun FiveCrownsNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = NavHostRoutes.LandingScreen,
-    gameViewModel: GameViewModel = viewModel()
+    showNavBar: (Boolean) -> Unit,
+    startDestination: String = FiveCrownsNavHostRoutes.LandingScreen,
+    gameViewModel: GameViewModel = viewModel(),
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(NavHostRoutes.LandingScreen) {
+//    navigation(
+//        startDestination = FiveCrownsNavHostRoutes.LandingScreen,
+//    ) {
+        composable(FiveCrownsNavHostRoutes.LandingScreen) {
             LandingScreen(
                 onAddPlayersClick = { numPlayers ->
                     gameViewModel.createPlayersList(numPlayers)
-                    navController.navigate(NavHostRoutes.AddPlayersScreen)
+                    navController.navigate(FiveCrownsNavHostRoutes.AddPlayersScreen)
+                    showNavBar(false)
                 }
             )
         }
-        composable(NavHostRoutes.AddPlayersScreen) {
+        composable(FiveCrownsNavHostRoutes.AddPlayersScreen) {
             AddPlayersScreen(
                 onStartGameClicked = {
-                    navController.navigate(NavHostRoutes.GameScreen)
+                    navController.navigate(FiveCrownsNavHostRoutes.GameScreen)
                 },
                 onBackPress = {
                     navController.navigateUp()
+                    showNavBar(true)
                 },
                 updatePlayer = gameViewModel::updatePlayer,
                 players = gameViewModel.players
             )
         }
-        composable(NavHostRoutes.GameScreen) {
+        composable(FiveCrownsNavHostRoutes.GameScreen) {
             FiveCrownsScreen(
                 gameViewModel = gameViewModel,
                 navigateToLandingScreen = {
                     navController.popBackStack(
-                        route = NavHostRoutes.LandingScreen,
+                        route = FiveCrownsNavHostRoutes.LandingScreen,
                         inclusive = false
                     )
                 },
                 navigateToFinalScoreScreen = {
-                    navController.navigate(NavHostRoutes.FinalScoresScreen)
+                    navController.navigate(FiveCrownsNavHostRoutes.FinalScoresScreen)
                 }
             )
         }
-        composable(NavHostRoutes.FinalScoresScreen) {
+        composable(FiveCrownsNavHostRoutes.FinalScoresScreen) {
             FinalScoreScreen(
                 playerData = gameViewModel.sortedPlayers(),
                 onNewGameClick = {
                     navController.popBackStack(
-                        route = NavHostRoutes.LandingScreen,
+                        route = FiveCrownsNavHostRoutes.LandingScreen,
                         inclusive = false
                     )
                     gameViewModel.resetWildCard()
+                    showNavBar(true)
                 },
                 onReplayClick = {
                     gameViewModel.resetScores()
                     gameViewModel.resetWildCard()
                     navController.popBackStack(
-                        route = NavHostRoutes.GameScreen,
+                        route = FiveCrownsNavHostRoutes.GameScreen,
                         inclusive = false
                     )
                 }
@@ -82,7 +89,7 @@ fun NavHost(
     }
 }
 
-object NavHostRoutes {
+object FiveCrownsNavHostRoutes {
     const val LandingScreen = "NAV_LANDING_SCREEN"
     const val AddPlayersScreen = "NAV_ADD_PLAYER_SCREEN"
     const val GameScreen = "NAV_GAME_SCREEN"
