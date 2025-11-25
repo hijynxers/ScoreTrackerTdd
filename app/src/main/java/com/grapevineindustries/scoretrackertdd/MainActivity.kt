@@ -36,12 +36,12 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.composables.crown
 import com.composables.sailing
-import com.grapevineindustries.scoretrackertdd.navigation.FiveCrownsDestinations
-import com.grapevineindustries.scoretrackertdd.navigation.PlunderDestinations
-import com.grapevineindustries.scoretrackertdd.navigation.fiveCrownsGraph
-import com.grapevineindustries.scoretrackertdd.navigation.plunderGraph
-import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.viewmodel.GameViewModel
+import com.grapevineindustries.common.theme.ScoreTrackerTheme
+import com.grapevineindustries.plunder.PlunderDestinations
+import com.grapevineindustries.plunder.plunderGraph
+import com.grapevineindustries.fivecrowns.FiveCrownsDestinations
+import com.grapevineindustries.fivecrowns.fiveCrownsGraph
+import com.grapevineindustries.fivecrowns.GameViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -129,8 +129,8 @@ fun MainAppScreen() {
                             title = {
                                 // Title could change based on the current section
                                 val title = when {
-                                    currentRoute?.startsWith(MainAppDestinations.FIVE_CROWNS_GRAPH) == true -> "Five Crowns"
-                                    currentRoute?.startsWith(MainAppDestinations.PLUNDER_GRAPH) == true -> "Plunder"
+                                    currentRoute.startsWith(MainAppDestinations.FIVE_CROWNS_GRAPH) -> "Five Crowns"
+                                    currentRoute.startsWith(MainAppDestinations.PLUNDER_GRAPH) -> "Plunder"
 //                                    currentRoute == MainAppDestinations.ABOUT_SCREEN -> "About"
                                     else -> "Score Tracker"
                                 }
@@ -194,10 +194,4 @@ fun MainAppNavHost(
 //        Text("About This App")
 //    }
 //}
-
-fun GameViewModel.resetGameAndPlayers() {
-    this.players.clear()
-    this.resetScores()
-    this.resetWildCard()
-}
 

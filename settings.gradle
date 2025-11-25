@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "ScoreTracker"
 include ':app'
+include ':plunder'
+include ':fivecrowns'
+include ':common'
