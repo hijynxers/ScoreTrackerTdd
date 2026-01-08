@@ -1,10 +1,9 @@
 package com.grapevineindustries.fivecrowns.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.grapevineindustries.common.theme.ScoreTrackerTheme
 import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
-import org.junit.Before
+import com.grapevineindustries.fivecrowns.utils.FinalScoresTestUtils
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,8 +11,8 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class FinalScoresUiTests {
-    @JvmField
-    @Rule
+
+    @get:Rule
     val composeTestRule = createComposeRule()
 
     private val finalScoresUtils = FinalScoresTestUtils(composeTestRule)
@@ -24,8 +23,8 @@ class FinalScoresUiTests {
         Player("player3", 183),
     )
 
-    @Before
-    fun setup() {
+    @Test
+    fun screen_showing() {
         composeTestRule.setContent {
             ScoreTrackerTheme {
                 FinalScoreScreen(
@@ -35,10 +34,7 @@ class FinalScoresUiTests {
                 )
             }
         }
-    }
 
-    @Test
-    fun screen_showing() {
         finalScoresUtils.assertShowing()
         finalScoresUtils.assertData(playerData)
     }

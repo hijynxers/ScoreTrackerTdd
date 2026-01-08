@@ -4,8 +4,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.espresso.Espresso
 import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.fivecrowns.ui.AddPlayersScreen
-import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
+import com.grapevineindustries.fivecrowns.utils.AddPlayersTestUtils
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
@@ -15,8 +14,7 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class AddPlayersUiTests {
-    @JvmField
-    @Rule
+    @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private var startGameClicked = false

@@ -1,9 +1,9 @@
 package com.grapevineindustries.fivecrowns.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
+import com.grapevineindustries.common.theme.ScoreTrackerTheme
 import com.grapevineindustries.fivecrowns.ui.composables.FiveCrownsCalcDialog
-import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
+import com.grapevineindustries.fivecrowns.utils.FiveCrownsCalcDialogTestUtils
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -11,8 +11,8 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class FiveCrownsCalcDialogUiTests {
-    @JvmField
-    @Rule
+
+    @get:Rule
     val composeTestRule = createComposeRule()
 
     private val fiveCrownsCalcUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)

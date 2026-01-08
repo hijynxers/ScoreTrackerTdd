@@ -1,9 +1,9 @@
 package com.grapevineindustries.fivecrowns.ui
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
+import com.grapevineindustries.common.theme.ScoreTrackerTheme
 import com.grapevineindustries.fivecrowns.ui.composables.ScoreTrackerAlertDialog
-import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
+import com.grapevineindustries.fivecrowns.utils.AlertDialogTestUtils
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
@@ -13,8 +13,8 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class AlertDialogUiTests {
-    @JvmField
-    @Rule
+
+    @get:Rule
     val composeTestRule = createComposeRule()
 
     private val alertDialogUtils = AlertDialogTestUtils(composeTestRule)

@@ -5,16 +5,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreen
-import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreenContent
-import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.scoretrackertdd.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.ui.composables.AlertDialogTestTags
-import com.grapevineindustries.scoretrackertdd.utils.AlertDialogTestUtils
-import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
-import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
+import com.grapevineindustries.common.theme.ScoreTrackerTheme
 import com.grapevineindustries.fivecrowns.FiveCrownsState
 import com.grapevineindustries.fivecrowns.GameViewModel
+import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.ui.composables.AlertDialogTestTags
+import com.grapevineindustries.fivecrowns.utils.AlertDialogTestUtils
+import com.grapevineindustries.fivecrowns.utils.FiveCrownsCalcDialogTestUtils
+import com.grapevineindustries.fivecrowns.utils.FiveCrownsScreenTestUtils
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -26,8 +24,8 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class FiveCrownsUiTests {
-    @JvmField
-    @Rule
+
+    @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)

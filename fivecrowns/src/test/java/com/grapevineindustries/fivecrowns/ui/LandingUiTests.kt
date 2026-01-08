@@ -4,9 +4,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.fivecrowns.ui.LandingScreen
-import com.grapevineindustries.fivecrowns.ui.LandingScreenTestTags
-import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
+import com.grapevineindustries.fivecrowns.utils.LandingScreenTestUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,8 +13,8 @@ import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
 class NavLandingUiTests {
-    @JvmField
-    @Rule
+
+    @get:Rule
     val composeTestRule = createComposeRule()
 
     private val landingScreenUtils = LandingScreenTestUtils(composeTestRule)

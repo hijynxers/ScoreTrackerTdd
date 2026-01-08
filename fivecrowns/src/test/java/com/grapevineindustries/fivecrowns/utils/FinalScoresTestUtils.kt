@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.scoretrackertdd.ui.FinalScoresScreenTestTags
+import com.grapevineindustries.fivecrowns.ui.FinalScoresScreenTestTags
 
 class FinalScoresTestUtils(
     val composeTestRule: ComposeTestRule
