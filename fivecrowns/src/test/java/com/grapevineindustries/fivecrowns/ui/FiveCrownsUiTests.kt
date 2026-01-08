@@ -10,9 +10,9 @@ import com.grapevineindustries.fivecrowns.FiveCrownsState
 import com.grapevineindustries.fivecrowns.GameViewModel
 import com.grapevineindustries.fivecrowns.Player
 import com.grapevineindustries.fivecrowns.ui.composables.AlertDialogTestTags
-import com.grapevineindustries.fivecrowns.utils.AlertDialogTestUtils
-import com.grapevineindustries.fivecrowns.utils.FiveCrownsCalcDialogTestUtils
-import com.grapevineindustries.fivecrowns.utils.FiveCrownsScreenTestUtils
+import com.grapevineindustries.fivecrowns.testutils.AlertDialogTestUtils
+import com.grapevineindustries.fivecrowns.testutils.FiveCrownsCalcDialogTestUtils
+import com.grapevineindustries.fivecrowns.testutils.FiveCrownsScreenTestUtils
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue

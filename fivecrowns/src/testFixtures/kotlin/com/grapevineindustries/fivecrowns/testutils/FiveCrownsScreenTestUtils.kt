@@ -1,4 +1,4 @@
-package com.grapevineindustries.fivecrowns.utils
+package com.grapevineindustries.fivecrowns.testutils
 
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHasClickAction

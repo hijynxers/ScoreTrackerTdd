@@ -3,7 +3,7 @@ package com.grapevineindustries.fivecrowns.ui
 import androidx.compose.ui.test.junit4.createComposeRule
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
 import com.grapevineindustries.fivecrowns.ui.composables.ScoreTrackerAlertDialog
-import com.grapevineindustries.fivecrowns.utils.AlertDialogTestUtils
+import com.grapevineindustries.fivecrowns.testutils.AlertDialogTestUtils
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
 import org.junit.Rule
