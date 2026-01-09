@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jacoco)
 }
 
 android {
@@ -25,6 +26,10 @@ android {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        debug {
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -43,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
     implementation(project(":common"))
 
     implementation(libs.navigation.runtime.ktx)
