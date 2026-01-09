@@ -7,12 +7,12 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreenTestTags
 import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.scoretrackertdd.utils.AddPlayersTestUtils
-import com.grapevineindustries.scoretrackertdd.utils.FinalScoresTestUtils
-import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsCalcDialogTestUtils
-import com.grapevineindustries.scoretrackertdd.utils.FiveCrownsScreenTestUtils
-import com.grapevineindustries.scoretrackertdd.utils.LandingScreenTestUtils
 import com.grapevineindustries.fivecrowns.GameViewModel
+import com.grapevineindustries.fivecrowns.testutils.AddPlayersTestUtils
+import com.grapevineindustries.fivecrowns.testutils.FinalScoresTestUtils
+import com.grapevineindustries.fivecrowns.testutils.FiveCrownsCalcDialogTestUtils
+import com.grapevineindustries.fivecrowns.testutils.FiveCrownsScreenTestUtils
+import com.grapevineindustries.fivecrowns.testutils.LandingScreenTestUtils
 import junit.framework.TestCase.assertEquals
 import org.junit.Rule
 import org.junit.Test
