@@ -1,11 +1,10 @@
-package com.grapevineindustries.fivecrowns.ui
+package com.grapevineindustries.common
 
+import ScoreTrackerAlertDialogTestUtils
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.ui.composables.ScoreTrackerAlertDialog
-import com.grapevineindustries.fivecrowns.testutils.AlertDialogTestUtils
-import junit.framework.TestCase.assertFalse
-import junit.framework.TestCase.assertTrue
+import junit.framework.TestCase
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,7 +16,7 @@ class AlertDialogUiTests {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val alertDialogUtils = AlertDialogTestUtils(composeTestRule)
+    private val alertDialogUtils = ScoreTrackerAlertDialogTestUtils(composeTestRule)
 
     @Test
     fun alert_dialog_displays_no_dismiss_button() {
@@ -27,7 +26,7 @@ class AlertDialogUiTests {
                     title = "title",
                     text = "text",
                     confirmButtonText = "ok",
-                    onConfirmClick = {  }
+                    onConfirmClick = { }
                 )
             }
         }
@@ -62,7 +61,7 @@ class AlertDialogUiTests {
             dismissButtonText = "exit"
         )
         alertDialogUtils.clickDismissButton()
-        assertTrue(buttonClicked)
+        TestCase.assertTrue(buttonClicked)
     }
 
     @Test
@@ -82,8 +81,8 @@ class AlertDialogUiTests {
                 )
             }
         }
-        assertFalse(confirmButtonClicked)
-        assertFalse(dismissButtonClicked)
+        TestCase.assertFalse(confirmButtonClicked)
+        TestCase.assertFalse(dismissButtonClicked)
 
         alertDialogUtils.assertShowing(
             title = "title",
@@ -93,7 +92,7 @@ class AlertDialogUiTests {
         )
         alertDialogUtils.clickConfirmButton()
         alertDialogUtils.clickDismissButton()
-        assertTrue(confirmButtonClicked)
-        assertTrue(dismissButtonClicked)
+        TestCase.assertTrue(confirmButtonClicked)
+        TestCase.assertTrue(dismissButtonClicked)
     }
 }

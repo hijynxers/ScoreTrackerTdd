@@ -18,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.grapevineindustries.common.R
-import com.grapevineindustries.common.STButton
+import com.grapevineindustries.common.composables.STButton
 import com.grapevineindustries.common.theme.Dimen
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.data.Player
 
 @Composable
 fun AddPlayersScreen(

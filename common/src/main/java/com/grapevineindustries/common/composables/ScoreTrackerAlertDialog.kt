@@ -1,4 +1,4 @@
-package com.grapevineindustries.fivecrowns.ui.composables
+package com.grapevineindustries.common.composables
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -8,12 +8,16 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.grapevineindustries.common.R
-import com.grapevineindustries.common.STButton
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags.ALERT_DIALOG
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags.DISMISS_BUTTON
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags.TEXT
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags.TITLE
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
 
 @Preview
 @Composable
-private fun AlertDialogPreview() {
+private fun ScoreTrackerAlertDialogPreview() {
     ScoreTrackerTheme {
         ScoreTrackerAlertDialog(
             onConfirmClick = { },
@@ -30,7 +34,7 @@ private fun AlertDialogPreview() {
 fun ScoreTrackerAlertDialog(
     onConfirmClick: () -> Unit,
     onDismissClick: () -> Unit = {},
-    testTag: String = AlertDialogTestTags.ALERT_DIALOG,
+    testTag: String = ALERT_DIALOG,
     title: String,
     text: String,
     confirmButtonText: String,
@@ -40,20 +44,20 @@ fun ScoreTrackerAlertDialog(
         modifier = Modifier.testTag(testTag),
         title = {
             Text(
-                modifier = Modifier.testTag(AlertDialogTestTags.TITLE),
+                modifier = Modifier.testTag(TITLE),
                 text = title
             )
         },
         text = {
             Text(
-                modifier = Modifier.testTag(AlertDialogTestTags.TEXT),
+                modifier = Modifier.testTag(TEXT),
                 text = text
             )
         },
         confirmButton = {
             STButton(
                 onClick = onConfirmClick,
-                testTag = AlertDialogTestTags.CONFIRM_BUTTON,
+                testTag = CONFIRM_BUTTON,
                 text = confirmButtonText
             )
         },
@@ -61,7 +65,7 @@ fun ScoreTrackerAlertDialog(
             if (dismissButtonText != null) {
                 STButton(
                     onClick = onDismissClick,
-                    testTag = AlertDialogTestTags.DISMISS_BUTTON,
+                    testTag = DISMISS_BUTTON,
                     text = dismissButtonText
                 )
             }
@@ -70,7 +74,7 @@ fun ScoreTrackerAlertDialog(
     )
 }
 
-object AlertDialogTestTags {
+object ScoreTrackerAlertDialogTestTags {
     const val ALERT_DIALOG = "ALERT_DIALOG"
     const val TITLE = "ALERT_DIALOG_TITLE"
     const val TEXT = "ALERT_DIALOG_TEXT"

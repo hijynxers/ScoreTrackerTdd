@@ -1,4 +1,4 @@
-package com.grapevineindustries.fivecrowns
+package com.grapevineindustries.fivecrowns.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -7,6 +7,7 @@ import com.grapevineindustries.fivecrowns.ui.FinalScoreScreen
 import com.grapevineindustries.fivecrowns.ui.AddPlayersScreen
 import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreen
 import com.grapevineindustries.fivecrowns.ui.LandingScreen
+import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
 
 fun NavGraphBuilder.fiveCrownsGraph(
     navController: NavHostController,

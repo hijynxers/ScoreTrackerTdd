@@ -39,9 +39,9 @@ import com.composables.sailing
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
 import com.grapevineindustries.plunder.PlunderDestinations
 import com.grapevineindustries.plunder.plunderGraph
-import com.grapevineindustries.fivecrowns.FiveCrownsDestinations
-import com.grapevineindustries.fivecrowns.fiveCrownsGraph
-import com.grapevineindustries.fivecrowns.GameViewModel
+import com.grapevineindustries.fivecrowns.navigation.FiveCrownsDestinations
+import com.grapevineindustries.fivecrowns.navigation.fiveCrownsGraph
+import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {

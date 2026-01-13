@@ -12,10 +12,10 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants
+import com.grapevineindustries.fivecrowns.data.Player
 import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreenTestTags
-import com.grapevineindustries.fivecrowns.ui.composables.AlertDialogTestTags
 import com.grapevineindustries.fivecrowns.ui.composables.FiveCrownsCalcDialogTestTags
 
 class FiveCrownsScreenTestUtils(
@@ -69,12 +69,12 @@ class FiveCrownsScreenTestUtils(
     }
 
     fun assertEndGameDialogShowing() {
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.ALERT_DIALOG)
             .isDisplayed()
     }
 
     fun assertEndGameDialogNotShowing() {
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.ALERT_DIALOG)
             .assertDoesNotExist()
     }
 
@@ -102,7 +102,7 @@ class FiveCrownsScreenTestUtils(
     fun endTheGame() {
         for (i in 3..13) {
             clickTallyButton()
-            composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+            composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON)
                 .performClick()
         }
     }
@@ -114,7 +114,7 @@ class FiveCrownsScreenTestUtils(
             composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
                 .assertIsDisplayed()
                 .performClick()
-            composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+            composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON)
                 .assertIsDisplayed()
                 .performClick()
         }
@@ -124,7 +124,7 @@ class FiveCrownsScreenTestUtils(
         for (i in 3..12) {
             composeTestRule.onNodeWithTag(FiveCrownsScreenTestTags.TALLY_BUTTON)
                 .performClick()
-            composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+            composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON)
                 .performClick()
         }
     }

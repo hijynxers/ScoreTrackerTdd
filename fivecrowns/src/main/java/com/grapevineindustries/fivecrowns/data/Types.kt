@@ -1,4 +1,4 @@
-package com.grapevineindustries.fivecrowns
+package com.grapevineindustries.fivecrowns.data
 
 data class Player(
     var name: String,

@@ -1,4 +1,4 @@
-package com.grapevineindustries.common
+package com.grapevineindustries.common.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

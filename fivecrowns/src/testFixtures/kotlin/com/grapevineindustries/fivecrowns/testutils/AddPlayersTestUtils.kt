@@ -11,7 +11,7 @@ import androidx.compose.ui.test.onChildren
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants
 import com.grapevineindustries.fivecrowns.ui.AddPlayersScreenTestTags
 
 class AddPlayersTestUtils(

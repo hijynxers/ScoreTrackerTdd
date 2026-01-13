@@ -1,18 +1,18 @@
 package com.grapevineindustries.fivecrowns.ui
 
+import ScoreTrackerAlertDialogTestUtils
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.FiveCrownsState
-import com.grapevineindustries.fivecrowns.GameViewModel
-import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.fivecrowns.ui.composables.AlertDialogTestTags
-import com.grapevineindustries.fivecrowns.testutils.AlertDialogTestUtils
+import com.grapevineindustries.fivecrowns.data.Player
 import com.grapevineindustries.fivecrowns.testutils.FiveCrownsCalcDialogTestUtils
 import com.grapevineindustries.fivecrowns.testutils.FiveCrownsScreenTestUtils
+import com.grapevineindustries.fivecrowns.viewmodel.FiveCrownsState
+import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -29,7 +29,7 @@ class FiveCrownsUiTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)
-    private val alertDialogUtils = AlertDialogTestUtils(composeTestRule)
+    private val alertDialogUtils = ScoreTrackerAlertDialogTestUtils(composeTestRule)
     private val fiveCrownsCalcDialogUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
 
     private val initialPlayerData = listOf(
@@ -331,7 +331,7 @@ class FiveCrownsUiTests {
         fiveCrownsScreenUtils.assertScreenShowing()
 
         fiveCrownsScreenUtils.clickTallyButton()
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON)
             .performClick()
         fiveCrownsScreenUtils.assertWildCard("4")
     }

@@ -19,10 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.grapevineindustries.common.R
-import com.grapevineindustries.common.STButton
+import com.grapevineindustries.common.composables.STButton
 import com.grapevineindustries.common.theme.Dimen
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.data.Player
 
 @Composable
 fun FinalScoreScreen(

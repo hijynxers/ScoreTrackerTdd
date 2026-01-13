@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.grapevineindustries.common.R
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable

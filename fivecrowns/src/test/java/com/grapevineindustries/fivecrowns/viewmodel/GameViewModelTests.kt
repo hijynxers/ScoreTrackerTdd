@@ -1,8 +1,7 @@
 package com.grapevineindustries.fivecrowns.viewmodel
 
-import com.grapevineindustries.fivecrowns.GameViewModel
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants
+import com.grapevineindustries.fivecrowns.data.Player
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue

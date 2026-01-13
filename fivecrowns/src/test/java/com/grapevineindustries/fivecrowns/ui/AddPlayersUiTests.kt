@@ -3,7 +3,7 @@ package com.grapevineindustries.fivecrowns.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.espresso.Espresso
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.data.Player
 import com.grapevineindustries.fivecrowns.testutils.AddPlayersTestUtils
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue

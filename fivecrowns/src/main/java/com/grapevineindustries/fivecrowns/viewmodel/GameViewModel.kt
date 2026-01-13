@@ -1,7 +1,8 @@
-package com.grapevineindustries.fivecrowns
+package com.grapevineindustries.fivecrowns.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import com.grapevineindustries.fivecrowns.data.Player
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.data.Player
 import com.grapevineindustries.fivecrowns.ui.FinalScoresScreenTestTags
 
 class FinalScoresTestUtils(

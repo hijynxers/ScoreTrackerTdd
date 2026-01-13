@@ -19,12 +19,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.grapevineindustries.common.R
-import com.grapevineindustries.common.STButton
+import com.grapevineindustries.common.composables.STButton
 import com.grapevineindustries.common.theme.Dimen
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants.DEFAULT_NUM_PLAYERS
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants.MAX_PLAYERS
-import com.grapevineindustries.fivecrowns.FiveCrownsConstants.MIN_PLAYERS
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants.DEFAULT_NUM_PLAYERS
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants.MAX_PLAYERS
+import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants.MIN_PLAYERS
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable

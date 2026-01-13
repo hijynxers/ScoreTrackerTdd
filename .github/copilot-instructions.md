@@ -58,10 +58,20 @@ Score Tracker is an Android application designed to track scores for various gam
     ```
 
 ## Folder Structure
-- `ui/composables`: Reusable Compose UI components.
+This section describes the typical folder structure within a feature module (like `fivecrowns` or `plunder`).
+- `data`: Contains Room database entities, DAOs, repositories, and database definitions.
+- `ui/composables`: Reusable Compose UI components specific to the module.
 - `viewmodel`: ViewModels for managing game logic and state.
-- `navigation`: Navigation graphs and destination definitions.
-- `theme`: Theme definitions (Color, Type, Theme).
+- `navigation`: Navigation graphs and destination definitions for the module.
+
+## Module Structure
+The project is organized into the following Gradle modules:
+- `app`: The main application module, responsible for tying together all the feature modules and providing the main entry point for the application.
+- `common`: A shared module containing code and resources used across multiple feature modules. This includes:
+  - `theme`: The app's `MaterialTheme`, colors, and typography (`Theme.kt`).
+  - `composables`: Common, reusable UI components like buttons, text fields, etc., that can be used in any feature module.
+- `fivecrowns`: A feature module for the "Five Crowns" game.
+- `plunder`: A feature module for the "Plunder" game.
 
 ## Building & Running
 - Ensure JDK 17 is used.

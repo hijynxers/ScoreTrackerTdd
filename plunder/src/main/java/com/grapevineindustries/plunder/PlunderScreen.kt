@@ -14,7 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.grapevineindustries.common.STButton
+import com.grapevineindustries.common.composables.STButton
 import kotlin.random.Random
 
 @Composable

@@ -21,7 +21,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.data.Player
 import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreenTestTags
 
 @Preview(showBackground = true)

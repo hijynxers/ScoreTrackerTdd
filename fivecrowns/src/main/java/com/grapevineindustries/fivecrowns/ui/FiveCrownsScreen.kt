@@ -25,14 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.grapevineindustries.common.R
-import com.grapevineindustries.common.STButton
+import com.grapevineindustries.common.composables.STButton
 import com.grapevineindustries.common.theme.Dimen
-import com.grapevineindustries.fivecrowns.FiveCrownsState
-import com.grapevineindustries.fivecrowns.GameViewModel
-import com.grapevineindustries.fivecrowns.Player
+import com.grapevineindustries.fivecrowns.viewmodel.FiveCrownsState
+import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
+import com.grapevineindustries.fivecrowns.data.Player
 import com.grapevineindustries.fivecrowns.ui.composables.FiveCrownsCalcDialog
 import com.grapevineindustries.fivecrowns.ui.composables.PlayerDataCard
-import com.grapevineindustries.fivecrowns.ui.composables.ScoreTrackerAlertDialog
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialog
 import com.grapevineindustries.fivecrowns.ui.composables.convertWildCard
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

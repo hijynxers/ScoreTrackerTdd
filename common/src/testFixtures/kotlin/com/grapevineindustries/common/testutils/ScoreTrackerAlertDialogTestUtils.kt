@@ -1,14 +1,12 @@
-package com.grapevineindustries.fivecrowns.testutils
-
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.onChild
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.grapevineindustries.fivecrowns.ui.composables.AlertDialogTestTags
+import com.grapevineindustries.common.composables.ScoreTrackerAlertDialogTestTags
 
-class AlertDialogTestUtils(
+class ScoreTrackerAlertDialogTestUtils(
     private val composeTestRule: ComposeTestRule
 ) {
 
@@ -18,24 +16,24 @@ class AlertDialogTestUtils(
         confirmButtonText: String = "OK",
         dismissButtonText: String? = null
     ) {
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.ALERT_DIALOG)
             .assertIsDisplayed()
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.TITLE)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.TITLE)
             .assertIsDisplayed()
             .assertTextEquals(title)
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.TEXT)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.TEXT)
             .assertIsDisplayed()
             .assertTextEquals(text)
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON, useUnmergedTree = true)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON, useUnmergedTree = true)
             .assertIsDisplayed()
             .onChild()
             .assertTextEquals(confirmButtonText)
         if (dismissButtonText == null) {
-            composeTestRule.onNodeWithTag(AlertDialogTestTags.DISMISS_BUTTON)
+            composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.DISMISS_BUTTON)
                 .assertDoesNotExist()
         } else {
             composeTestRule.onNodeWithTag(
-                AlertDialogTestTags.DISMISS_BUTTON,
+                ScoreTrackerAlertDialogTestTags.DISMISS_BUTTON,
                 useUnmergedTree = true
             )
                 .assertIsDisplayed()
@@ -45,17 +43,17 @@ class AlertDialogTestUtils(
     }
 
     fun assertNotShowing() {
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.ALERT_DIALOG)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.ALERT_DIALOG)
             .assertDoesNotExist()
     }
 
     fun clickConfirmButton() {
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.CONFIRM_BUTTON)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.CONFIRM_BUTTON)
             .performClick()
     }
 
     fun clickDismissButton() {
-        composeTestRule.onNodeWithTag(AlertDialogTestTags.DISMISS_BUTTON)
+        composeTestRule.onNodeWithTag(ScoreTrackerAlertDialogTestTags.DISMISS_BUTTON)
             .performClick()
     }
 }

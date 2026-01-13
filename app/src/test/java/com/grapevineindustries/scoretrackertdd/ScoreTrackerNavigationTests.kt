@@ -6,8 +6,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.rememberNavController
 import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreenTestTags
-import com.grapevineindustries.fivecrowns.Player
-import com.grapevineindustries.fivecrowns.GameViewModel
+import com.grapevineindustries.fivecrowns.data.Player
+import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
 import com.grapevineindustries.fivecrowns.testutils.AddPlayersTestUtils
 import com.grapevineindustries.fivecrowns.testutils.FinalScoresTestUtils
 import com.grapevineindustries.fivecrowns.testutils.FiveCrownsCalcDialogTestUtils
