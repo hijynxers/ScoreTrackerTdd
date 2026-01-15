@@ -37,11 +37,11 @@ import androidx.navigation.compose.rememberNavController
 import com.composables.crown
 import com.composables.sailing
 import com.grapevineindustries.common.theme.ScoreTrackerTheme
-import com.grapevineindustries.plunder.PlunderDestinations
-import com.grapevineindustries.plunder.plunderGraph
 import com.grapevineindustries.fivecrowns.navigation.FiveCrownsDestinations
 import com.grapevineindustries.fivecrowns.navigation.fiveCrownsGraph
 import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
+import com.grapevineindustries.plunder.PlunderDestinations
+import com.grapevineindustries.plunder.plunderGraph
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -187,11 +187,3 @@ fun MainAppNavHost(
 //        }
     }
 }
-
-//@Composable
-//fun AboutScreen(navController: NavHostController) {
-//    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//        Text("About This App")
-//    }
-//}
-

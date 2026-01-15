@@ -44,4 +44,9 @@ class  LandingScreenTestUtils(
         composeTestRule.onNodeWithTag(LandingScreenTestTags.ADD_PLAYERS_BUTTON)
             .performClick()
     }
+
+    fun clickHighLowScores() {
+        composeTestRule.onNodeWithTag(LandingScreenTestTags.HIGH_LOW_SCORE_BUTTON)
+            .performClick()
+    }
 }

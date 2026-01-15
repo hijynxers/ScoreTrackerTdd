@@ -17,4 +17,5 @@
     <string name="cancel">Cancel</string>
     <string name="new_game">New Game</string>
     <string name="replay">Replay</string>
+    <string name="high_low_scores">"High/Low Scores"</string>
 </resources>

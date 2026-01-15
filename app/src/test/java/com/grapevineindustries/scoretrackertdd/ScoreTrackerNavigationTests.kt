@@ -13,6 +13,7 @@ import com.grapevineindustries.fivecrowns.testutils.FinalScoresTestUtils
 import com.grapevineindustries.fivecrowns.testutils.FiveCrownsCalcDialogTestUtils
 import com.grapevineindustries.fivecrowns.testutils.FiveCrownsScreenTestUtils
 import com.grapevineindustries.fivecrowns.testutils.LandingScreenTestUtils
+import com.grapevineindustries.fivecrowns.ui.HighLowScoreScreenTestTags
 import junit.framework.TestCase.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -30,6 +31,16 @@ class ScoreTrackerNavigationTests {
     private val fiveCrownsScreenUtils = FiveCrownsScreenTestUtils(composeTestRule)
     private val finalScoresUtils = FinalScoresTestUtils(composeTestRule)
     private val fiveCrownsCalcDialogUtils = FiveCrownsCalcDialogTestUtils(composeTestRule)
+
+    @Test
+    fun to_highLowScore_screen() {
+        launchNavController()
+
+        landingScreenUtils.clickHighLowScores()
+
+        composeTestRule.onNodeWithTag(HighLowScoreScreenTestTags.ROOT)
+            .assertIsDisplayed()
+    }
 
     @Test
     fun to_addPlayer_screen() {

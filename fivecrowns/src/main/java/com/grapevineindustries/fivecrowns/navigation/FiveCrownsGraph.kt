@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import com.grapevineindustries.fivecrowns.ui.FinalScoreScreen
 import com.grapevineindustries.fivecrowns.ui.AddPlayersScreen
 import com.grapevineindustries.fivecrowns.ui.FiveCrownsScreen
+import com.grapevineindustries.fivecrowns.ui.HighLowScoreScreen
 import com.grapevineindustries.fivecrowns.ui.LandingScreen
 import com.grapevineindustries.fivecrowns.viewmodel.GameViewModel
 
@@ -18,6 +19,9 @@ fun NavGraphBuilder.fiveCrownsGraph(
             onAddPlayersClick = { numPlayers ->
                 gameViewModel.createPlayersList(numPlayers)
                 navController.navigate(FiveCrownsDestinations.ADD_PLAYERS)
+            },
+            onNavigateToHighLowScores = {
+                navController.navigate(FiveCrownsDestinations.HIGH_LOW_SCORES)
             }
         )
     }
@@ -65,6 +69,9 @@ fun NavGraphBuilder.fiveCrownsGraph(
             }
         )
     }
+    composable(FiveCrownsDestinations.HIGH_LOW_SCORES) {
+        HighLowScoreScreen()
+    }
 }
 
 object FiveCrownsDestinations {
@@ -72,4 +79,5 @@ object FiveCrownsDestinations {
     const val ADD_PLAYERS = "fiveCrownsAddPlayers"
     const val GAME = "fiveCrownsGame"
     const val FINAL_SCORES = "fiveCrownsFinalScores"
+    const val HIGH_LOW_SCORES = "highLowScores"
 }

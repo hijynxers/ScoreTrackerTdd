@@ -26,17 +26,10 @@ import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants.DEFAULT_NUM_P
 import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants.MAX_PLAYERS
 import com.grapevineindustries.fivecrowns.data.FiveCrownsConstants.MIN_PLAYERS
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun LandingPreview() {
-    LandingScreen(
-        onAddPlayersClick = {}
-    )
-}
-
 @Composable
 fun LandingScreen(
-    onAddPlayersClick: (Int) -> Unit
+    onAddPlayersClick: (Int) -> Unit,
+    onNavigateToHighLowScores: () -> Unit
 ) {
     ScoreTrackerTheme {
         val numPlayers = rememberSaveable { mutableIntStateOf(DEFAULT_NUM_PLAYERS) }
@@ -109,6 +102,15 @@ fun LandingScreen(
                 testTag = LandingScreenTestTags.ADD_PLAYERS_BUTTON,
                 modifier = Modifier.fillMaxWidth(),
             )
+
+            Spacer(modifier = Modifier.weight(0.5f))
+
+            STButton(
+                onClick = onNavigateToHighLowScores,
+                text = stringResource(R.string.high_low_scores),
+                testTag = LandingScreenTestTags.HIGH_LOW_SCORE_BUTTON,
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     }
 }
@@ -125,12 +127,25 @@ fun getGameTitle(game: GameOption): String {
     }
 }
 
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true
+)
+@Composable
+fun LandingPreview() {
+    LandingScreen(
+        onAddPlayersClick = {},
+        onNavigateToHighLowScores = {}
+    )
+}
+
 object LandingScreenTestTags {
     const val GAME_TITLE = "GAME_TITLE"
     const val NUM_PLAYERS = "NUM_PLAYERS"
     const val NUM_PLAYERS_ADD = "NUM_PLAYERS_ADD"
     const val NUM_PLAYERS_MINUS = "NUM_PLAYERS_MINUS"
     const val ADD_PLAYERS_BUTTON = "ADD_PLAYERS_BUTTON"
+    const val HIGH_LOW_SCORE_BUTTON = "HIGH_LOW_SCORE_BUTTON"
 }
 
 enum class GameOption {
