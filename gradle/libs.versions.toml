@@ -1,8 +1,9 @@
 [versions]
-android-gradle-plugin = "8.13.1"
-kotlin = "2.2.21"
-compose-compiler = "1.5.10"
-compose-bom = "2025.11.01"
+android-gradle-plugin = "8.13.2"
+kotlin = "2.3.0"
+ksp = "2.2.0-2.0.2"
+compose-compiler = "1.5.8"
+compose-bom = "2026.01.00"
 core-ktx = "1.17.0"
 appcompat = "1.7.1"
 material = "1.13.0"
@@ -16,10 +17,10 @@ kotlinx-serialization-json = "1.9.0"
 junit = "4.13.2"
 robolectric = "4.16"
 espresso-core = "3.7.0"
-compose-ui-tooling = "1.10.0"
-compose-ui-tooling-preview = "1.9.5"
-ui-test-junit4-android = "1.9.5"
-room = "2.6.1"
+compose-ui-tooling = "1.10.1"
+compose-ui-tooling-preview = "1.10.1"
+ui-test-junit4-android = "1.10.1"
+room = "2.8.4"
 
 
 [libraries]
@@ -76,3 +77,4 @@ android-library = { id = "com.android.library", version.ref = "android-gradle-pl
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

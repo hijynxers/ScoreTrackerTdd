@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jacoco)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -35,8 +36,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+
+    kotlin {
+        compilerOptions
+            .jvmTarget
+            .set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 
     testOptions {
@@ -64,6 +68,7 @@ dependencies {
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     testImplementation(project(":common"))
     testImplementation(testFixtures(project(":fivecrowns")))
