@@ -76,6 +76,8 @@ dependencies {
     testImplementation(libs.espresso.core)
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
+    testImplementation(libs.turbine)
+    testImplementation(libs.androidx.test.core)
 
     testFixturesImplementation(libs.compose.ui.test.junit4)
     testFixturesImplementation(libs.espresso.core)

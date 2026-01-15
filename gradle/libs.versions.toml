@@ -21,6 +21,8 @@ compose-ui-tooling = "1.10.1"
 compose-ui-tooling-preview = "1.10.1"
 ui-test-junit4-android = "1.10.1"
 room = "2.8.4"
+turbine = "1.2.1"
+androidx-test-core = "1.7.0"
 
 
 [libraries]
@@ -69,6 +71,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+androidx-test-core = { module = "androidx.test:core", version.ref = "androidx-test-core" }
 
 [plugins]
 jacoco = { id = "org.gradle.jacoco" }
