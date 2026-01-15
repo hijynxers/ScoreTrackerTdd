@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.jacoco)
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -65,7 +64,6 @@ dependencies {
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 
     testImplementation(project(":common"))
     testImplementation(testFixtures(project(":fivecrowns")))
